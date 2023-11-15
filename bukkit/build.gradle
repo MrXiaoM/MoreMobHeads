@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow'
+}
+
+dependencies {
+    compileOnly 'org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT'
+    compileOnly 'org.bstats:bstats-bukkit:3.0.2'
+    compileOnly 'io.papermc:paperlib:1.0.7'
+    compileOnly 'me.clip:placeholderapi:2.11.5'
+    compileOnly 'com.github.EmotionalLove:NmsAdapter:-SNAPSHOT'
+    compileOnly 'de.tr7zw:item-nbt-api-plugin:2.11.1'
+
+    // Minecraft 1.18 or less
+    compileOnly 'com.mojang:authlib:2.1.28'
+
+    for (Project proj : project(':lib').subprojects) {
+        implementation proj
+    }
+
+    implementation "commons-io:commons-io:2.15.0"
+    implementation "commons-lang:commons-lang:2.6"
+    implementation 'org.jetbrains:annotations:19.0.0'
+}
+shadowJar {
+    classifier('')
+    //relocate('org.intellij.lang.annotations', 'top.mrxiaom.sweetricebase.utils.annotations.intellij')
+    //relocate('org.jetbrains.annotations', 'top.mrxiaom.sweetricebase.utils.annotations.jetbrains')
+    //relocate("org.apache.commons", "top.mrxiaom.sweetricebase.utils.commons")
+}
+tasks.build.dependsOn(shadowJar)

@@ -1,0 +1,51 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '7.0.0' apply false
+}
+allprojects {
+    apply plugin: 'java'
+
+    group = 'top.mrxiaom'
+    version = '1.0.33'
+    
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url 'https://maven.fastmirror.net/repositories/minecraft' }
+        maven { url "https://mvn.lumine.io/repository/maven/" }
+        maven { url = 'https://repo.codemc.io/repository/maven-public/' }
+        maven { name 'Aikar'; url 'https://repo.aikar.co/content/groups/aikar/' }
+        maven { url "https://repo.papermc.io/repository/maven-public/" }
+        maven {
+            name = 'spigotmc-repo'
+            url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+        }
+        maven { url = "https://repo.viaversion.com/" }
+        maven { url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
+        maven { url = 'https://jitpack.io' }
+        maven { url = 'https://ci.nyaacat.com/maven/' }
+        maven {
+            name = 'sonatype'
+            url = 'https://oss.sonatype.org/content/groups/public/'
+        }
+    }
+    def targetJavaVersion = 11
+    java {
+        def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+        if (JavaVersion.current() < javaVersion) {
+            toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+        }
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = 'UTF-8'
+        options.release.set(targetJavaVersion)
+    }
+
+    processResources {
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+        from(sourceSets.main.resources.srcDirs) {
+            expand('version': version)
+            include 'plugin.yml'
+        }
+    }
+}

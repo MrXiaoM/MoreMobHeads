@@ -1,0 +1,7 @@
+rootProject.name = 'MoreMobHeads'
+
+include ':bukkit'
+include ':lib'
+include ':lib:api'
+include ':lib:1_19_R1'
+include ':lib:1_20_R1'

@@ -1,0 +1,14 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow'
+}
+
+dependencies {
+    implementation project(':lib:api')
+    implementation project(':lib:1_19_R1')
+    implementation project(':lib:1_20_R1')
+}
+shadowJar {
+    classifier('')
+}
+tasks.build.dependsOn(shadowJar)
