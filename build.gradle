@@ -1,7 +1,7 @@
 plugins {
     id 'com.github.johnrengelman.shadow' version '7.0.0' apply false
 }
-allprojects {
+subprojects {
     apply plugin: 'java'
 
     group = 'top.mrxiaom'
@@ -35,7 +35,9 @@ allprojects {
             toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
         }
     }
-
+    jar {
+        archiveBaseName = rootProject.name + "-" + project.name
+    }
     tasks.withType(JavaCompile).configureEach {
         options.encoding = 'UTF-8'
         options.release.set(targetJavaVersion)

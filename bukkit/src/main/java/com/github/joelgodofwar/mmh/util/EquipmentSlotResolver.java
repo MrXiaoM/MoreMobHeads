@@ -1,7 +1,5 @@
 package com.github.joelgodofwar.mmh.util;
 
-import java.util.Optional;
-
 import org.bukkit.Material;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
@@ -9,15 +7,17 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import java.util.Optional;
+
 /**
-* Utility for resolving the {@link EquipmentSlot} containing a player's weapon for an
-* {@link EntityDamageByEntityEvent}. This is used since that event type doesn't provide a
-* way for finding out the equipment slot.
-*/
+ * Utility for resolving the {@link EquipmentSlot} containing a player's weapon for an
+ * {@link EntityDamageByEntityEvent}. This is used since that event type doesn't provide a
+ * way for finding out the equipment slot.
+ */
 public class EquipmentSlotResolver {
 
     public static Optional<ItemStack> resolveDamagingWeapon(PlayerInventory playerInventory, DamageCause damageCause) {
-    	//System.out.println("damageCause=" + damageCause.toString());
+        //System.out.println("damageCause=" + damageCause.toString());
         switch (damageCause) {
             case ENTITY_ATTACK:
                 // Check if the player is holding any item in the main hand
@@ -53,9 +53,9 @@ public class EquipmentSlotResolver {
             case MAGIC:
                 // Potion
                 return getWeaponItem(playerInventory, Material.SPLASH_POTION);
-                
-		default:
-			break;
+
+            default:
+                break;
         }
 
         return Optional.empty();

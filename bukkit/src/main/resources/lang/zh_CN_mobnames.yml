@@ -3,11 +3,11 @@
 player: Player头
 allay: 悦灵头
 axolotl:
-    blue: 藍蠑螈頭
-    cyan: 青色蠑螈頭
-    gold: 金蠑螈頭
-    lucy: 露西蠑螈頭
-    wild: 野生蠑螈頭
+  blue: 藍蠑螈頭
+  cyan: 青色蠑螈頭
+  gold: 金蠑螈頭
+  lucy: 露西蠑螈頭
+  wild: 野生蠑螈頭
 bat: 蝙蝠头
 bee:
   angry_pollinated: 愤怒授粉的蜜蜂头
@@ -54,8 +54,8 @@ ghast: 恶魂头
 giant: 巨人头
 glow_squid: 辉光鱿鱼头
 goat:
-    normal: 山羊頭
-    screaming: 尖叫山羊頭
+  normal: 山羊頭
+  screaming: 尖叫山羊頭
 guardian: 守卫者头
 hoglin: Hoglin头
 horse:
@@ -75,7 +75,7 @@ llama:
   gray: 灰色羊驼头
   white: 白色羊驼头
 magma_cube: 岩浆立方头
-mule: 马骡头 
+mule: 马骡头
 mushroom_cow:
   red: 蘑菇牛头
   brown: 棕色蘑菇牛头
@@ -149,29 +149,29 @@ trader_llama:
   gray: 灰色羊驼商人头
   white: 白色羊驼商人头
 tropical_fish:
-    tropical_fish: Tropical Fish Head
-    anemone: Anemone Head
-    black_tang: Black Tang Head
-    blue_tang: Blue Tang Head
-    butterflyfish: Butterflyfish Head
-    cichlid: Cichlid Head
-    clownfish: Clownfish Head
-    cotton_candy_betta: Cotton Candy Betta Head
-    dottyback: Dottyback Head
-    emperor_red_snapper: Emperor Red Snapper Head
-    goatfish: Goatfish Head
-    moorish_idol: Moorish Idol Head
-    ornate_butterflyfish: Ornate Butterflyfish Head
-    parrotfish: Parrotfish Head
-    queen_angelfish: Queen Angelfish Head
-    red_cichlid: Red Cichlid Head
-    red_lipped_blenny: Red Lipped Blenny Head 
-    red_snapper: Red Snapper Head
-    threadfin: Threadfin Head
-    tomato_clownfish: Tomato Clownfish Head
-    triggerfish: Triggerfish Head
-    yellow_parrotfish: Yellow Parrotfish Head
-    yellow_tang: Yellow Tang Head
+  tropical_fish: Tropical Fish Head
+  anemone: Anemone Head
+  black_tang: Black Tang Head
+  blue_tang: Blue Tang Head
+  butterflyfish: Butterflyfish Head
+  cichlid: Cichlid Head
+  clownfish: Clownfish Head
+  cotton_candy_betta: Cotton Candy Betta Head
+  dottyback: Dottyback Head
+  emperor_red_snapper: Emperor Red Snapper Head
+  goatfish: Goatfish Head
+  moorish_idol: Moorish Idol Head
+  ornate_butterflyfish: Ornate Butterflyfish Head
+  parrotfish: Parrotfish Head
+  queen_angelfish: Queen Angelfish Head
+  red_cichlid: Red Cichlid Head
+  red_lipped_blenny: Red Lipped Blenny Head
+  red_snapper: Red Snapper Head
+  threadfin: Threadfin Head
+  tomato_clownfish: Tomato Clownfish Head
+  triggerfish: Triggerfish Head
+  yellow_parrotfish: Yellow Parrotfish Head
+  yellow_tang: Yellow Tang Head
 turtle: 龟头
 vex: Vex 头
 villager:

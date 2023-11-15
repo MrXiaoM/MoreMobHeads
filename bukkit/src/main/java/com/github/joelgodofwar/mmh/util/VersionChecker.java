@@ -1,30 +1,28 @@
 package com.github.joelgodofwar.mmh.util;
 
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.List;
-//import java.util.Scanner;
-//import java.io.IOException;
-//import java.io.InputStream;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
+
 @SuppressWarnings("unused")
 public class VersionChecker {
     private String pluginName;
-	private JavaPlugin plugin;
+    private JavaPlugin plugin;
     private int projectID;
     private String currentVersion;
     private String githubURL; // = "https://github.com/JoelGodOfwar/MoreMobHeads/raw/master/versioncheck/1.15/versions.xml";
-	String versionType;
-	private List<String> releaseList = new ArrayList<>();
+    String versionType;
+    private List<String> releaseList = new ArrayList<>();
     private List<String> developerList = new ArrayList<>();
     private String recommendedVersion = "uptodate";
 
@@ -34,24 +32,26 @@ public class VersionChecker {
         this.currentVersion = plugin.getDescription().getVersion();
         this.githubURL = githubURL;
     }
-    
+
     public VersionChecker(String plugin, int projectID, String githubURL) {
-    	this.currentVersion = plugin;
+        this.currentVersion = plugin;
         this.projectID = projectID;
         this.githubURL = githubURL;
     }
-    
-    public String getReleaseUrl() {return "https://spigotmc.org/resources/" + projectID;}
-    
+
+    public String getReleaseUrl() {
+        return "https://spigotmc.org/resources/" + projectID;
+    }
+
     public boolean checkForUpdates() throws Exception {
-    	URL url = new URL(githubURL);
-    	DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-    	DocumentBuilder db = dbf.newDocumentBuilder();
-    	URLConnection connection = url.openConnection();
-    	connection.setUseCaches(false);
-    	connection.setRequestProperty("Cache-Control", "no-cache, no-store, must-revalidate");
-    	Document doc = db.parse(connection.getInputStream());
-    	doc.getDocumentElement().normalize();
+        URL url = new URL(githubURL);
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        URLConnection connection = url.openConnection();
+        connection.setUseCaches(false);
+        connection.setRequestProperty("Cache-Control", "no-cache, no-store, must-revalidate");
+        Document doc = db.parse(connection.getInputStream());
+        doc.getDocumentElement().normalize();
         NodeList releaseNodes = doc.getElementsByTagName("release");
         for (int i = 0; i < releaseNodes.getLength(); i++) {
             Node node = releaseNodes.item(i);
@@ -72,7 +72,7 @@ public class VersionChecker {
                 developerList.add(element.getElementsByTagName("link").item(0).getTextContent().replace("<link>", "").replace("</link>", ""));
             }
         }
-        
+
         if (connection != null) {
             connection.getInputStream().close();
         }
@@ -104,29 +104,35 @@ public class VersionChecker {
             }
         }
 
-		return false;
+        return false;
     }
+
     public List<String> getReleaseList() {
         return releaseList;
     }
+
     public List<String> getDeveloperList() {
         return developerList;
     }
+
     public String getRecommendedVersion() {
         return recommendedVersion;
     }
+
     public String oldVersion() {
-    	return currentVersion;
+        return currentVersion;
     }
+
     public String newVersion() {
-    	if(recommendedVersion.equalsIgnoreCase("release")) {
-    		return releaseList.get(0);
-    	}else if(recommendedVersion.equalsIgnoreCase("developer")) {
-    		return developerList.get(0);
-    	}else {
-    		return "UpToDate";
-    	}
+        if (recommendedVersion.equalsIgnoreCase("release")) {
+            return releaseList.get(0);
+        } else if (recommendedVersion.equalsIgnoreCase("developer")) {
+            return developerList.get(0);
+        } else {
+            return "UpToDate";
+        }
     }
+
     public String newVersionNotes() {
         if (recommendedVersion.equalsIgnoreCase("release")) {
             return releaseList.get(1);
@@ -136,8 +142,9 @@ public class VersionChecker {
             return "UpToDate";
         }
     }
+
     public String getDownloadLink() {
-    	if (recommendedVersion.equalsIgnoreCase("release")) {
+        if (recommendedVersion.equalsIgnoreCase("release")) {
             return releaseList.get(2);//"https://www.spigotmc.org/resources/no-enderman-grief2.71236/history";
         } else if (recommendedVersion.equalsIgnoreCase("developer")) {
             return developerList.get(2);//"https://discord.com/channels/654087250665144321/654444482372173875";
@@ -145,76 +152,76 @@ public class VersionChecker {
             return "UpToDate";
         }
     }
-    
-    /**public boolean checkForUpdates2() {
-		if(currentVersion.contains(".D")){
-			versionType = "developer";
-		}else{
-			versionType = "release";
-		}
-        String[] versionArray = getLatestVersion(versionType);
 
-        if (versionArray == null) {
-        	Bukkit.getLogger().warning(Ansi.RED + "Could not connect to update server.");
-            return false;
-        }
+    /*public boolean checkForUpdates2() {
+     if(currentVersion.contains(".D")){
+     versionType = "developer";
+     }else{
+     versionType = "release";
+     }
+     String[] versionArray = getLatestVersion(versionType);
 
-        String latestVersion = versionArray[0];
-        String latestNotes = versionArray[1];
+     if (versionArray == null) {
+     Bukkit.getLogger().warning(Ansi.RED + "Could not connect to update server.");
+     return false;
+     }
 
-        if (latestVersion.equals(currentVersion)) {
-        	return false;
-        } else {
-            System.out.println("There is a new version of " + pluginName + " available!");
-            System.out.println("Your version: " + currentVersion);
-            System.out.println("Latest version: " + latestVersion);
-            System.out.println("Update notes: " + latestNotes);
-            System.out.println("Please update to the newest version.");
-            System.out.println("Download: https://www.spigotmc.org/resources/" + pluginName + ".75749/history");
-            System.out.println("Donate: <donation link>");
-            return true;
-        }
-    }//*/
+     String latestVersion = versionArray[0];
+     String latestNotes = versionArray[1];
 
-    /**private String[] getLatestVersion(String versionType) {
-        try {
-            URL url = new URL(githubURL);
-            InputStream stream = url.openStream();
-            Scanner scanner = new Scanner(stream);
-            scanner.useDelimiter("\\Z");
-            String xmlContent = scanner.next();
-            scanner.close();
-            stream.close();
+     if (latestVersion.equals(currentVersion)) {
+     return false;
+     } else {
+     System.out.println("There is a new version of " + pluginName + " available!");
+     System.out.println("Your version: " + currentVersion);
+     System.out.println("Latest version: " + latestVersion);
+     System.out.println("Update notes: " + latestNotes);
+     System.out.println("Please update to the newest version.");
+     System.out.println("Download: https://www.spigotmc.org/resources/" + pluginName + ".75749/history");
+     System.out.println("Donate: <donation link>");
+     return true;
+     }
+     }//*/
 
-            String versionTag = "<" + versionType + ">";
-            String notesTag = "<" + versionType + "-notes>";
-            String endTag = "</" + versionType + ">";
+    /*private String[] getLatestVersion(String versionType) {
+     try {
+     URL url = new URL(githubURL);
+     InputStream stream = url.openStream();
+     Scanner scanner = new Scanner(stream);
+     scanner.useDelimiter("\\Z");
+     String xmlContent = scanner.next();
+     scanner.close();
+     stream.close();
 
-            int versionStartIndex = xmlContent.indexOf(versionTag);
-            int notesStartIndex = xmlContent.indexOf(notesTag);
-            int versionEndIndex = xmlContent.indexOf(endTag);
+     String versionTag = "<" + versionType + ">";
+     String notesTag = "<" + versionType + "-notes>";
+     String endTag = "</" + versionType + ">";
 
-            if (versionStartIndex == -1 || notesStartIndex == -1 || versionEndIndex == -1) {
-                return null;
-            }
+     int versionStartIndex = xmlContent.indexOf(versionTag);
+     int notesStartIndex = xmlContent.indexOf(notesTag);
+     int versionEndIndex = xmlContent.indexOf(endTag);
 
-            String versionNumber = xmlContent.substring(versionStartIndex + versionTag.length(), versionEndIndex);
-            String notes = xmlContent.substring(notesStartIndex + notesTag.length(), xmlContent.indexOf(endTag + "-notes>"));
-            String[] versionArray = new String[2];
-            versionArray[0] = versionNumber;
-            versionArray[1] = notes;
-            return versionArray;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }//*/
+     if (versionStartIndex == -1 || notesStartIndex == -1 || versionEndIndex == -1) {
+     return null;
+     }
 
-    /**public static void main(String[] args) {
-        //String pluginName = "MyPlugin";
-        String currentVersion = "1.14_1.0.4";
-        String githubURL = "https://github.com/JoelGodOfwar/NoEndermanGrief/raw/master/versions/1.14/versions.xml";
-        VersionChecker checker = new VersionChecker(currentVersion, 71236, githubURL);
-        checker.checkForUpdates();
-    }//*/
+     String versionNumber = xmlContent.substring(versionStartIndex + versionTag.length(), versionEndIndex);
+     String notes = xmlContent.substring(notesStartIndex + notesTag.length(), xmlContent.indexOf(endTag + "-notes>"));
+     String[] versionArray = new String[2];
+     versionArray[0] = versionNumber;
+     versionArray[1] = notes;
+     return versionArray;
+     } catch (IOException e) {
+     e.printStackTrace();
+     return null;
+     }
+     }//*/
+
+    /*public static void main(String[] args) {
+     //String pluginName = "MyPlugin";
+     String currentVersion = "1.14_1.0.4";
+     String githubURL = "https://github.com/JoelGodOfwar/NoEndermanGrief/raw/master/versions/1.14/versions.xml";
+     VersionChecker checker = new VersionChecker(currentVersion, 71236, githubURL);
+     checker.checkForUpdates();
+     }//*/
 }

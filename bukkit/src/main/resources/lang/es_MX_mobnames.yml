@@ -5,11 +5,11 @@ killedby: Asesinado por
 player: Cabeza del jugador
 allay: Cabeza de Allay
 axolotl:
-    blue: Cabeza de ajolote azul
-    cyan: Cabeza de ajolote cian
-    gold: Cabeza de ajolote dorado
-    lucy: Cabeza de Lucy ajolote
-    wild: Cabeza de ajolote salvaje
+  blue: Cabeza de ajolote azul
+  cyan: Cabeza de ajolote cian
+  gold: Cabeza de ajolote dorado
+  lucy: Cabeza de Lucy ajolote
+  wild: Cabeza de ajolote salvaje
 bat: Cabeza de murciélago
 bee:
   angry_pollinated: Cabeza de Abeja Agresiva con pólen
@@ -56,8 +56,8 @@ ghast: Cabeza de Ghast
 giant: Cabeza de Gigante
 glow_squid: Cabeza de calamar resplandor
 goat:
-    normal: Cabeza de cabra
-    screaming: Cabeza de cabra gritando
+  normal: Cabeza de cabra
+  screaming: Cabeza de cabra gritando
 guardian: Cabeza de Guardián
 hoglin: Cabeza de Hoglin
 horse:
@@ -151,29 +151,29 @@ trader_llama:
   gray: Cabeza de Llama Mercante Gris
   white: Cabeza de Llama Mercante Blanca
 tropical_fish:
-    tropical_fish: Tropical Fish Head
-    anemone: Anemone Head
-    black_tang: Black Tang Head
-    blue_tang: Blue Tang Head
-    butterflyfish: Butterflyfish Head
-    cichlid: Cichlid Head
-    clownfish: Clownfish Head
-    cotton_candy_betta: Cotton Candy Betta Head
-    dottyback: Dottyback Head
-    emperor_red_snapper: Emperor Red Snapper Head
-    goatfish: Goatfish Head
-    moorish_idol: Moorish Idol Head
-    ornate_butterflyfish: Ornate Butterflyfish Head
-    parrotfish: Parrotfish Head
-    queen_angelfish: Queen Angelfish Head
-    red_cichlid: Red Cichlid Head
-    red_lipped_blenny: Red Lipped Blenny Head 
-    red_snapper: Red Snapper Head
-    threadfin: Threadfin Head
-    tomato_clownfish: Tomato Clownfish Head
-    triggerfish: Triggerfish Head
-    yellow_parrotfish: Yellow Parrotfish Head
-    yellow_tang: Yellow Tang Head
+  tropical_fish: Tropical Fish Head
+  anemone: Anemone Head
+  black_tang: Black Tang Head
+  blue_tang: Blue Tang Head
+  butterflyfish: Butterflyfish Head
+  cichlid: Cichlid Head
+  clownfish: Clownfish Head
+  cotton_candy_betta: Cotton Candy Betta Head
+  dottyback: Dottyback Head
+  emperor_red_snapper: Emperor Red Snapper Head
+  goatfish: Goatfish Head
+  moorish_idol: Moorish Idol Head
+  ornate_butterflyfish: Ornate Butterflyfish Head
+  parrotfish: Parrotfish Head
+  queen_angelfish: Queen Angelfish Head
+  red_cichlid: Red Cichlid Head
+  red_lipped_blenny: Red Lipped Blenny Head
+  red_snapper: Red Snapper Head
+  threadfin: Threadfin Head
+  tomato_clownfish: Tomato Clownfish Head
+  triggerfish: Triggerfish Head
+  yellow_parrotfish: Yellow Parrotfish Head
+  yellow_tang: Yellow Tang Head
 turtle: Cabeza de Tortuga
 vex: Cabeza de Hada
 villager:
@@ -293,7 +293,7 @@ vindicator: Cabeza de Vengador
 wandering_trader: Cabeza de Mercader Errante
 warden: Cabeza de Warden
 witch: Cabeza de Bruja
-wither: 
+wither:
   normal: Wither Head
   projectile: Wither Projectile
   blue_projectile: Blue Wither Projectile
@@ -305,18 +305,18 @@ zombie_horse: Cabeza de Caballo Zombie
 zombie_pigman: Cabeza de Zombie Pigman
 zombified_piglin: Cabeza de Zombified Piglin
 zombie_villager:
-    armorer: Cabeza de Aldeano Herrero Zombie
-    butcher: Cabeza de Aldeano Carnicero Zombie
-    cartographer: Cabeza de Aldeano Cartógrafo Zombie
-    cleric: Cabeza de Aldeano Clérigo Zombie
-    farmer: Cabeza de Aldeano Granjero Zombie
-    fisherman: Cabeza de Aldeano Pescador Zombie
-    fletcher: Cabeza de Aldeano Arquero Zombie
-    leatherworker: Cabeza de Aldeano Talabartero Zombie
-    librarian: Cabeza de Aldeano Bibliotecario Zombie
-    mason: Cabeza de Aldeano Masón Zombie
-    nitwit: Cabeza de Aldeano Desempleado Zombie
-    none: Cabeza de Aldeano Zombie
-    shepherd: Cabeza de Aldeano Pastor Zombie
-    toolsmith: Cabeza de Aldeano Ferretero Zombie
-    weaponsmith: Cabeza de Aldeano Armero Zombie
+  armorer: Cabeza de Aldeano Herrero Zombie
+  butcher: Cabeza de Aldeano Carnicero Zombie
+  cartographer: Cabeza de Aldeano Cartógrafo Zombie
+  cleric: Cabeza de Aldeano Clérigo Zombie
+  farmer: Cabeza de Aldeano Granjero Zombie
+  fisherman: Cabeza de Aldeano Pescador Zombie
+  fletcher: Cabeza de Aldeano Arquero Zombie
+  leatherworker: Cabeza de Aldeano Talabartero Zombie
+  librarian: Cabeza de Aldeano Bibliotecario Zombie
+  mason: Cabeza de Aldeano Masón Zombie
+  nitwit: Cabeza de Aldeano Desempleado Zombie
+  none: Cabeza de Aldeano Zombie
+  shepherd: Cabeza de Aldeano Pastor Zombie
+  toolsmith: Cabeza de Aldeano Ferretero Zombie
+  weaponsmith: Cabeza de Aldeano Armero Zombie

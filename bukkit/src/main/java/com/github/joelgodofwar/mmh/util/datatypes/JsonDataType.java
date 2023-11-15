@@ -1,14 +1,14 @@
 package com.github.joelgodofwar.mmh.util.datatypes;
 
-import javax.annotation.Nonnull;
-
+import com.google.gson.Gson;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
 
-import com.google.gson.Gson;
+import javax.annotation.Nonnull;
 
 /**
  * Lets you store arbitrary data in PDC.
+ *
  * @param <T>
  */
 public class JsonDataType<T> implements PersistentDataType<String, T> {

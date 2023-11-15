@@ -3,11 +3,11 @@
 player: Player Head
 allay: Allay Head
 axolotl:
-    blue: Blue Axolotl Head
-    cyan: Cyan Axolotl Head
-    gold: Gold Axolotl Head
-    lucy: Lucy Axolotl Head
-    wild: Wild Axolotl Head
+  blue: Blue Axolotl Head
+  cyan: Cyan Axolotl Head
+  gold: Gold Axolotl Head
+  lucy: Lucy Axolotl Head
+  wild: Wild Axolotl Head
 bat: Bat Head
 bee:
   angry_pollinated: Angry Pollinated Bee Head
@@ -54,8 +54,8 @@ ghast: Ghast Head
 giant: Giant Head
 glow_squid: Glow Squid Head
 goat:
-    normal: Goat Head
-    screaming: Screaming Goat Head
+  normal: Goat Head
+  screaming: Screaming Goat Head
 guardian: Guardian Head
 hoglin: Hoglin Head
 horse:
@@ -75,7 +75,7 @@ llama:
   gray: Gray Llama Head
   white: White Llama Head
 magma_cube: Magma Cube Head
-mule: Mule Head 
+mule: Mule Head
 mushroom_cow:
   red: Mushroom Cow Head
   brown: Brown Mushroom Cow Head
@@ -149,29 +149,29 @@ trader_llama:
   gray: Gray Trader Llama Head
   white: White Trader Llama Head
 tropical_fish:
-    tropical_fish: Tropical Fish Head
-    anemone: Anemone Head
-    black_tang: Black Tang Head
-    blue_tang: Blue Tang Head
-    butterflyfish: Butterflyfish Head
-    cichlid: Cichlid Head
-    clownfish: Clownfish Head
-    cotton_candy_betta: Cotton Candy Betta Head
-    dottyback: Dottyback Head
-    emperor_red_snapper: Emperor Red Snapper Head
-    goatfish: Goatfish Head
-    moorish_idol: Moorish Idol Head
-    ornate_butterflyfish: Ornate Butterflyfish Head
-    parrotfish: Parrotfish Head
-    queen_angelfish: Queen Angelfish Head
-    red_cichlid: Red Cichlid Head
-    red_lipped_blenny: Red Lipped Blenny Head 
-    red_snapper: Red Snapper Head
-    threadfin: Threadfin Head
-    tomato_clownfish: Tomato Clownfish Head
-    triggerfish: Triggerfish Head
-    yellow_parrotfish: Yellow Parrotfish Head
-    yellow_tang: Yellow Tang Head
+  tropical_fish: Tropical Fish Head
+  anemone: Anemone Head
+  black_tang: Black Tang Head
+  blue_tang: Blue Tang Head
+  butterflyfish: Butterflyfish Head
+  cichlid: Cichlid Head
+  clownfish: Clownfish Head
+  cotton_candy_betta: Cotton Candy Betta Head
+  dottyback: Dottyback Head
+  emperor_red_snapper: Emperor Red Snapper Head
+  goatfish: Goatfish Head
+  moorish_idol: Moorish Idol Head
+  ornate_butterflyfish: Ornate Butterflyfish Head
+  parrotfish: Parrotfish Head
+  queen_angelfish: Queen Angelfish Head
+  red_cichlid: Red Cichlid Head
+  red_lipped_blenny: Red Lipped Blenny Head
+  red_snapper: Red Snapper Head
+  threadfin: Threadfin Head
+  tomato_clownfish: Tomato Clownfish Head
+  triggerfish: Triggerfish Head
+  yellow_parrotfish: Yellow Parrotfish Head
+  yellow_tang: Yellow Tang Head
 turtle: Turtle Head
 vex: Vex Head
 villager:
@@ -291,7 +291,7 @@ vindicator: Vindicator Head
 wandering_trader: Wandering Trader Head
 warden: Warden Head
 witch: Witch Head
-wither: 
+wither:
   normal: Wither Head
   projectile: Wither Projectile
   blue_projectile: Blue Wither Projectile

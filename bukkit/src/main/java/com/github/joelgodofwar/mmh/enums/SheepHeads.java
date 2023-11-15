@@ -3,7 +3,7 @@ package com.github.joelgodofwar.mmh.enums;
 import java.util.UUID;
 
 public enum SheepHeads {
-	SHEEP_BLACK(
+    SHEEP_BLACK(
             "Black Sheep", "sheep.black",
             "f6801465-fd07-47f9-92a1-3ae921c3ef05",
             "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTMzMzVlODA2NWM3YjVkZmVhNThkM2RmNzQ3NGYzOTZhZjRmYTBhMmJhNTJhM2M5YjdmYmE2ODMxOTI3MWM5MSJ9fX0="
@@ -89,58 +89,56 @@ public enum SheepHeads {
             "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTRiMjhmMDM1NzM1OTA2ZjgyZmZjNGRiYTk5YzlmMGI1NTI0MGU0MjZjZDFjNTI1YTlhYTc3MTgwZWVjNDkzNCJ9fX0="
     ),
     ;
-	
-	private final UUID owner;
+
+    private final UUID owner;
     private final String texture;
     private final String name;
     private final String nameString;
-    
-    
-    SheepHeads(String name, String nameString, String ownerUUID, String texture){
-    	this.owner = UUID.fromString(ownerUUID);
+
+
+    SheepHeads(String name, String nameString, String ownerUUID, String texture) {
+        this.owner = UUID.fromString(ownerUUID);
         this.texture = texture;
         this.name = name;
         this.nameString = nameString;
     }
-    
-    public static final String getNameFromTexture(String texture)
-    {
-    	//MoreMobHeads.logger.info("texture=" + texture);
-      for(SheepHeads verbosity : SheepHeads.values())
-      {
-         //MoreMobHeads.logger.info(verbosity.getName() + "=" + verbosity.getTexture());
-    	  if(verbosity.getTexture().contains(texture) )
-             return verbosity.getNameString() ;
-      }
 
-      return null;
+    public static final String getNameFromTexture(String texture) {
+        //MoreMobHeads.logger.info("texture=" + texture);
+        for (SheepHeads verbosity : SheepHeads.values()) {
+            //MoreMobHeads.logger.info(verbosity.getName() + "=" + verbosity.getTexture());
+            if (verbosity.getTexture().contains(texture))
+                return verbosity.getNameString();
+        }
+
+        return null;
     }
-    
+
     /**
-	 * @return the owner
-	 */
-	public UUID getOwner() {
-		return owner;
-	}
+     * @return the owner
+     */
+    public UUID getOwner() {
+        return owner;
+    }
 
-	/**
-	 * @return the texture
-	 */
-	public String getTexture() {
-		return texture;
-	}
+    /**
+     * @return the texture
+     */
+    public String getTexture() {
+        return texture;
+    }
 
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-	
-	/**
-	 * @return the name
-	 */
-	public String getNameString() {
-		return nameString;
-	}
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getNameString() {
+        return nameString;
+    }
 }

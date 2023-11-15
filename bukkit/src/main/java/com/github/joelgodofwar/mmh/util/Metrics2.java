@@ -1,29 +1,8 @@
 package com.github.joelgodofwar.mmh.util;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.UUID;
-import java.util.concurrent.Callable;
-import java.util.logging.Level;
-import java.util.zip.GZIPOutputStream;
-
-import javax.net.ssl.HttpsURLConnection;
-
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -31,14 +10,21 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import javax.net.ssl.HttpsURLConnection;
+import java.io.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.logging.Level;
+import java.util.zip.GZIPOutputStream;
 
 /**
  * bStats collects some data for plugin authors.
  * <p>
- * Check out https://bStats.org/ to learn more about bStats!
+ * Check out <a href="https://bStats.org/">...</a> to learn more about bStats!
  */
 //@SuppressWarnings({"WeakerAccess", "unused"})
 public class Metrics2 {
@@ -123,7 +109,8 @@ public class Metrics2 {
             ).copyDefaults(true);
             try {
                 config.save(configFile);
-            } catch (IOException ignored) { }
+            } catch (IOException ignored) {
+            }
         }
 
         // Load the data
@@ -141,7 +128,8 @@ public class Metrics2 {
                     service.getField("B_STATS_VERSION"); // Our identifier :)
                     found = true; // We aren't the first
                     break;
-                } catch (NoSuchFieldException ignored) { }
+                } catch (NoSuchFieldException ignored) {
+                }
             }
             // Register our service
             Bukkit.getServicesManager().register(Metrics2.class, this, plugin, ServicePriority.Normal);
@@ -305,25 +293,25 @@ public class Metrics2 {
                                 continue; // continue looping since we cannot do any other thing.
                             }
                         }
-                    } catch (NullPointerException | NoSuchMethodException | IllegalAccessException | InvocationTargetException ignored) { }
+                    } catch (NullPointerException | NoSuchMethodException | IllegalAccessException |
+                             InvocationTargetException ignored) {
+                    }
                 }
-            } catch (NoSuchFieldException ignored) { }
+            } catch (NoSuchFieldException ignored) {
+            }
         }
 
         data.add("plugins", pluginData);
 
         // Create a new thread for the connection to the bStats server
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    // Send the data
-                    sendData(plugin, data);
-                } catch (Exception e) {
-                    // Something went wrong! :(
-                    if (logFailedRequests) {
-                        plugin.getLogger().log(Level.WARNING, "Could not submit plugin stats of " + plugin.getName(), e);
-                    }
+        new Thread(() -> {
+            try {
+                // Send the data
+                sendData(plugin, data);
+            } catch (Exception e) {
+                // Something went wrong! :(
+                if (logFailedRequests) {
+                    plugin.getLogger().log(Level.WARNING, "Could not submit plugin stats of " + plugin.getName(), e);
                 }
             }
         }).start();
@@ -333,7 +321,7 @@ public class Metrics2 {
      * Sends the data to the bStats server.
      *
      * @param plugin Any plugin. It's just used to get a logger instance.
-     * @param data The data to send.
+     * @param data   The data to send.
      * @throws Exception If the request failed.
      */
     private static void sendData(Plugin plugin, JsonObject data) throws Exception {
@@ -344,7 +332,7 @@ public class Metrics2 {
             throw new IllegalAccessException("This method must not be called from the main thread!");
         }
         if (logSentData) {
-            plugin.getLogger().info("Sending data to bStats: " + data.toString());
+            plugin.getLogger().info("Sending data to bStats: " + data);
         }
         HttpsURLConnection connection = (HttpsURLConnection) new URL(URL).openConnection();
 
@@ -377,7 +365,7 @@ public class Metrics2 {
         }
         bufferedReader.close();
         if (logResponseStatusText) {
-            plugin.getLogger().info("Sent data to bStats and received response: " + builder.toString());
+            plugin.getLogger().info("Sent data to bStats and received response: " + builder);
         }
     }
 
@@ -452,7 +440,7 @@ public class Metrics2 {
         /**
          * Class constructor.
          *
-         * @param chartId The id of the chart.
+         * @param chartId  The id of the chart.
          * @param callable The callable which is used to request the chart data.
          */
         public SimplePie(String chartId, Callable<String> callable) {
@@ -483,7 +471,7 @@ public class Metrics2 {
         /**
          * Class constructor.
          *
-         * @param chartId The id of the chart.
+         * @param chartId  The id of the chart.
          * @param callable The callable which is used to request the chart data.
          */
         public AdvancedPie(String chartId, Callable<Map<String, Integer>> callable) {
@@ -527,7 +515,7 @@ public class Metrics2 {
         /**
          * Class constructor.
          *
-         * @param chartId The id of the chart.
+         * @param chartId  The id of the chart.
          * @param callable The callable which is used to request the chart data.
          */
         public DrilldownPie(String chartId, Callable<Map<String, Map<String, Integer>>> callable) {
@@ -576,7 +564,7 @@ public class Metrics2 {
         /**
          * Class constructor.
          *
-         * @param chartId The id of the chart.
+         * @param chartId  The id of the chart.
          * @param callable The callable which is used to request the chart data.
          */
         public SingleLineChart(String chartId, Callable<Integer> callable) {
@@ -608,7 +596,7 @@ public class Metrics2 {
         /**
          * Class constructor.
          *
-         * @param chartId The id of the chart.
+         * @param chartId  The id of the chart.
          * @param callable The callable which is used to request the chart data.
          */
         public MultiLineChart(String chartId, Callable<Map<String, Integer>> callable) {
@@ -653,7 +641,7 @@ public class Metrics2 {
         /**
          * Class constructor.
          *
-         * @param chartId The id of the chart.
+         * @param chartId  The id of the chart.
          * @param callable The callable which is used to request the chart data.
          */
         public SimpleBarChart(String chartId, Callable<Map<String, Integer>> callable) {
@@ -691,7 +679,7 @@ public class Metrics2 {
         /**
          * Class constructor.
          *
-         * @param chartId The id of the chart.
+         * @param chartId  The id of the chart.
          * @param callable The callable which is used to request the chart data.
          */
         public AdvancedBarChart(String chartId, Callable<Map<String, int[]>> callable) {
