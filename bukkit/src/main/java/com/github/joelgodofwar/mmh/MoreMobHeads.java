@@ -139,8 +139,10 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
         loading(Ansi.YELLOW + THIS_NAME + " v" + THIS_VERSION + Ansi.RESET + " Loading...");
 
         debugFile = new File(this.getDataFolder() + File.separator + "logs" + File.separator + "mmh_debug.log");
-        if (!debugFile.exists()) {
-            saveResource("logs" + File.separatorChar + "mmh_debug.log", true);
+        if (!debugFile.exists()) try {
+            debugFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         /* DEV check **/
