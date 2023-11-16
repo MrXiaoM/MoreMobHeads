@@ -2194,7 +2194,7 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
             stacktraceInfo();
             e.printStackTrace();
         }
-        Translator.load(languageName, getDataFolder());
+        Translator.load(languageName, getDataFolder(), this::getResource);
 
         if (handler != null) {
             handler.onReload();

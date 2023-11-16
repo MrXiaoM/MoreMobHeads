@@ -3,6 +3,7 @@ package com.github.joelgodofwar.mmh.i18n;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.function.Function;
 
 
 public class Translator {
@@ -11,12 +12,23 @@ public class Translator {
 
     static Properties props = new Properties();
 
-    public static void load(String lang, File dataFolder) {
+    public static void load(String lang, File dataFolder, Function<String, InputStream> getResource) {
         Translator.lang = formatLanguageCode(lang);
         Translator.dataFolder = dataFolder;
 
-        ResourceBundle bundle = ResourceBundle.getBundle("lang/lang", new Locale(Translator.lang));
-        //ResourceBundle bundle = ResourceBundle.getBundle("lang/" + lang);
+        Map<String, String> bundle = new TreeMap<>();
+        try (InputStream input = getResource.apply("lang/lang_" + Translator.lang + ".properties")) {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(input))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    if (!line.contains("=") || line.trim().startsWith("#")) continue;
+                    String[] split = line.split("=", 2);
+                    bundle.put(split[0], split[1]);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         File langFile = new File(Translator.dataFolder, "lang/" + Translator.lang + ".properties");
         props.clear();
@@ -30,7 +42,7 @@ public class Translator {
         boolean sort = false;
         for (String key : bundle.keySet()) {
             if (!props.containsKey(key)) {
-                props.setProperty(key, bundle.getString(key));
+                props.setProperty(key, bundle.get(key));
                 sort = true;
             }
         }
