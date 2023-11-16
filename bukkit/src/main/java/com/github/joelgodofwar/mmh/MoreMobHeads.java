@@ -1,9 +1,6 @@
 package com.github.joelgodofwar.mmh;
 
-import com.github.joelgodofwar.mmh.handlers.EventHandler_1_16;
-import com.github.joelgodofwar.mmh.handlers.EventHandler_1_17;
-import com.github.joelgodofwar.mmh.handlers.EventHandler_1_19;
-import com.github.joelgodofwar.mmh.handlers.EventHandler_1_20;
+import com.github.joelgodofwar.mmh.handlers.*;
 import com.github.joelgodofwar.mmh.i18n.Translator;
 import com.github.joelgodofwar.mmh.util.*;
 import com.github.joelgodofwar.mmh.util.datatypes.JsonDataType;
@@ -118,13 +115,13 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
     private final Set<String> triggeredPlayers = new HashSet<>();
     private final HashMap<String, String> namedTropicalFish = new HashMap<>();
     private final Map<Player, Random> chanceRandoms = new HashMap<>();
-
+    private Reloadable handler = null;
     @Override // TODO: onEnable
     public void onEnable() {
         long startTime = System.currentTimeMillis();
         Networks.checkUpdate = getConfig().getBoolean("auto_update_check");
         debug = getConfig().getBoolean("debug", false);
-        languageName = getConfig().getString("lang", "en_US");
+        languageName = getConfig().getString("lang", "zh_CN");
         oldConfig = new YamlConfiguration();
         oldMessages = new YamlConfiguration();
         THIS_NAME = this.getDescription().getName();
@@ -219,13 +216,17 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
         }
         Listener listener;
         if (version.contains("1_16_R") || version.contains("1_15_R") || version.contains("1_14_R")) {
-            listener = new EventHandler_1_16(this);
+            listener = (Listener) (handler = new EventHandler_1_16(this));
+
         } else if (version.contains("1_17_R") || version.contains("1_18_R")) {
-            listener = new EventHandler_1_17(this);
+            listener = (Listener) (handler = new EventHandler_1_17(this));
+
         } else if (version.contains("1_19_R")) {
-            listener = new EventHandler_1_19(this);
+            listener = (Listener) (handler = new EventHandler_1_19(this));
+
         } else if (version.contains("1_20_R")) {
-            listener = new EventHandler_1_20(this);
+            listener = (Listener) (handler = new EventHandler_1_20(this));
+
         } else {
             logWarn("Not compatible with this version of Minecraft:" + version);
             getServer().getPluginManager().disablePlugin(this);
@@ -1865,6 +1866,8 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
         }
 
         Networks.checkUpdate = getConfig().getBoolean("auto_update_check");
+        debug = getConfig().getBoolean("debug", false);
+        languageName = getConfig().getString("lang", "zh_CN");
 
         consoleLog("Loading messages file...");
         try {
@@ -2083,7 +2086,6 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
         blockFile117 = new File(getDataFolder() + "" + File.separatorChar + "block_heads_1_17_3.yml");
         blockFile119 = new File(getDataFolder() + "" + File.separatorChar + "block_heads_1_19.yml");
 
-
         if (getMCVersion().startsWith("1.16")) {
             if (debug) {
                 logDebug("block_heads_1_16=" + blockFile116.getPath());
@@ -2190,9 +2192,11 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
             stacktraceInfo();
             e.printStackTrace();
         }
-        debug = getConfig().getBoolean("debug", false);
-        languageName = getConfig().getString("lang", "en_US");
         Translator.load(languageName, getDataFolder());
+
+        if (handler != null) {
+            handler.onReload();
+        }
     }
 
     public boolean chance25oftrue() {
