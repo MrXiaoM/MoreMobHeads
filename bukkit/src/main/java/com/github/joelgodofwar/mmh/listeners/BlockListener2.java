@@ -39,11 +39,13 @@ class BlockListener2 implements Listener {
 
     BlockListener2(Plugin plugin) {
         this.plugin = plugin;
+        NAME_KEY = new NamespacedKey(plugin, "head_name");
+        LORE_KEY = new NamespacedKey(plugin, "head_lore");
     }
 
     // Persistent Heads
-    private final NamespacedKey NAME_KEY = new NamespacedKey(plugin, "head_name");
-    private final NamespacedKey LORE_KEY = new NamespacedKey(plugin, "head_lore");
+    private final NamespacedKey NAME_KEY;
+    private final NamespacedKey LORE_KEY;
     private final PersistentDataType<String, String[]> LORE_PDT = new JsonDataType<>(String[].class);
 
     @EventHandler(priority = EventPriority.LOWEST)

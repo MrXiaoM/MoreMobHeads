@@ -1,6 +1,7 @@
 package com.github.joelgodofwar.mmh.i18n;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 
@@ -20,8 +21,8 @@ public class Translator {
         File langFile = new File(Translator.dataFolder, "lang/" + Translator.lang + ".properties");
         props.clear();
         if (langFile.exists()) {
-            try (FileInputStream inputStream = new FileInputStream(langFile)) {
-                props.load(inputStream);
+            try (FileReader reader = new FileReader(langFile, StandardCharsets.UTF_8)) {
+                props.load(reader);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -33,7 +34,7 @@ public class Translator {
                 sort = true;
             }
         }
-        if (sort) try {
+        if (sort || !langFile.exists()) try {
             sortPropertiesFile(langFile, props);
         } catch (IOException e) {
             e.printStackTrace();
@@ -50,6 +51,9 @@ public class Translator {
         // Iterate over the Properties object and add each key-value pair to the TreeMap
         for (String key : props.stringPropertyNames()) {
             sortedProps.put(key, props.getProperty(key));
+        }
+        if (!file.exists()) {
+            file.createNewFile();
         }
         // Clear the properties file
         try (FileOutputStream outputStream = new FileOutputStream(file)) {
