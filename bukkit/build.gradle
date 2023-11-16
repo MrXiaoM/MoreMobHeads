@@ -37,6 +37,7 @@ dependencies {
     implementation 'org.jetbrains:annotations:19.0.0'
 }
 shadowJar {
+    archiveBaseName.set(tasks.jar.archiveBaseName)
     classifier('')
 }
 tasks.build.dependsOn(shadowJar)

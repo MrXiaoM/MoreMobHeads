@@ -9,6 +9,7 @@ dependencies {
     implementation project(':lib:1_20_R1')
 }
 shadowJar {
+    archiveBaseName.set(tasks.jar.archiveBaseName)
     classifier('')
 }
 tasks.build.dependsOn(shadowJar)
