@@ -405,8 +405,9 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
             }
             blockStack = blockHeads5.getItemStack("blocks.block_" + isBlock5 + ".itemstack", new ItemStack(Material.AIR));
         } else {
-            /*            Add translation for this line.    *****************************************************************************************************  */
-            player.sendMessage(THIS_NAME + " v" + THIS_VERSION + " Sorry could not find \"" + blockName + "\""); // TODO: Add translation for this line.
+            player.sendMessage(get("mmh.command.give.blockhead.notfound")
+                    .replace("<plugin>", THIS_NAME).replace("<version>", THIS_VERSION)
+                    .replace("<block>", blockName));
         }
         if ((blockStack != null) && (blockStack.getType() != Material.AIR)) {
             player.getWorld().dropItemNaturally(player.getLocation(), blockStack);
