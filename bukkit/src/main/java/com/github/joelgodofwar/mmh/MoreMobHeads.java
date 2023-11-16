@@ -61,7 +61,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
@@ -137,11 +136,7 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
     public Map<UUID, UUID> endCrystals = new HashMap<>();
     File debugFile;
     Random random = new Random();
-    public String configVersion = "1.0.21";
-    public String messagesVersion = "1.0.2";
-    public String chanceVersion = "1.0.25";
     String pluginName = THIS_NAME;
-    Translator lang2;
     private Set<String> triggeredPlayers = new HashSet<>();
     HashMap<String, String> namedTropicalFish = new HashMap<>();
     private Map<Player, Random> chanceRandoms = new HashMap<>();
@@ -156,7 +151,7 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
         daLang = getConfig().getString("lang", "en_US");
         oldconfig = new YamlConfiguration();
         oldMessages = new YamlConfiguration();
-        lang2 = new Translator(daLang, getDataFolder().toString());
+        Translator.load(daLang, getDataFolder());
         THIS_NAME = this.getDescription().getName();
         THIS_VERSION = this.getDescription().getVersion();
         if (!getConfig().getBoolean("console.longpluginname", true)) {
@@ -217,327 +212,8 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
             stacktraceInfo();
             e.printStackTrace();
         }
-        consoleLog("Loading config file...");
-        try {
-            oldconfig.load(new File(getDataFolder() + "" + File.separatorChar + "config.yml"));
-        } catch (Exception e2) {
-            logWarn("Could not load config.yml");
-            stacktraceInfo();
-            e2.printStackTrace();
-        }
-        String checkconfigversion = oldconfig.getString("version", "1.0.0");
-        if (checkconfigversion != null) {
-            if (checkconfigversion.equalsIgnoreCase("1.0.0")) {
-                log(Ansi.RED + "Error reading config.yml version" + Ansi.RESET);
-            }
-            if (!checkconfigversion.equalsIgnoreCase(configVersion)) {
-                log("config.yml, Expected version:[" + configVersion + "], Read version:[" + checkconfigversion + "]\nThese should be the same.");
-                try {
-                    copyFile_Java7(getDataFolder() + "" + File.separatorChar + "config.yml", getDataFolder() + "" + File.separatorChar + "old_config.yml");
-                } catch (IOException e) {
-                    stacktraceInfo();
-                    e.printStackTrace();
-                }
 
-                saveResource("config.yml", true);
-
-                try {
-                    config.load(new File(getDataFolder(), "config.yml"));
-                } catch (IOException | InvalidConfigurationException e1) {
-                    logWarn("Could not load config.yml");
-                    stacktraceInfo();
-                    e1.printStackTrace();
-                }
-                try {
-                    oldconfig.load(new File(getDataFolder(), "old_config.yml"));
-                } catch (IOException | InvalidConfigurationException e1) {
-                    stacktraceInfo();
-                    e1.printStackTrace();
-                }
-                config.set("auto_update_check", oldconfig.get("auto_update_check", true));
-                config.set("debug", oldconfig.get("debug", false));
-                config.set("lang", oldconfig.get("lang", "en_US"));
-                config.set("announce.players.enabled", oldconfig.get("announce.players.enabled", true));
-                config.set("announce.players.displayname", oldconfig.get("announce.players.displayname", true));
-                config.set("announce.mobs.enabled", oldconfig.get("announce.mobs.enabled", true));
-                config.set("announce.mobs.displayname", oldconfig.get("announce.mobs.displayname", true));
-                config.set("console.colorful_console", oldconfig.get("console.colorful_console", true));
-                config.set("console.silent_console", oldconfig.get("console.silent_console", false));
-                config.set("console.longpluginname", oldconfig.get("longpluginname", true));
-                config.set("vanilla_heads.creepers", oldconfig.get("vanilla_heads.creepers", false));
-                config.set("vanilla_heads.ender_dragon", oldconfig.get("vanilla_heads.ender_dragon", false));
-                config.set("vanilla_heads.skeleton", oldconfig.get("vanilla_heads.skeleton", false));
-                config.set("vanilla_heads.wither_skeleton", oldconfig.get("vanilla_heads.wither_skeleton", false));
-                config.set("vanilla_heads.zombie", oldconfig.get("vanilla_heads.zombie", false));
-                config.set("world.whitelist", oldconfig.get("world.whitelist", ""));
-                config.set("world.blacklist", oldconfig.get("world.blacklist", ""));
-                config.set("mob.whitelist", oldconfig.get("mob.whitelist", ""));
-                config.set("mob.blacklist", oldconfig.get("mob.blacklist", ""));
-                config.set("mob.nametag", oldconfig.get("mob.nametag", false));
-                config.set("lore.show_killer", oldconfig.get("lore.show_killer", true));
-                config.set("lore.show_plugin_name", oldconfig.get("lore.show_plugin_name", true));
-                config.set("wandering_trades.custom_wandering_trader", oldconfig.get("wandering_trades.custom_wandering_trader", true));
-                config.set("wandering_trades.player_heads.enabled", oldconfig.get("wandering_trades.player_heads.enabled", true));
-                config.set("wandering_trades.player_heads.min", oldconfig.get("wandering_trades.player_heads.min", 0));
-                config.set("wandering_trades.player_heads.max", oldconfig.get("wandering_trades.player_heads.max", 5));
-                config.set("wandering_trades.block_heads.enabled", oldconfig.get("wandering_trades.block_heads.enabled", true));
-                config.set("wandering_trades.block_heads.pre_116.min", oldconfig.get("wandering_trader_min_block_heads", 0));
-                config.set("wandering_trades.block_heads.pre_116.max", oldconfig.get("wandering_trader_max_block_heads", 5));
-                config.set("wandering_trades.block_heads.is_116.min", oldconfig.get("wandering_trader_min_block_heads", 0));
-                config.set("wandering_trades.block_heads.is_116.max", oldconfig.get("wandering_trader_max_block_heads", 5));
-                config.set("wandering_trades.block_heads.is_117.min", oldconfig.get("wandering_trader_min_block_heads", 0));
-                config.set("wandering_trades.block_heads.is_117.max", oldconfig.get("wandering_trader_max_block_heads", 5));
-
-                config.set("wandering_trades.custom_trades.enabled", oldconfig.get("wandering_trades.custom_trades.enabled", false));
-                config.set("wandering_trades.custom_trades.min", oldconfig.get("wandering_trades.custom_trades.min", 0));
-                config.set("wandering_trades.custom_trades.max", oldconfig.get("wandering_trades.custom_trades.max", 5));
-                config.set("apply_looting", oldconfig.get("apply_looting", true));
-                config.set("whitelist.enforce", oldconfig.get("whitelist.enforce", true));
-                config.set("whitelist.player_head_whitelist", oldconfig.get("whitelist.player_head_whitelist", "names_go_here"));
-                config.set("blacklist.enforce", oldconfig.get("enforce_blacklist", true));
-                config.set("blacklist.player_head_blacklist", oldconfig.get("blacklist.player_head_blacklist", "names_go_here"));
-                config.set("event.piston_extend", oldconfig.get("piston_extend", true));
-
-                try {
-                    config.save(new File(getDataFolder(), "config.yml"));
-                } catch (IOException e) {
-                    logWarn("Could not save old settings to config.yml");
-                    stacktraceInfo();
-                    e.printStackTrace();
-                }
-                saveResource("chance_config.yml", true);
-                log(Level.INFO, "config.yml Updated! old config saved as old_config.yml");
-                log(Level.INFO, "chance_config.yml saved.");
-            } else {
-                try {
-                    config.load(new File(getDataFolder(), "config.yml"));
-                } catch (IOException | InvalidConfigurationException e1) {
-                    logWarn("Could not load config.yml");
-                    stacktraceInfo();
-                    e1.printStackTrace();
-                }
-            }
-            oldconfig = null;
-        }
-        /* end config check */
-
-        consoleLog("Loading messages file...");
-        try {
-            oldMessages.load(new File(getDataFolder() + "" + File.separatorChar + "messages.yml"));
-        } catch (Exception e) {
-            logWarn("Could not load messages.yml");
-            stacktraceInfo();
-            e.printStackTrace();
-        }
-
-        String checkmessagesversion = oldMessages.getString("version", "1.0.0");
-        if (checkmessagesversion != null) {
-            log("messages.yml, Expected version:[" + messagesVersion + "], Read version:[" + checkmessagesversion + "]\nThese should be the same.");
-            if (!checkmessagesversion.equalsIgnoreCase(messagesVersion)) {
-                try {
-                    copyFile_Java7(getDataFolder() + "" + File.separatorChar + "messages.yml", getDataFolder() + "" + File.separatorChar + "old_messages.yml");
-                } catch (IOException e) {
-                    stacktraceInfo();
-                    e.printStackTrace();
-                }
-                saveResource("messages.yml", true);
-
-                try {
-                    beheadingMessages.load(new File(getDataFolder(), "messages.yml"));
-                } catch (IOException | InvalidConfigurationException e1) {
-                    logWarn("Could not load messages.yml");
-                    stacktraceInfo();
-                    e1.printStackTrace();
-                }
-                try {
-                    oldMessages.load(new File(getDataFolder(), "old_messages.yml"));
-                } catch (IOException | InvalidConfigurationException e1) {
-                    stacktraceInfo();
-                    e1.printStackTrace();
-                }
-
-                // Update messages
-                ConfigurationSection oldMessagesSection = oldMessages.getConfigurationSection("messages");
-                //ConfigurationSection messagesSection = beheadingMessages.createSection("messages");
-
-                for (String messageKey : oldMessagesSection.getKeys(false)) {
-                    String messageValue = oldMessagesSection.getString(messageKey);
-                    beheadingMessages.set("messages." + messageKey, messageValue.replace("<killerName>", "%killerName%")
-                            .replace("<entityName>", "%entityName%")
-                            .replace("<weaponName>", "%weaponName%"));
-                }
-
-                try {
-                    beheadingMessages.save(new File(getDataFolder(), "messages.yml"));
-                } catch (IOException e) {
-                    logWarn("Could not save old messages to messages.yml");
-                    stacktraceInfo();
-                    e.printStackTrace();
-                }
-                log(Level.INFO, "messages.yml Updated! Old messages saved as old_messages.yml");
-            } else {
-                try {
-                    beheadingMessages.load(new File(getDataFolder(), "messages.yml"));
-                } catch (IOException | InvalidConfigurationException e1) {
-                    logWarn("Could not load messages.yml");
-                    stacktraceInfo();
-                    e1.printStackTrace();
-                }
-            }
-            oldMessages = null;
-        }
-
-        if (getConfig().getBoolean("wandering_trades.custom_wandering_trader", true)) {
-            /* Trader heads load */
-            playerFile = new File(getDataFolder() + "" + File.separatorChar + "player_heads.yml");//\
-            if (debug) {
-                logDebug("player_heads=" + playerFile.getPath());
-            }
-            if (!playerFile.exists()) {                                                                    // checks if the yaml does not exist
-                saveResource("player_heads.yml", true);
-                log(Level.INFO, "player_heads.yml not found! copied player_heads.yml to " + getDataFolder() + "");
-                //ConfigAPI.copy(getResource("lang.yml"), langFile); // copies the yaml from your jar to the folder /plugin/<pluginName>
-            }
-            consoleLog("Loading player_heads file...");
-            playerHeads = new YamlConfiguration();
-            try {
-                playerHeads.load(playerFile);
-            } catch (IOException | InvalidConfigurationException e) {
-                stacktraceInfo();
-                e.printStackTrace();
-            }
-
-
-            /* Custom Trades load */
-            customFile = new File(getDataFolder() + "" + File.separatorChar + "custom_trades.yml");//\
-            if (debug) {
-                logDebug("customFile=" + customFile.getPath());
-            }
-            if (!customFile.exists()) {                                                                    // checks if the yaml does not exist
-                saveResource("custom_trades.yml", true);
-                log(Level.INFO, "custom_trades.yml not found! copied custom_trades.yml to " + getDataFolder() + "");
-                //ConfigAPI.copy(getResource("lang.yml"), langFile); // copies the yaml from your jar to the folder /plugin/<pluginName>
-            }
-            consoleLog("Loading custom_trades file...");
-            traderCustom = new YamlConfiguration();
-            try {
-                traderCustom.load(customFile);
-            } catch (IOException | InvalidConfigurationException e) {
-                stacktraceInfo();
-                e.printStackTrace();
-            }
-        }
-
-        /* chanceConfig load */
-        chanceFile = new File(getDataFolder() + "" + File.separatorChar + "chance_config.yml");//\
-        if (debug) {
-            logDebug("chanceFile=" + chanceFile.getPath());
-        }
-        if (!chanceFile.exists()) {                                                                    // checks if the yaml does not exist
-            saveResource("chance_config.yml", true);
-            log(Level.INFO, "chance_config.yml not found! copied chance_config.yml to " + getDataFolder() + "");
-            //ConfigAPI.copy(getResource("lang.yml"), langFile); // copies the yaml from your jar to the folder /plugin/<pluginName>
-        }
-        consoleLog("Loading chance_config file...");
-        chanceConfig = new YmlConfiguration();
-        oldchanceConfig = new YmlConfiguration();
-        try {
-            chanceConfig.load(chanceFile);
-        } catch (IOException | InvalidConfigurationException e) {
-            stacktraceInfo();
-            e.printStackTrace();
-        }
-        /* chanceConfig update check */
-        String checkchanceConfigversion = chanceConfig.getString("version", "1.0.0");
-        if (checkchanceConfigversion != null) {
-            if (!checkchanceConfigversion.equalsIgnoreCase(chanceVersion)) {
-                logDebug("Expected v: " + chanceVersion + "got v: " + checkchanceConfigversion);
-                try {
-                    copyFile_Java7(getDataFolder() + "" + File.separatorChar + "chance_config.yml", getDataFolder() + "" + File.separatorChar + "old_chance_config.yml");
-                } catch (IOException e) {
-                    stacktraceInfo();
-                    e.printStackTrace();
-                }
-
-                saveResource("chance_config.yml", true);
-                copyChance(getDataFolder() + "" + File.separatorChar + "old_chance_config.yml", chanceFile.getPath());
-                log(Level.INFO, "chance_config.yml updated.");
-            }
-        }
-
-
-        /* Mob names translation */
-        langNameFile = new File(getDataFolder() + "" + File.separatorChar + "lang" + File.separatorChar, daLang + "_mobnames.yml");//\
-        if (debug) {
-            logDebug("langFilePath=" + langNameFile.getPath());
-        }
-        if (!langNameFile.exists()) {                                                                    // checks if the yaml does not exist
-            saveResource("lang" + File.separatorChar + "cs_CZ_mobnames.yml", true);        // 1
-            saveResource("lang" + File.separatorChar + "de_DE_mobnames.yml", true);        // 2
-            saveResource("lang" + File.separatorChar + "en_US_mobnames.yml", true);        // 3
-            saveResource("lang" + File.separatorChar + "es_ES_mobnames.yml", true);        // 4
-            saveResource("lang" + File.separatorChar + "es_MX_mobnames.yml", true);        // 5
-            saveResource("lang" + File.separatorChar + "fr_FR_mobnames.yml", true);        // 6
-            saveResource("lang" + File.separatorChar + "hu_HU_mobnames.yml", true);        // 7
-            saveResource("lang" + File.separatorChar + "it_IT_mobnames.yml", true);        // 8
-            saveResource("lang" + File.separatorChar + "ja_JP_mobnames.yml", true);        // 9
-            saveResource("lang" + File.separatorChar + "ko_KR_mobnames.yml", true);        // 0
-            saveResource("lang" + File.separatorChar + "lol_US_mobnames.yml", true);    // 1
-            saveResource("lang" + File.separatorChar + "my_MY_mobnames.yml", true);        // 2
-            saveResource("lang" + File.separatorChar + "nl_NL_mobnames.yml", true);        // 3
-            saveResource("lang" + File.separatorChar + "pl_PL_mobnames.yml", true);        // 4
-            saveResource("lang" + File.separatorChar + "pt_BR_mobnames.yml", true);        // 5
-            saveResource("lang" + File.separatorChar + "ru_RU_mobnames.yml", true);        // 6
-            saveResource("lang" + File.separatorChar + "sv_SV_mobnames.yml", true);        // 7
-            saveResource("lang" + File.separatorChar + "tr_TR_mobnames.yml", true);        // 8
-            saveResource("lang" + File.separatorChar + "zh_CN_mobnames.yml", true);        // 9
-            saveResource("lang" + File.separatorChar + "zh_TW_mobnames.yml", true);        // 0
-            log(Level.INFO, "lang_mobnames file not found! copied cs_CZ_mobnames.yml, de_DE_mobnames.yml, en_US_mobnames.yml, es_ES_mobnames.yml, es_MX_mobnames.yml, fr_FR_mobnames.yml, hu_HU_mobnames.yml, it_IT_mobnames.yml, ja_JP_mobnames.yml, ko_KR_mobnames.yml, lol_US_mobnames.yml, my_MY_mobnames.yml, nl_NL_mobnames.yml, pl_PL_mobnames.yml, pt_BR_mobnames.yml, ru_RU_mobnames.yml, sv_SV_mobnames.yml, tr_TR_mobnames.yml, zh_CN_mobnames.yml, zh_TW_mobnames.yml to " + getDataFolder() + "" + File.separatorChar + "lang");
-            //ConfigAPI.copy(getResource("lang.yml"), langFile); // copies the yaml from your jar to the folder /plugin/<pluginName>
-        }
-        consoleLog("Loading language based mobname file...");
-        langName = new YamlConfiguration();
-        try {
-            langName.load(langNameFile);
-        } catch (IOException | InvalidConfigurationException e) {
-            stacktraceInfo();
-            e.printStackTrace();
-        }
-        /* Mob Names update check */
-        String checklangnameConfigversion = langName.getString("vex.angry", "outdated");
-        if (checklangnameConfigversion != null) {
-            if (checklangnameConfigversion.equalsIgnoreCase("outdated")) {
-                log(Level.INFO, "lang_mobnames file outdated! Updating.");
-                saveResource("lang" + File.separatorChar + "cs_CZ_mobnames.yml", true);        // 1
-                saveResource("lang" + File.separatorChar + "de_DE_mobnames.yml", true);        // 2
-                saveResource("lang" + File.separatorChar + "en_US_mobnames.yml", true);        // 3
-                saveResource("lang" + File.separatorChar + "es_ES_mobnames.yml", true);        // 4
-                saveResource("lang" + File.separatorChar + "es_MX_mobnames.yml", true);        // 5
-                saveResource("lang" + File.separatorChar + "fr_FR_mobnames.yml", true);        // 6
-                saveResource("lang" + File.separatorChar + "hu_HU_mobnames.yml", true);        // 7
-                saveResource("lang" + File.separatorChar + "it_IT_mobnames.yml", true);        // 8
-                saveResource("lang" + File.separatorChar + "ja_JP_mobnames.yml", true);        // 9
-                saveResource("lang" + File.separatorChar + "ko_KR_mobnames.yml", true);        // 0
-                saveResource("lang" + File.separatorChar + "lol_US_mobnames.yml", true);    // 1
-                saveResource("lang" + File.separatorChar + "my_MY_mobnames.yml", true);        // 2
-                saveResource("lang" + File.separatorChar + "nl_NL_mobnames.yml", true);        // 3
-                saveResource("lang" + File.separatorChar + "pl_PL_mobnames.yml", true);        // 4
-                saveResource("lang" + File.separatorChar + "pt_BR_mobnames.yml", true);        // 5
-                saveResource("lang" + File.separatorChar + "ru_RU_mobnames.yml", true);        // 6
-                saveResource("lang" + File.separatorChar + "sv_SV_mobnames.yml", true);        // 7
-                saveResource("lang" + File.separatorChar + "tr_TR_mobnames.yml", true);        // 8
-                saveResource("lang" + File.separatorChar + "zh_CN_mobnames.yml", true);        // 9
-                saveResource("lang" + File.separatorChar + "zh_TW_mobnames.yml", true);        // 0
-                log(Level.INFO, "cs_CZ_mobnames.yml, de_DE_mobnames.yml, en_US_mobnames.yml, es_ES_mobnames.yml, es_MX_mobnames.yml, fr_FR_mobnames.yml, hu_HU_mobnames.yml, it_IT_mobnames.yml, ja_JP_mobnames.yml, ko_KR_mobnames.yml, lol_US_mobnames.yml, my_MY_mobnames.yml, nl_NL_mobnames.yml, pl_PL_mobnames.yml, pt_BR_mobnames.yml, ru_RU_mobnames.yml, sv_SV_mobnames.yml, tr_TR_mobnames.yml, zh_CN_mobnames.yml, zh_TW_mobnames.yml updated.");
-                try {
-                    langName.load(langNameFile);
-                } catch (IOException | InvalidConfigurationException e) {
-                    stacktraceInfo();
-                    e.printStackTrace();
-                }
-            }
-        }
-        /* end Mob names translation */
+        configReload();
 
         world_whitelist = config.getString("world.whitelist", "");
         world_blacklist = config.getString("world.blacklist", "");
@@ -554,40 +230,9 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
         loading(Ansi.GREEN + " (  " + Ansi.YELLOW + "-<[ PLEASE INCLUDE THIS WITH ANY ISSUE REPORTS ]>-" + Ansi.RESET);
 
         //Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "version");
-        if ((getConfig().getBoolean("debug") == true) && !(jarfile.toString().contains("-DEV"))) {
+        if (getConfig().getBoolean("debug") && !jarfile.toString().contains("-DEV")) {
             logDebug("Config.yml DUMP - INCLUDE THIS WITH ANY ISSUE REPORT VVV");
             dumpConfig(getConfig());
-            /*logDebug("auto_update_check=" + getConfig().getBoolean("auto_update_check"));
-             logDebug("debug=" + getConfig().getBoolean("debug"));
-             logDebug("lang=" + getConfig().getString("lang"));
-             logDebug("vanilla_heads.creeper=" + getConfig().getBoolean("vanilla_heads.creeper"));
-             logDebug("vanilla_heads.ender_dragon=" + getConfig().getBoolean("vanilla_heads.ender_dragon"));
-             logDebug("vanilla_heads.skeleton=" + getConfig().getBoolean("vanilla_heads.skeleton"));
-             logDebug("vanilla_heads.wither_skeleton=" + getConfig().getBoolean("vanilla_heads.wither_skeleton"));
-             logDebug("vanilla_heads.zombie=" + getConfig().getBoolean("vanilla_heads.zombie"));
-             logDebug("world.whitelist=" + getConfig().getString("world.whitelist"));
-             logDebug("world.blacklist=" + getConfig().getString("world.blacklist"));
-             logDebug("mob.whitelist=" + getConfig().getString("mob.whitelist"));
-             logDebug("mob.blacklist=" + getConfig().getString("mob.blacklist"));
-             logDebug("lore.show_killer=" + getConfig().getBoolean("lore.show_killer"));
-             logDebug("lore.show_plugin_name=" + getConfig().getBoolean("lore.show_plugin_name"));
-             logDebug("wandering_trades.custom_wandering_trader=" + getConfig().getBoolean("wandering_trades.custom_wandering_trader"));
-             logDebug("wandering_trades.keep_default_trades=" + getConfig().getBoolean("wandering_trades.keep_default_trades"));
-             logDebug("wandering_trades.player_heads.enabled=" + getConfig().getBoolean("wandering_trades.player_heads.enabled"));
-             logDebug("wandering_trades.player_heads.min=" + getConfig().getString("wandering_trades.player_heads.min"));
-             logDebug("wandering_trades.player_heads.max=" + getConfig().getString("wandering_trades.player_heads.max"));
-             logDebug("wandering_trades.block_heads.enabled=" + getConfig().getBoolean("wandering_trades.block_heads.enabled"));
-             logDebug("wandering_trades.block_heads.min=" + getConfig().getString("wandering_trades.block_heads.min"));
-             logDebug("wandering_trades.block_heads.max=" + getConfig().getString("wandering_trades.block_heads.max"));
-             logDebug("wandering_trades.custom_trades.enabled=" + getConfig().getBoolean("wandering_trades.custom_trades.enabled"));
-             logDebug("wandering_trades.custom_trades.min=" + getConfig().getString("wandering_trades.custom_trades.min"));
-             logDebug("wandering_trades.custom_trades.max=" + getConfig().getString("wandering_trades.custom_trades.max"));
-             logDebug("apply_looting=" + getConfig().getBoolean("apply_looting"));
-             logDebug("whitelist.enforce=" + getConfig().getBoolean("whitelist.enforce"));
-             logDebug("whitelist.player_head_whitelist=" + getConfig().getString("whitelist.player_head_whitelist"));
-             logDebug("blacklist.enforce=" + getConfig().getBoolean("blacklist.enforce"));
-             logDebug("blacklist.player_head_blacklist=" + getConfig().getString("blacklist.player_head_blacklist"));
-             logDebug("event.piston_extend=" + getConfig().getString("event.piston_extend"));//*/
             logDebug("Config.yml DUMP - INCLUDE THIS WITH ANY ISSUE REPORT ^^^");
         }
 
@@ -913,9 +558,6 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onPlayerInteractEvent(PlayerInteractEntityEvent event) {// TODO: PlayerInteractEntityEvent
-        if (!(event.getPlayer() instanceof Player)) {
-            return;
-        }
         try {
             Player player = event.getPlayer();
             if (player.hasPermission("moremobheads.nametag")) {
@@ -942,23 +584,6 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
                         }
                     }
 
-                    /* experimental code */
-					/*ItemStack itemstack = player.getInventory().getItemInOffHand();
-					getConfig().set("itemstack", itemstack);
-					saveConfig();*/
-                    //		log("itemstack set");
-
-                    //player.getInventory().addItem(getConfig().getItemStack("itemstack"));
-
-					/*Villager villager = (Villager) mob;
-					List<MerchantRecipe> recipes = new ArrayList<MerchantRecipe>();
-					MerchantRecipe recipe = new MerchantRecipe(getConfig().getItemStack("itemstack"), 1);
-					recipe.addIngredient(new ItemStack(Material.EMERALD));
-									recipes.add(recipe);
-									villager.setRecipes(recipes);*/
-                    /* experimental code */
-
-                    //player.sendMessage("Testing");
                     if (material.equals(Material.NAME_TAG) || material2.equals(Material.NAME_TAG)) {
                         if (getServer().getPluginManager().getPlugin("SilenceMobs") != null) {
                             if (name.toLowerCase().contains("silenceme") || name.toLowerCase().contains("silence me")) {
@@ -972,26 +597,6 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
                             log("canwearhead=" + NameTag.canWearHead(mob));
                         }
                         if (NameTag.canWearHead(mob)) {
-                            // Piglin, drowned, husk, pillager, stray
-
-                            //log("mob=" + mob.getType().toString());
-                            /*if(getConfig().getBoolean("enforce_whitelist", false)){ //
-                             if(getConfig().getString("whitelist.player_head_whitelist", "").toLowerCase().contains(name.toLowerCase())){
-                             // on whitelist make the head.
-                             giveMobHead(mob, name);
-                             }else{
-                             player.sendMessage("\"" + name + "\" " + lang.get("not_on_whitelist"));
-                             event.setCancelled(true);
-                             }
-                             }else if(getConfig().getBoolean("blacklist.enforce", false)){
-                             if(!getConfig().getString("blacklist.player_head_blacklist", "").toLowerCase().contains(name.toLowerCase())){
-                             // not on blacklist, make the head.
-                             giveMobHead(mob, name);
-                             }else{
-                             player.sendMessage("\"" + name + "\" " + lang.get("on_blacklist"));
-                             event.setCancelled(true);
-                             }
-                             }*/
                             boolean enforcewhitelist = getConfig().getBoolean("whitelist.enforce", false);
                             boolean enforceblacklist = getConfig().getBoolean("blacklist.enforce", false);
                             boolean onwhitelist = getConfig().getString("whitelist.player_head_whitelist", "").toLowerCase().contains(name.toLowerCase());
@@ -1005,7 +610,7 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
                                         log(Level.INFO, "PIE - Name Error 1");
                                     }
                                 }
-                            } else if (enforcewhitelist && !enforceblacklist) {
+                            } else if (enforcewhitelist) {
                                 if (onwhitelist) {
                                     giveMobHead(mob, name);
                                 } else {
@@ -1014,7 +619,7 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
                                         log(Level.INFO, "PIE - Name not on whitelist.");
                                     }
                                 }
-                            } else if (!enforcewhitelist && enforceblacklist) {
+                            } else if (enforceblacklist) {
                                 if (!onblacklist) {
                                     giveMobHead(mob, name);
                                 } else {
@@ -1100,9 +705,7 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
             if (debug) {
                 logDebug("DI chancepercent2=" + chancepercent);
             }
-            if ((chancepercent >= chance) || isDev) {
-                return true;
-            }
+            return (chancepercent >= chance) || isDev;
         }
         return false;
     }
@@ -1118,8 +721,7 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
 
     public int randomBetween(int min, int max) {
         Random r = new Random();
-        int random = r.nextInt((max - min) + 1) + min;
-        return random;
+        return r.nextInt((max - min) + 1) + min;
     }
 
     @EventHandler
@@ -2669,93 +2271,84 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
             e2.printStackTrace();
         }
         String checkconfigversion = oldconfig.getString("version", "1.0.0");
-        if (checkconfigversion != null) {
-            if (!checkconfigversion.equalsIgnoreCase(configVersion)) {
-                try {
-                    copyFile_Java7(getDataFolder() + "" + File.separatorChar + "config.yml", getDataFolder() + "" + File.separatorChar + "old_config.yml");
-                } catch (IOException e) {
-                    stacktraceInfo();
-                    e.printStackTrace();
-                }
-                saveResource("config.yml", true);
-
-                try {
-                    config.load(new File(getDataFolder(), "config.yml"));
-                } catch (IOException | InvalidConfigurationException e1) {
-                    logWarn("Could not load config.yml");
-                    stacktraceInfo();
-                    e1.printStackTrace();
-                }
-                try {
-                    oldconfig.load(new File(getDataFolder(), "old_config.yml"));
-                } catch (IOException | InvalidConfigurationException e1) {
-                    logWarn("Could not load old_config.yml");
-                    stacktraceInfo();
-                    e1.printStackTrace();
-                }
-                config.set("auto_update_check", oldconfig.get("auto_update_check", true));
-                config.set("debug", oldconfig.get("debug", false));
-                config.set("lang", oldconfig.get("lang", "en_US"));
-                config.set("console.colorful_console", oldconfig.get("colorful_console", true));
-                config.set("vanilla_heads.creepers", oldconfig.get("vanilla_heads.creepers", false));
-                config.set("vanilla_heads.ender_dragon", oldconfig.get("vanilla_heads.ender_dragon", false));
-                config.set("vanilla_heads.skeleton", oldconfig.get("vanilla_heads.skeleton", false));
-                config.set("vanilla_heads.wither_skeleton", oldconfig.get("vanilla_heads.wither_skeleton", false));
-                config.set("vanilla_heads.zombie", oldconfig.get("vanilla_heads.zombie", false));
-                config.set("world.whitelist", oldconfig.get("world.whitelist", ""));
-                config.set("world.blacklist", oldconfig.get("world.blacklist", ""));
-                config.set("mob.whitelist", oldconfig.get("mob.whitelist", ""));
-                config.set("mob.blacklist", oldconfig.get("mob.blacklist", ""));
-                config.set("mob.nametag", oldconfig.get("mob.nametag", false));
-                config.set("lore.show_killer", oldconfig.get("lore.show_killer", true));
-                config.set("lore.show_plugin_name", oldconfig.get("lore.show_plugin_name", true));
-                config.set("wandering_trades.custom_wandering_trader", oldconfig.get("wandering_trades.custom_wandering_trader", true));
-                config.set("wandering_trades.player_heads.enabled", oldconfig.get("wandering_trades.player_heads.enabled", true));
-                config.set("wandering_trades.player_heads.min", oldconfig.get("wandering_trades.player_heads.min", 0));
-                config.set("wandering_trades.player_heads.max", oldconfig.get("wandering_trades.player_heads.max", 5));
-                config.set("wandering_trades.block_heads.enabled", oldconfig.get("wandering_trades.block_heads.enabled", true));
-                config.set("wandering_trades.block_heads.pre_116.min", oldconfig.get("wandering_trader_min_block_heads", 0));
-                config.set("wandering_trades.block_heads.pre_116.max", oldconfig.get("wandering_trader_max_block_heads", 5));
-                config.set("wandering_trades.block_heads.is_116.min", oldconfig.get("wandering_trader_min_block_heads", 0));
-                config.set("wandering_trades.block_heads.is_116.max", oldconfig.get("wandering_trader_max_block_heads", 5));
-                config.set("wandering_trades.block_heads.is_117.min", oldconfig.get("wandering_trader_min_block_heads", 0));
-                config.set("wandering_trades.block_heads.is_117.max", oldconfig.get("wandering_trader_max_block_heads", 5));
-
-                config.set("wandering_trades.custom_trades.enabled", oldconfig.get("wandering_trades.custom_trades.enabled", false));
-                config.set("wandering_trades.custom_trades.min", oldconfig.get("wandering_trades.custom_trades.min", 0));
-                config.set("wandering_trades.custom_trades.max", oldconfig.get("wandering_trades.custom_trades.max", 5));
-                config.set("apply_looting", oldconfig.get("apply_looting", true));
-                config.set("whitelist.enforce", oldconfig.get("whitelist.enforce", true));
-                config.set("whitelist.player_head_whitelist", oldconfig.get("whitelist.player_head_whitelist", "names_go_here"));
-                config.set("blacklist.enforce", oldconfig.get("enforce_blacklist", true));
-                config.set("blacklist.player_head_blacklist", oldconfig.get("blacklist.player_head_blacklist", "names_go_here"));
-                //config.set("", oldconfig.get("", true));
-
-                try {
-                    config.save(new File(getDataFolder(), "config.yml"));
-                } catch (IOException e) {
-                    logWarn("Could not save old settings to config.yml");
-                    stacktraceInfo();
-                    e.printStackTrace();
-                }
-                saveResource("chance_config.yml", true);
-                log(Level.INFO, "config.yml Updated! old config saved as old_config.yml");
-                log(Level.INFO, "chance_config.yml saved.");
-            } else {
-                try {
-                    config.load(new File(getDataFolder(), "config.yml"));
-                } catch (IOException | InvalidConfigurationException e1) {
-                    logWarn("Could not load config.yml");
-                    stacktraceInfo();
-                    e1.printStackTrace();
-                }
+        if (!checkconfigversion.equalsIgnoreCase(BuildConstants.CONFIG_VERSION)) {
+            try {
+                copyFile_Java7(getDataFolder() + "" + File.separatorChar + "config.yml", getDataFolder() + "" + File.separatorChar + "old_config.yml");
+            } catch (IOException e) {
+                stacktraceInfo();
+                e.printStackTrace();
             }
-            oldconfig = null;
+            saveResource("config.yml", true);
+
+            try {
+                config.load(new File(getDataFolder(), "config.yml"));
+            } catch (IOException | InvalidConfigurationException e1) {
+                logWarn("Could not load config.yml");
+                stacktraceInfo();
+                e1.printStackTrace();
+            }
+            try {
+                oldconfig.load(new File(getDataFolder(), "old_config.yml"));
+            } catch (IOException | InvalidConfigurationException e1) {
+                logWarn("Could not load old_config.yml");
+                stacktraceInfo();
+                e1.printStackTrace();
+            }
+            config.set("auto_update_check", oldconfig.get("auto_update_check", true));
+            config.set("debug", oldconfig.get("debug", false));
+            config.set("lang", oldconfig.get("lang", "en_US"));
+            config.set("console.colorful_console", oldconfig.get("colorful_console", true));
+            config.set("vanilla_heads.creepers", oldconfig.get("vanilla_heads.creepers", false));
+            config.set("vanilla_heads.ender_dragon", oldconfig.get("vanilla_heads.ender_dragon", false));
+            config.set("vanilla_heads.skeleton", oldconfig.get("vanilla_heads.skeleton", false));
+            config.set("vanilla_heads.wither_skeleton", oldconfig.get("vanilla_heads.wither_skeleton", false));
+            config.set("vanilla_heads.zombie", oldconfig.get("vanilla_heads.zombie", false));
+            config.set("world.whitelist", oldconfig.get("world.whitelist", ""));
+            config.set("world.blacklist", oldconfig.get("world.blacklist", ""));
+            config.set("mob.whitelist", oldconfig.get("mob.whitelist", ""));
+            config.set("mob.blacklist", oldconfig.get("mob.blacklist", ""));
+            config.set("mob.nametag", oldconfig.get("mob.nametag", false));
+            config.set("lore.show_killer", oldconfig.get("lore.show_killer", true));
+            config.set("lore.show_plugin_name", oldconfig.get("lore.show_plugin_name", true));
+            config.set("wandering_trades.custom_wandering_trader", oldconfig.get("wandering_trades.custom_wandering_trader", true));
+            config.set("wandering_trades.player_heads.enabled", oldconfig.get("wandering_trades.player_heads.enabled", true));
+            config.set("wandering_trades.player_heads.min", oldconfig.get("wandering_trades.player_heads.min", 0));
+            config.set("wandering_trades.player_heads.max", oldconfig.get("wandering_trades.player_heads.max", 5));
+            config.set("wandering_trades.block_heads.enabled", oldconfig.get("wandering_trades.block_heads.enabled", true));
+            config.set("wandering_trades.block_heads.pre_116.min", oldconfig.get("wandering_trader_min_block_heads", 0));
+            config.set("wandering_trades.block_heads.pre_116.max", oldconfig.get("wandering_trader_max_block_heads", 5));
+            config.set("wandering_trades.block_heads.is_116.min", oldconfig.get("wandering_trader_min_block_heads", 0));
+            config.set("wandering_trades.block_heads.is_116.max", oldconfig.get("wandering_trader_max_block_heads", 5));
+            config.set("wandering_trades.block_heads.is_117.min", oldconfig.get("wandering_trader_min_block_heads", 0));
+            config.set("wandering_trades.block_heads.is_117.max", oldconfig.get("wandering_trader_max_block_heads", 5));
+
+            config.set("wandering_trades.custom_trades.enabled", oldconfig.get("wandering_trades.custom_trades.enabled", false));
+            config.set("wandering_trades.custom_trades.min", oldconfig.get("wandering_trades.custom_trades.min", 0));
+            config.set("wandering_trades.custom_trades.max", oldconfig.get("wandering_trades.custom_trades.max", 5));
+            config.set("apply_looting", oldconfig.get("apply_looting", true));
+            config.set("whitelist.enforce", oldconfig.get("whitelist.enforce", true));
+            config.set("whitelist.player_head_whitelist", oldconfig.get("whitelist.player_head_whitelist", "names_go_here"));
+            config.set("blacklist.enforce", oldconfig.get("enforce_blacklist", true));
+            config.set("blacklist.player_head_blacklist", oldconfig.get("blacklist.player_head_blacklist", "names_go_here"));
+            //config.set("", oldconfig.get("", true));
+
+            try {
+                config.save(new File(getDataFolder(), "config.yml"));
+            } catch (IOException e) {
+                logWarn("Could not save old settings to config.yml");
+                stacktraceInfo();
+                e.printStackTrace();
+            }
+            saveResource("chance_config.yml", true);
+            log(Level.INFO, "config.yml Updated! old config saved as old_config.yml");
+            log(Level.INFO, "chance_config.yml saved.");
         }
+        oldconfig = null;
         log(Level.INFO, "Loading config file...");
         try {
             getConfig().load(new File(getDataFolder(), "config.yml"));
         } catch (IOException | InvalidConfigurationException e) {
+            logWarn("Could not load config.yml");
             stacktraceInfo();
             e.printStackTrace();
         }
@@ -2766,6 +2359,222 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
             stacktraceInfo();
             e1.printStackTrace();
         }
+
+        consoleLog("Loading messages file...");
+        try {
+            oldMessages.load(new File(getDataFolder() + "" + File.separatorChar + "messages.yml"));
+        } catch (Exception e) {
+            logWarn("Could not load messages.yml");
+            stacktraceInfo();
+            e.printStackTrace();
+        }
+
+        String checkmessagesversion = oldMessages.getString("version", "1.0.0");
+        log("messages.yml, Expected version:[" + BuildConstants.MESSAGE_VERSION + "], Read version:[" + checkmessagesversion + "]\nThese should be the same.");
+        if (!checkmessagesversion.equalsIgnoreCase(BuildConstants.MESSAGE_VERSION)) {
+            try {
+                copyFile_Java7(getDataFolder() + "" + File.separatorChar + "messages.yml", getDataFolder() + "" + File.separatorChar + "old_messages.yml");
+            } catch (IOException e) {
+                stacktraceInfo();
+                e.printStackTrace();
+            }
+            saveResource("messages.yml", true);
+
+            try {
+                beheadingMessages.load(new File(getDataFolder(), "messages.yml"));
+            } catch (IOException | InvalidConfigurationException e1) {
+                logWarn("Could not load messages.yml");
+                stacktraceInfo();
+                e1.printStackTrace();
+            }
+            try {
+                oldMessages.load(new File(getDataFolder(), "old_messages.yml"));
+            } catch (IOException | InvalidConfigurationException e1) {
+                stacktraceInfo();
+                e1.printStackTrace();
+            }
+
+            // Update messages
+            ConfigurationSection oldMessagesSection = oldMessages.getConfigurationSection("messages");
+            //ConfigurationSection messagesSection = beheadingMessages.createSection("messages");
+
+            for (String messageKey : oldMessagesSection.getKeys(false)) {
+                String messageValue = oldMessagesSection.getString(messageKey);
+                beheadingMessages.set("messages." + messageKey, messageValue.replace("<killerName>", "%killerName%")
+                        .replace("<entityName>", "%entityName%")
+                        .replace("<weaponName>", "%weaponName%"));
+            }
+
+            try {
+                beheadingMessages.save(new File(getDataFolder(), "messages.yml"));
+            } catch (IOException e) {
+                logWarn("Could not save old messages to messages.yml");
+                stacktraceInfo();
+                e.printStackTrace();
+            }
+            log(Level.INFO, "messages.yml Updated! Old messages saved as old_messages.yml");
+        } else {
+            try {
+                beheadingMessages.load(new File(getDataFolder(), "messages.yml"));
+            } catch (IOException | InvalidConfigurationException e1) {
+                logWarn("Could not load messages.yml");
+                stacktraceInfo();
+                e1.printStackTrace();
+            }
+        }
+        oldMessages = null;
+
+        if (getConfig().getBoolean("wandering_trades.custom_wandering_trader", true)) {
+            /* Trader heads load */
+            playerFile = new File(getDataFolder() + "" + File.separatorChar + "player_heads.yml");//\
+            if (debug) {
+                logDebug("player_heads=" + playerFile.getPath());
+            }
+            if (!playerFile.exists()) {                                                                    // checks if the yaml does not exist
+                saveResource("player_heads.yml", true);
+                log(Level.INFO, "player_heads.yml not found! copied player_heads.yml to " + getDataFolder() + "");
+                //ConfigAPI.copy(getResource("lang.yml"), langFile); // copies the yaml from your jar to the folder /plugin/<pluginName>
+            }
+            consoleLog("Loading player_heads file...");
+            playerHeads = new YamlConfiguration();
+            try {
+                playerHeads.load(playerFile);
+            } catch (IOException | InvalidConfigurationException e) {
+                stacktraceInfo();
+                e.printStackTrace();
+            }
+
+
+            /* Custom Trades load */
+            customFile = new File(getDataFolder() + "" + File.separatorChar + "custom_trades.yml");//\
+            if (debug) {
+                logDebug("customFile=" + customFile.getPath());
+            }
+            if (!customFile.exists()) {                                                                    // checks if the yaml does not exist
+                saveResource("custom_trades.yml", true);
+                log(Level.INFO, "custom_trades.yml not found! copied custom_trades.yml to " + getDataFolder() + "");
+                //ConfigAPI.copy(getResource("lang.yml"), langFile); // copies the yaml from your jar to the folder /plugin/<pluginName>
+            }
+            consoleLog("Loading custom_trades file...");
+            traderCustom = new YamlConfiguration();
+            try {
+                traderCustom.load(customFile);
+            } catch (IOException | InvalidConfigurationException e) {
+                stacktraceInfo();
+                e.printStackTrace();
+            }
+        }
+
+        /* chanceConfig load */
+        chanceFile = new File(getDataFolder() + "" + File.separatorChar + "chance_config.yml");//\
+        if (debug) {
+            logDebug("chanceFile=" + chanceFile.getPath());
+        }
+        if (!chanceFile.exists()) {                                                                    // checks if the yaml does not exist
+            saveResource("chance_config.yml", true);
+            log(Level.INFO, "chance_config.yml not found! copied chance_config.yml to " + getDataFolder() + "");
+            //ConfigAPI.copy(getResource("lang.yml"), langFile); // copies the yaml from your jar to the folder /plugin/<pluginName>
+        }
+        consoleLog("Loading chance_config file...");
+        chanceConfig = new YmlConfiguration();
+        oldchanceConfig = new YmlConfiguration();
+        try {
+            chanceConfig.load(chanceFile);
+        } catch (IOException | InvalidConfigurationException e) {
+            stacktraceInfo();
+            e.printStackTrace();
+        }
+        /* chanceConfig update check */
+        String checkchanceConfigversion = chanceConfig.getString("version", "1.0.0");
+        if (checkchanceConfigversion != null) {
+            if (!checkchanceConfigversion.equalsIgnoreCase(BuildConstants.CHANCE_CONFIG_VERSION)) {
+                logDebug("Expected v: " + BuildConstants.CHANCE_CONFIG_VERSION + "got v: " + checkchanceConfigversion);
+                try {
+                    copyFile_Java7(getDataFolder() + "" + File.separatorChar + "chance_config.yml", getDataFolder() + "" + File.separatorChar + "old_chance_config.yml");
+                } catch (IOException e) {
+                    stacktraceInfo();
+                    e.printStackTrace();
+                }
+
+                saveResource("chance_config.yml", true);
+                copyChance(getDataFolder() + "" + File.separatorChar + "old_chance_config.yml", chanceFile.getPath());
+                log(Level.INFO, "chance_config.yml updated.");
+            }
+        }
+
+
+        /* Mob names translation */
+        langNameFile = new File(getDataFolder() + "" + File.separatorChar + "lang" + File.separatorChar, daLang + "_mobnames.yml");//\
+        if (debug) {
+            logDebug("langFilePath=" + langNameFile.getPath());
+        }
+        if (!langNameFile.exists()) {                                                                    // checks if the yaml does not exist
+            saveResource("lang" + File.separatorChar + "cs_CZ_mobnames.yml", true);        // 1
+            saveResource("lang" + File.separatorChar + "de_DE_mobnames.yml", true);        // 2
+            saveResource("lang" + File.separatorChar + "en_US_mobnames.yml", true);        // 3
+            saveResource("lang" + File.separatorChar + "es_ES_mobnames.yml", true);        // 4
+            saveResource("lang" + File.separatorChar + "es_MX_mobnames.yml", true);        // 5
+            saveResource("lang" + File.separatorChar + "fr_FR_mobnames.yml", true);        // 6
+            saveResource("lang" + File.separatorChar + "hu_HU_mobnames.yml", true);        // 7
+            saveResource("lang" + File.separatorChar + "it_IT_mobnames.yml", true);        // 8
+            saveResource("lang" + File.separatorChar + "ja_JP_mobnames.yml", true);        // 9
+            saveResource("lang" + File.separatorChar + "ko_KR_mobnames.yml", true);        // 0
+            saveResource("lang" + File.separatorChar + "lol_US_mobnames.yml", true);    // 1
+            saveResource("lang" + File.separatorChar + "my_MY_mobnames.yml", true);        // 2
+            saveResource("lang" + File.separatorChar + "nl_NL_mobnames.yml", true);        // 3
+            saveResource("lang" + File.separatorChar + "pl_PL_mobnames.yml", true);        // 4
+            saveResource("lang" + File.separatorChar + "pt_BR_mobnames.yml", true);        // 5
+            saveResource("lang" + File.separatorChar + "ru_RU_mobnames.yml", true);        // 6
+            saveResource("lang" + File.separatorChar + "sv_SV_mobnames.yml", true);        // 7
+            saveResource("lang" + File.separatorChar + "tr_TR_mobnames.yml", true);        // 8
+            saveResource("lang" + File.separatorChar + "zh_CN_mobnames.yml", true);        // 9
+            saveResource("lang" + File.separatorChar + "zh_TW_mobnames.yml", true);        // 0
+            log(Level.INFO, "lang_mobnames file not found! copied cs_CZ_mobnames.yml, de_DE_mobnames.yml, en_US_mobnames.yml, es_ES_mobnames.yml, es_MX_mobnames.yml, fr_FR_mobnames.yml, hu_HU_mobnames.yml, it_IT_mobnames.yml, ja_JP_mobnames.yml, ko_KR_mobnames.yml, lol_US_mobnames.yml, my_MY_mobnames.yml, nl_NL_mobnames.yml, pl_PL_mobnames.yml, pt_BR_mobnames.yml, ru_RU_mobnames.yml, sv_SV_mobnames.yml, tr_TR_mobnames.yml, zh_CN_mobnames.yml, zh_TW_mobnames.yml to " + getDataFolder() + "" + File.separatorChar + "lang");
+            //ConfigAPI.copy(getResource("lang.yml"), langFile); // copies the yaml from your jar to the folder /plugin/<pluginName>
+        }
+        consoleLog("Loading language based mobname file...");
+        langName = new YamlConfiguration();
+        try {
+            langName.load(langNameFile);
+        } catch (IOException | InvalidConfigurationException e) {
+            stacktraceInfo();
+            e.printStackTrace();
+        }
+        /* Mob Names update check */
+        String checklangnameConfigversion = langName.getString("vex.angry", "outdated");
+        if (checklangnameConfigversion != null) {
+            if (checklangnameConfigversion.equalsIgnoreCase("outdated")) {
+                log(Level.INFO, "lang_mobnames file outdated! Updating.");
+                saveResource("lang" + File.separatorChar + "cs_CZ_mobnames.yml", true);        // 1
+                saveResource("lang" + File.separatorChar + "de_DE_mobnames.yml", true);        // 2
+                saveResource("lang" + File.separatorChar + "en_US_mobnames.yml", true);        // 3
+                saveResource("lang" + File.separatorChar + "es_ES_mobnames.yml", true);        // 4
+                saveResource("lang" + File.separatorChar + "es_MX_mobnames.yml", true);        // 5
+                saveResource("lang" + File.separatorChar + "fr_FR_mobnames.yml", true);        // 6
+                saveResource("lang" + File.separatorChar + "hu_HU_mobnames.yml", true);        // 7
+                saveResource("lang" + File.separatorChar + "it_IT_mobnames.yml", true);        // 8
+                saveResource("lang" + File.separatorChar + "ja_JP_mobnames.yml", true);        // 9
+                saveResource("lang" + File.separatorChar + "ko_KR_mobnames.yml", true);        // 0
+                saveResource("lang" + File.separatorChar + "lol_US_mobnames.yml", true);    // 1
+                saveResource("lang" + File.separatorChar + "my_MY_mobnames.yml", true);        // 2
+                saveResource("lang" + File.separatorChar + "nl_NL_mobnames.yml", true);        // 3
+                saveResource("lang" + File.separatorChar + "pl_PL_mobnames.yml", true);        // 4
+                saveResource("lang" + File.separatorChar + "pt_BR_mobnames.yml", true);        // 5
+                saveResource("lang" + File.separatorChar + "ru_RU_mobnames.yml", true);        // 6
+                saveResource("lang" + File.separatorChar + "sv_SV_mobnames.yml", true);        // 7
+                saveResource("lang" + File.separatorChar + "tr_TR_mobnames.yml", true);        // 8
+                saveResource("lang" + File.separatorChar + "zh_CN_mobnames.yml", true);        // 9
+                saveResource("lang" + File.separatorChar + "zh_TW_mobnames.yml", true);        // 0
+                log(Level.INFO, "cs_CZ_mobnames.yml, de_DE_mobnames.yml, en_US_mobnames.yml, es_ES_mobnames.yml, es_MX_mobnames.yml, fr_FR_mobnames.yml, hu_HU_mobnames.yml, it_IT_mobnames.yml, ja_JP_mobnames.yml, ko_KR_mobnames.yml, lol_US_mobnames.yml, my_MY_mobnames.yml, nl_NL_mobnames.yml, pl_PL_mobnames.yml, pt_BR_mobnames.yml, ru_RU_mobnames.yml, sv_SV_mobnames.yml, tr_TR_mobnames.yml, zh_CN_mobnames.yml, zh_TW_mobnames.yml updated.");
+                try {
+                    langName.load(langNameFile);
+                } catch (IOException | InvalidConfigurationException e) {
+                    stacktraceInfo();
+                    e.printStackTrace();
+                }
+            }
+        }
+        /* end Mob names translation */
 
         world_whitelist = config.getString("world.whitelist", "");
         world_blacklist = config.getString("world.blacklist", "");
@@ -2923,7 +2732,7 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
         //showpluginname = getConfig().getBoolean("lore.show_plugin_name", true);
         debug = getConfig().getBoolean("debug", false);
         daLang = getConfig().getString("lang", "en_US");
-        lang2 = new Translator(daLang, getDataFolder().toString());
+        Translator.load(daLang, getDataFolder());
     }
 
     public String getTextureFromEntity(LivingEntity entity) {
@@ -3485,21 +3294,18 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
         }
     }
 
-
-    @SuppressWarnings("static-access")
-    public String get(String key, String... defaultValue) {
-        return lang2.get(key, defaultValue);
+    public static String get(String key) {
+        return Translator.get(key, null);
+    }
+    public static String get(String key, String defaultValue) {
+        return Translator.get(key, defaultValue);
     }
 
     public boolean isPluginRequired(String pluginName) {
         String[] requiredPlugins = {"SinglePlayerSleep", "MoreMobHeads", "NoEndermanGrief", "ShulkerRespawner", "DragonDropElytra", "RotationalWrench", "SilenceMobs", "VillagerWorkstationHighlights"};
         for (String requiredPlugin : requiredPlugins) {
             if ((getServer().getPluginManager().getPlugin(requiredPlugin) != null) && getServer().getPluginManager().isPluginEnabled(requiredPlugin)) {
-                if (requiredPlugin.equals(pluginName)) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return requiredPlugin.equals(pluginName);
             }
         }
         return true;

@@ -6,53 +6,45 @@ import java.util.*;
 
 public class Translator {
     private static String lang;
-    private static String dataFolder;
+    private static File dataFolder;
 
-    @SuppressWarnings("static-access")
-    public Translator(String lang, String dataFolder) {
-        this.lang = formatLanguageCode(lang);
-        this.dataFolder = dataFolder;
-    }
+    static Properties props = new Properties();
 
-    public static String get(String key, String... defaultValue) {
-        Translator language = new Translator(lang, dataFolder);
-        return language.get(lang, key, defaultValue);
-    }
+    public static void load(String lang, File dataFolder) {
+        Translator.lang = formatLanguageCode(lang);
+        Translator.dataFolder = dataFolder;
 
-    public String get(String lang, String key, String... defaultValue) {
-        String value = Arrays.stream(defaultValue).findFirst().orElse(null);
-        ResourceBundle bundle = ResourceBundle.getBundle("lang/lang", new Locale(lang));
+        ResourceBundle bundle = ResourceBundle.getBundle("lang/lang", new Locale(Translator.lang));
         //ResourceBundle bundle = ResourceBundle.getBundle("lang/" + lang);
 
-        try {
-            value = bundle.getString(key);
-        } catch (MissingResourceException e) {
-            // Key not found in bundle
-        }
-        File langFile = new File(dataFolder + File.separatorChar + "lang" + File.separatorChar + "" + lang + ".properties");
-        Properties props = new Properties();
-        try {
-            if (langFile.exists()) {
-                FileInputStream inputStream = new FileInputStream(langFile);
+        File langFile = new File(Translator.dataFolder, "lang/" + Translator.lang + ".properties");
+        props.clear();
+        if (langFile.exists()) {
+            try (FileInputStream inputStream = new FileInputStream(langFile)) {
                 props.load(inputStream);
-                inputStream.close();
-                if (!props.containsKey(key)) {
-                    props.setProperty(key, value);
-                    sortPropertiesFile(langFile, props);
-                }
-            } else {
-                // File doesn't exist, use default value from bundle or null if defaultValue is not present
-                return value;
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+        }
+        boolean sort = false;
+        for (String key : bundle.keySet()) {
+            if (!props.containsKey(key)) {
+                props.setProperty(key, bundle.getString(key));
+                sort = true;
+            }
+        }
+        if (sort) try {
+            sortPropertiesFile(langFile, props);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // Get value from properties file (either updated or existing)
-        value = props.getProperty(key);
-        return value;
     }
 
-    public void sortPropertiesFile(File file, Properties props) throws IOException {
+    public static String get(String key, String defaultValue) {
+        return props.getProperty(key, defaultValue);
+    }
+
+    public static void sortPropertiesFile(File file, Properties props) throws IOException {
         // Create a TreeMap to store the sorted properties
         Map<String, String> sortedProps = new TreeMap<>();
         // Iterate over the Properties object and add each key-value pair to the TreeMap
@@ -71,7 +63,7 @@ public class Translator {
         }
     }
 
-    public String formatLanguageCode(String lang) {
+    public static String formatLanguageCode(String lang) {
         String[] parts = lang.split("_");
         return parts[0].toLowerCase() + "_" + parts[1].toUpperCase();
     }
