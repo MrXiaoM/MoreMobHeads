@@ -54,7 +54,7 @@ import java.util.logging.Level;
  * 1.17	1_17_R1
  */
 
-public class EventHandler_1_17_R1 implements CommandExecutor, TabCompleter, Listener {
+public class EventHandler_1_17 implements CommandExecutor, TabCompleter, Listener {
     /**
      * Variables
      */
@@ -79,7 +79,7 @@ public class EventHandler_1_17_R1 implements CommandExecutor, TabCompleter, List
     int BHNum, BHNum2, BHNum3;
 
     @SuppressWarnings({"static-access", "unchecked", "rawtypes"})
-    public EventHandler_1_17_R1(final MoreMobHeads plugin) {
+    public EventHandler_1_17(final MoreMobHeads plugin) {
         /* Set variables */
         mmh = plugin;
         mmh.log(Level.INFO, "Loading 1.17 EventHandler...");

@@ -38,9 +38,6 @@ dependencies {
 }
 shadowJar {
     classifier('')
-    //relocate('org.intellij.lang.annotations', 'top.mrxiaom.sweetricebase.utils.annotations.intellij')
-    //relocate('org.jetbrains.annotations', 'top.mrxiaom.sweetricebase.utils.annotations.jetbrains')
-    //relocate("org.apache.commons", "top.mrxiaom.sweetricebase.utils.commons")
 }
 tasks.build.dependsOn(shadowJar)
 

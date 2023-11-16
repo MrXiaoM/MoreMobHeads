@@ -2,10 +2,10 @@ package com.github.joelgodofwar.mmh;
 //1.14
 
 import com.github.joelgodofwar.mmh.enums.*;
-import com.github.joelgodofwar.mmh.handlers.EventHandler_1_16_R2;
-import com.github.joelgodofwar.mmh.handlers.EventHandler_1_17_R1;
-import com.github.joelgodofwar.mmh.handlers.EventHandler_1_19_R1;
-import com.github.joelgodofwar.mmh.handlers.EventHandler_1_20_R1;
+import com.github.joelgodofwar.mmh.handlers.EventHandler_1_16;
+import com.github.joelgodofwar.mmh.handlers.EventHandler_1_17;
+import com.github.joelgodofwar.mmh.handlers.EventHandler_1_19;
+import com.github.joelgodofwar.mmh.handlers.EventHandler_1_20;
 import com.github.joelgodofwar.mmh.i18n.Translator;
 import com.github.joelgodofwar.mmh.util.*;
 import com.github.joelgodofwar.mmh.util.datatypes.JsonDataType;
@@ -243,18 +243,18 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
             logDebug("version=" + version);
         }
         if (version.contains("1_16_R") || version.contains("1_15_R1") || version.contains("1_14_R1")) {
-            getServer().getPluginManager().registerEvents(new EventHandler_1_16_R2(this), this);
-            getCommand("mmh").setExecutor(new EventHandler_1_16_R2(this));
+            getServer().getPluginManager().registerEvents(new EventHandler_1_16(this), this);
+            getCommand("mmh").setExecutor(new EventHandler_1_16(this));
         } else if (version.contains("1_17_R1") || version.contains("1_18_R1") || version.contains("1_18_R2")) {
-            getServer().getPluginManager().registerEvents(new EventHandler_1_17_R1(this), this);
+            getServer().getPluginManager().registerEvents(new EventHandler_1_17(this), this);
             //getCommand("mmh").setExecutor(new EventHandler_1_17_R1(this));
 
         } else if (version.contains("1_19_R")) {
-            getServer().getPluginManager().registerEvents(new EventHandler_1_19_R1(this), this);
+            getServer().getPluginManager().registerEvents(new EventHandler_1_19(this), this);
             //getCommand("mmh").setExecutor(new EventHandler_1_17_R1(this));
 
         } else if (version.contains("1_20_R")) {
-            getServer().getPluginManager().registerEvents(new EventHandler_1_20_R1(this), this);
+            getServer().getPluginManager().registerEvents(new EventHandler_1_20(this), this);
             //getCommand("mmh").setExecutor(new EventHandler_1_17_R1(this));
 
         } else {
@@ -2504,32 +2504,13 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
 
 
         /* Mob names translation */
-        langNameFile = new File(getDataFolder() + "" + File.separatorChar + "lang" + File.separatorChar, daLang + "_mobnames.yml");//\
+        langNameFile = new File(getDataFolder(), "lang/" +daLang + "_mobnames.yml");
         if (debug) {
             logDebug("langFilePath=" + langNameFile.getPath());
         }
-        if (!langNameFile.exists()) {                                                                    // checks if the yaml does not exist
-            saveResource("lang" + File.separatorChar + "cs_CZ_mobnames.yml", true);        // 1
-            saveResource("lang" + File.separatorChar + "de_DE_mobnames.yml", true);        // 2
-            saveResource("lang" + File.separatorChar + "en_US_mobnames.yml", true);        // 3
-            saveResource("lang" + File.separatorChar + "es_ES_mobnames.yml", true);        // 4
-            saveResource("lang" + File.separatorChar + "es_MX_mobnames.yml", true);        // 5
-            saveResource("lang" + File.separatorChar + "fr_FR_mobnames.yml", true);        // 6
-            saveResource("lang" + File.separatorChar + "hu_HU_mobnames.yml", true);        // 7
-            saveResource("lang" + File.separatorChar + "it_IT_mobnames.yml", true);        // 8
-            saveResource("lang" + File.separatorChar + "ja_JP_mobnames.yml", true);        // 9
-            saveResource("lang" + File.separatorChar + "ko_KR_mobnames.yml", true);        // 0
-            saveResource("lang" + File.separatorChar + "lol_US_mobnames.yml", true);    // 1
-            saveResource("lang" + File.separatorChar + "my_MY_mobnames.yml", true);        // 2
-            saveResource("lang" + File.separatorChar + "nl_NL_mobnames.yml", true);        // 3
-            saveResource("lang" + File.separatorChar + "pl_PL_mobnames.yml", true);        // 4
-            saveResource("lang" + File.separatorChar + "pt_BR_mobnames.yml", true);        // 5
-            saveResource("lang" + File.separatorChar + "ru_RU_mobnames.yml", true);        // 6
-            saveResource("lang" + File.separatorChar + "sv_SV_mobnames.yml", true);        // 7
-            saveResource("lang" + File.separatorChar + "tr_TR_mobnames.yml", true);        // 8
-            saveResource("lang" + File.separatorChar + "zh_CN_mobnames.yml", true);        // 9
-            saveResource("lang" + File.separatorChar + "zh_TW_mobnames.yml", true);        // 0
-            log(Level.INFO, "lang_mobnames file not found! copied cs_CZ_mobnames.yml, de_DE_mobnames.yml, en_US_mobnames.yml, es_ES_mobnames.yml, es_MX_mobnames.yml, fr_FR_mobnames.yml, hu_HU_mobnames.yml, it_IT_mobnames.yml, ja_JP_mobnames.yml, ko_KR_mobnames.yml, lol_US_mobnames.yml, my_MY_mobnames.yml, nl_NL_mobnames.yml, pl_PL_mobnames.yml, pt_BR_mobnames.yml, ru_RU_mobnames.yml, sv_SV_mobnames.yml, tr_TR_mobnames.yml, zh_CN_mobnames.yml, zh_TW_mobnames.yml to " + getDataFolder() + "" + File.separatorChar + "lang");
+        if (!langNameFile.exists()) { // checks if the yaml does not exist
+            saveResource("lang/" + daLang + "_mobnames.yml", true);
+            log(Level.INFO, "lang_mobnames file not found! copied " + daLang + "_mobnames.yml to lang folder.");
             //ConfigAPI.copy(getResource("lang.yml"), langFile); // copies the yaml from your jar to the folder /plugin/<pluginName>
         }
         consoleLog("Loading language based mobname file...");
@@ -2542,36 +2523,15 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
         }
         /* Mob Names update check */
         String checklangnameConfigversion = langName.getString("vex.angry", "outdated");
-        if (checklangnameConfigversion != null) {
-            if (checklangnameConfigversion.equalsIgnoreCase("outdated")) {
-                log(Level.INFO, "lang_mobnames file outdated! Updating.");
-                saveResource("lang" + File.separatorChar + "cs_CZ_mobnames.yml", true);        // 1
-                saveResource("lang" + File.separatorChar + "de_DE_mobnames.yml", true);        // 2
-                saveResource("lang" + File.separatorChar + "en_US_mobnames.yml", true);        // 3
-                saveResource("lang" + File.separatorChar + "es_ES_mobnames.yml", true);        // 4
-                saveResource("lang" + File.separatorChar + "es_MX_mobnames.yml", true);        // 5
-                saveResource("lang" + File.separatorChar + "fr_FR_mobnames.yml", true);        // 6
-                saveResource("lang" + File.separatorChar + "hu_HU_mobnames.yml", true);        // 7
-                saveResource("lang" + File.separatorChar + "it_IT_mobnames.yml", true);        // 8
-                saveResource("lang" + File.separatorChar + "ja_JP_mobnames.yml", true);        // 9
-                saveResource("lang" + File.separatorChar + "ko_KR_mobnames.yml", true);        // 0
-                saveResource("lang" + File.separatorChar + "lol_US_mobnames.yml", true);    // 1
-                saveResource("lang" + File.separatorChar + "my_MY_mobnames.yml", true);        // 2
-                saveResource("lang" + File.separatorChar + "nl_NL_mobnames.yml", true);        // 3
-                saveResource("lang" + File.separatorChar + "pl_PL_mobnames.yml", true);        // 4
-                saveResource("lang" + File.separatorChar + "pt_BR_mobnames.yml", true);        // 5
-                saveResource("lang" + File.separatorChar + "ru_RU_mobnames.yml", true);        // 6
-                saveResource("lang" + File.separatorChar + "sv_SV_mobnames.yml", true);        // 7
-                saveResource("lang" + File.separatorChar + "tr_TR_mobnames.yml", true);        // 8
-                saveResource("lang" + File.separatorChar + "zh_CN_mobnames.yml", true);        // 9
-                saveResource("lang" + File.separatorChar + "zh_TW_mobnames.yml", true);        // 0
-                log(Level.INFO, "cs_CZ_mobnames.yml, de_DE_mobnames.yml, en_US_mobnames.yml, es_ES_mobnames.yml, es_MX_mobnames.yml, fr_FR_mobnames.yml, hu_HU_mobnames.yml, it_IT_mobnames.yml, ja_JP_mobnames.yml, ko_KR_mobnames.yml, lol_US_mobnames.yml, my_MY_mobnames.yml, nl_NL_mobnames.yml, pl_PL_mobnames.yml, pt_BR_mobnames.yml, ru_RU_mobnames.yml, sv_SV_mobnames.yml, tr_TR_mobnames.yml, zh_CN_mobnames.yml, zh_TW_mobnames.yml updated.");
-                try {
-                    langName.load(langNameFile);
-                } catch (IOException | InvalidConfigurationException e) {
-                    stacktraceInfo();
-                    e.printStackTrace();
-                }
+        if (checklangnameConfigversion.equalsIgnoreCase("outdated")) {
+            log(Level.INFO, "lang_mobnames file outdated! Updating.");
+            saveResource("lang/" + daLang + "_mobnames.yml", true);
+            log(Level.INFO, daLang + "_mobnames.yml updated.");
+            try {
+                langName.load(langNameFile);
+            } catch (IOException | InvalidConfigurationException e) {
+                stacktraceInfo();
+                e.printStackTrace();
             }
         }
         /* end Mob names translation */
