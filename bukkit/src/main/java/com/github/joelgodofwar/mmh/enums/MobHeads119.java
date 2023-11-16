@@ -45,7 +45,7 @@ public enum MobHeads119 {
         this.nameString = nameString;
     }
 
-    public static final String getNameFromTexture(String texture) {
+    public static String getNameFromTexture(String texture) {
         //MoreMobHeads.logger.info("texture=" + texture);
         for (MobHeads119 verbosity : MobHeads119.values()) {
             //MoreMobHeads.logger.info(verbosity.getName() + "=" + verbosity.getTexture());

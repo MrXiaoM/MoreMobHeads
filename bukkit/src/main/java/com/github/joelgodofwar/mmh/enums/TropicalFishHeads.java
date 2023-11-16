@@ -1,5 +1,7 @@
 package com.github.joelgodofwar.mmh.enums;
 
+import java.util.UUID;
+
 public enum TropicalFishHeads {
     TROPICAL_FISH_ANEMONE(
             "Anemone", "tropical_fish.anemone",
@@ -144,20 +146,20 @@ public enum TropicalFishHeads {
     ),
     ;
 
-    //private final UUID owner;
+    private final UUID owner;
     private final String texture;
     private final String name;
     private final String nameString;
 
 
     TropicalFishHeads(String name, String nameString, String ownerUUID, String texture) {
-        //this.owner = UUID.fromString(ownerUUID);
+        this.owner = UUID.fromString(ownerUUID);
         this.texture = texture;
         this.name = name;
         this.nameString = nameString;
     }
 
-    public static final String getNameFromTexture(String texture) {
+    public static String getNameFromTexture(String texture) {
         //MoreMobHeads.logger.info("texture=" + texture);
         for (RabbitHeads verbosity : RabbitHeads.values()) {
             //MoreMobHeads.logger.info(verbosity.getName() + "=" + verbosity.getTexture());
@@ -168,12 +170,9 @@ public enum TropicalFishHeads {
         return null;
     }
 
-    /*
-      @return the owner
-     */
-    /*public UUID getOwner() {
-     return owner;
-     }//*/
+    public UUID getOwner() {
+        return owner;
+    }
 
     /**
      * @return the texture

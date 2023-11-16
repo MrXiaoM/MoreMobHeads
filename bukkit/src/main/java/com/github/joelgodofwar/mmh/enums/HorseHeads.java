@@ -58,7 +58,7 @@ public enum HorseHeads {
         this.nameString = nameString;
     }
 
-    public static final String getNameFromTexture(String texture) {
+    public static String getNameFromTexture(String texture) {
         //MoreMobHeads.logger.info("texture=" + texture);
         for (HorseHeads verbosity : HorseHeads.values()) {
             //MoreMobHeads.logger.info(verbosity.getName() + "=" + verbosity.getTexture());

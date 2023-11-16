@@ -71,7 +71,7 @@ public enum CatHeads {
         this.nameString = nameString;
     }
 
-    public static final String getNameFromTexture(String texture) {
+    public static String getNameFromTexture(String texture) {
         //MoreMobHeads.logger.info("texture=" + texture);
         for (CatHeads cathead : CatHeads.values()) {
             //MoreMobHeads.logger.info(verbosity.getName() + "=" + verbosity.getTexture());

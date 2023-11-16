@@ -60,7 +60,7 @@ public enum LlamaHeads {
     }
 
 
-    public static final String getNameFromTexture(String texture) {
+    public static String getNameFromTexture(String texture) {
         //MoreMobHeads.logger.info("texture=" + texture);
         for (LlamaHeads verbosity : LlamaHeads.values()) {
             //MoreMobHeads.logger.info(verbosity.getName() + "=" + verbosity.getTexture());
