@@ -1,5 +1,5 @@
 # DO NOT CHANGE VERSION
-version: 1.0.25
+version: ${chance_config_version}
 # Following are chance percent settings for each mob and variants of mobs.
 # Hieronder volgen instellingen voor het toevalspercentage voor elke mob en varianten van mobs.
 # Voici les paramÃ¨tres de pourcentage de chance pour chaque mob et les variantes de mobs.
