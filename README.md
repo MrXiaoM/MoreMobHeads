@@ -19,7 +19,12 @@ The old code has annoyed the developer(me) in my server. So we decide to drop or
 * Add MoreMobHeads as a module of the project.
 * Use `spigot-api` instead of `spigot`. NMS is not needed in fact.
 * Remove ALL languages because they are low-quality. (translated from *Machine*)
-* Add Simplified Chinese translation.
+* Add Simplified Chinese translation and set to default language.
+* Remove *old and deprecated* code.
+* Re-define translation system and configuration system. Fix `I18n` and `config reload` bugs.
+* Manage version numbers in just 1 file (`build.gradle`) for 3 configuration files (`config.yml`, `chance_config.yml`, `messages.yml`)
+* Disable `update checker` and `metrics` default.
+* Much more easier to contribute code to the plugin. No need to wait a **long time** to solve unnecessary dependencies.
 
 # Build
 
