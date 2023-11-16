@@ -82,7 +82,7 @@ public class EventHandler_1_17 implements CommandExecutor, TabCompleter, Listene
         /* Set variables */
         mmh = plugin;
         mmh.log(Level.INFO, "Loading 1.17 EventHandler...");
-        mmh.getCommand("mmh").setExecutor(this);
+        mmh.getCommand("moremobheads").setExecutor(this);
         onReload();
     }
 

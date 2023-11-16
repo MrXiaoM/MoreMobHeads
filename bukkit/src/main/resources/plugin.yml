@@ -6,9 +6,11 @@ api-version: 1.13
 softdepend: [ SilenceMobs, PlaceholderAPI ]
 
 commands:
-  mmh:
+  moremobheads:
     description: Shows MoreMobHeads help.
     usage: /MMH
+    aliases:
+      - mmh
 
 permissions:
   moremobheads.players:
