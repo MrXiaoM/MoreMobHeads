@@ -35,12 +35,12 @@ console:
 #  #
 # set whether plugin gives vanilla heads or MoreMobHeads.
 vanilla_heads:
-  creeper: false
-  ender_dragon: false
+  creeper: true
+  ender_dragon: true
   piglin: false
-  skeleton: false
-  wither_skeleton: false
-  zombie: false
+  skeleton: true
+  wither_skeleton: true
+  zombie: true
 #  #
 # World settings
 world:
@@ -64,26 +64,26 @@ mob:
 #  #
 lore:
   # set whether Killed by is added to lore.
-  show_killer: true
+  show_killer: false
   # set whether MoreMobHeads is added to lore.
-  show_plugin_name: true
+  show_plugin_name: false
 #  #
 wandering_trades:
   # set whether wandering traders trade heads.
-  custom_wandering_trader: true
+  custom_wandering_trader: false
   # should wandering traders keep their default trades?
   keep_default_trades: true
   # Player heads settings
   player_heads:
     # set if player heads from wandering traders should be enabled
-    enabled: true
+    enabled: false
     # set the minimum and maximum number of player heads the wandering trader will have. default=0,3
     min: 0
     max: 3
   # Block heads settings
   block_heads:
     # set if block heads from wandering traders should be enabled
-    enabled: true
+    enabled: false
     # set the minimum and maximum number of block heads the wandering trader will have. default=0,5
     # For 1.14-1.15 blocks
     pre_116:
