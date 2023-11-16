@@ -484,7 +484,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                     if (mmh.getConfig().getBoolean("lore.show_killer", true)) {
                         // lore.add(ChatColor.RESET + "Killed by " + ChatColor.RESET + ChatColor.YELLOW
                         // + entity.getKiller().getDisplayName() );
-                        lore.add(ChatColor.RESET + "" + ChatColorUtils.setColors(mmh.langName.getString("killedby", "<RED>Killed <RESET>By <YELLOW><player>").replace("<player>",
+                        lore.add(ChatColor.RESET + "" + ChatColorUtils.setColors(mmh.mobNames.getString("killedby", "<RED>Killed <RESET>By <YELLOW><player>").replace("<player>",
                                 "" + entity.getKiller().getDisplayName())));
                     }
                     if (mmh.getConfig().getBoolean("lore.show_plugin_name", true)) {
@@ -630,7 +630,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                         && (!name.equals("CREEPER_CHARGED"))) {
                                     Drops.add(new ItemStack(Material.CREEPER_HEAD));
                                 } else { // mmh.langName
-                                    Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name).getTexture(), mmh.langName.getString(name.toLowerCase(),
+                                    Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name).getTexture(), mmh.mobNames.getString(name.toLowerCase(),
                                             MobHeads.valueOf(name).getName() + " Head"), entity.getKiller()), entity));
                                 } // MobHeads.valueOf(name).getName() + " Head"
                                 if (debug) {
@@ -641,7 +641,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                     mmh.logDebug("EDE Creeper Head Dropped");
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
-                                    announceBeheading(entity, mmh.langName.getString(name.toLowerCase(), MobHeads.valueOf(name).getName() + "").replace(" Head", ""),
+                                    announceBeheading(entity, mmh.mobNames.getString(name.toLowerCase(), MobHeads.valueOf(name).getName() + "").replace(" Head", ""),
                                             entity.getKiller(), mmh.getConfig().getBoolean("announce.mobs.displayname", true));
                                 }
                             }
@@ -654,14 +654,14 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                 if (mmh.getConfig().getBoolean("vanilla_heads.ender_dragon", false)) {
                                     Drops.add(new ItemStack(Material.DRAGON_HEAD));
                                 } else {
-                                    Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name).getTexture(), mmh.langName.getString(name.toLowerCase()
+                                    Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name).getTexture(), mmh.mobNames.getString(name.toLowerCase()
                                             , MobHeads.valueOf(name).getName() + " Head"), entity.getKiller()), entity));
                                 }
                                 if (debug) {
                                     mmh.logDebug("EDE Ender Dragon Head Dropped");
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
-                                    announceBeheading(entity, mmh.langName.getString(name.toLowerCase(), MobHeads.valueOf(name).getName() + "").replace(" Head", "")
+                                    announceBeheading(entity, mmh.mobNames.getString(name.toLowerCase(), MobHeads.valueOf(name).getName() + "").replace(" Head", "")
                                             , entity.getKiller(), mmh.getConfig().getBoolean("announce.mobs.displayname", true));
                                 }
                             }
@@ -674,7 +674,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                 } else {
                                     Drops.add(MoreMobHeadsLib
                                             .addSound(mmh.makeSkull(MobHeads.valueOf(name).getTexture(),
-                                                    mmh.langName.getString(name.toLowerCase(),
+                                                    mmh.mobNames.getString(name.toLowerCase(),
                                                             MobHeads.valueOf(name).getName() + " Head"),
                                                     entity.getKiller()), entity));
                                 }
@@ -682,7 +682,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                     mmh.logDebug("EDE Ender Dragon Head Dropped");
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
-                                    announceBeheading(entity, mmh.langName.getString(name.toLowerCase(), MobHeads.valueOf(name).getName() + "")
+                                    announceBeheading(entity, mmh.mobNames.getString(name.toLowerCase(), MobHeads.valueOf(name).getName() + "")
                                             .replace(" Head", ""), entity.getKiller(), mmh.getConfig().getBoolean("announce.mobs.displayname", true));
                                 }
                             }
@@ -694,7 +694,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                 if (mmh.getConfig().getBoolean("vanilla_heads.skeleton", false)) {
                                     Drops.add(new ItemStack(Material.SKELETON_SKULL));
                                 } else {
-                                    Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name).getTexture(), mmh.langName.getString(name.toLowerCase()
+                                    Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name).getTexture(), mmh.mobNames.getString(name.toLowerCase()
                                             , MobHeads.valueOf(name).getName() + " Head"), entity.getKiller()), entity));
                                 }
                                 if (debug) {
@@ -705,7 +705,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                     mmh.logDebug("EDE Skeleton Head Dropped");
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
-                                    announceBeheading(entity, mmh.langName.getString(name.toLowerCase(), MobHeads.valueOf(name).getName() + "")
+                                    announceBeheading(entity, mmh.mobNames.getString(name.toLowerCase(), MobHeads.valueOf(name).getName() + "")
                                             .replace(" Head", ""), entity.getKiller(), mmh.getConfig().getBoolean("announce.mobs.displayname", true));
                                 }
                             }
@@ -718,14 +718,14 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                 if (mmh.getConfig().getBoolean("vanilla_heads.wither_skeleton", false)) {
                                     Drops.add(new ItemStack(Material.WITHER_SKELETON_SKULL));
                                 } else {
-                                    Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name).getTexture(), mmh.langName.getString(name.toLowerCase()
+                                    Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name).getTexture(), mmh.mobNames.getString(name.toLowerCase()
                                             , MobHeads.valueOf(name).getName() + " Head"), entity.getKiller()), entity));
                                 }
                                 if (debug) {
                                     mmh.logDebug("EDE Wither Skeleton Head Dropped");
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
-                                    announceBeheading(entity, mmh.langName.getString(name.toLowerCase(), MobHeads.valueOf(name).getName() + "")
+                                    announceBeheading(entity, mmh.mobNames.getString(name.toLowerCase(), MobHeads.valueOf(name).getName() + "")
                                             .replace(" Head", ""), entity.getKiller(), mmh.getConfig().getBoolean("announce.mobs.displayname", true));
                                 }
                             }
@@ -738,7 +738,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                 } else {
 
                                     Drops.add(MoreMobHeadsLib
-                                            .addSound(mmh.makeSkull(MobHeads.valueOf(name).getTexture(), mmh.langName.getString(name.toLowerCase(),
+                                            .addSound(mmh.makeSkull(MobHeads.valueOf(name).getTexture(), mmh.mobNames.getString(name.toLowerCase(),
                                                     MobHeads.valueOf(name).getName() + " Head"), entity.getKiller()), entity));
                                     /*
                                       entity.getWorld().dropItemNaturally(entity.getLocation(),
@@ -754,7 +754,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                     mmh.logDebug("EDE Zombie Head Dropped");
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
-                                    announceBeheading(entity, mmh.langName.getString(name.toLowerCase(), MobHeads.valueOf(name).getName() + "")
+                                    announceBeheading(entity, mmh.mobNames.getString(name.toLowerCase(), MobHeads.valueOf(name).getName() + "")
                                             .replace(" Head", ""), entity.getKiller(), mmh.getConfig().getBoolean("announce.mobs.displayname", true));
                                 }
                             }
@@ -771,13 +771,13 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                             log("daFishName: " + daFishName);
                             if (mmh.DropIt(event, ConfigHelper.Double(chanceConfig, "chance_percent.tropical_fish." + daFishName.toLowerCase(), defpercent))) {
                                 Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(TropicalFishHeads.valueOf(name + "_" + daFishName).getTexture()
-                                        , mmh.langName.getString(name.toLowerCase() + "." + daFishName.toLowerCase(), TropicalFishHeads.valueOf(name + "_" + daFishName).getName() + " Head")
+                                        , mmh.mobNames.getString(name.toLowerCase() + "." + daFishName.toLowerCase(), TropicalFishHeads.valueOf(name + "_" + daFishName).getName() + " Head")
                                         , entity.getKiller()), entity));
                                 if (debug) {
                                     mmh.logDebug("EDE TROPICAL_FISH:" + daFishName + " head dropped");
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
-                                    announceBeheading(entity, mmh.langName.getString(name.toLowerCase() + "." + daFishName.toLowerCase(), TropicalFishHeads.valueOf(name + "_" + daFishName).getName() + "")
+                                    announceBeheading(entity, mmh.mobNames.getString(name.toLowerCase() + "." + daFishName.toLowerCase(), TropicalFishHeads.valueOf(name + "_" + daFishName).getName() + "")
                                             .replace(" Head", ""), entity.getKiller(), mmh.getConfig().getBoolean("announce.mobs.displayname", true));
                                 }
                             }
@@ -785,18 +785,18 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                         case "WITHER":
                             if (mmh.DropIt(event, ConfigHelper.Double(chanceConfig, "chance_percent." + name.toLowerCase(), defpercent))) {
                                 String name2 = name + "_NORMAL";
-                                Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name2).getTexture(), mmh.langName.getString(name2.toLowerCase().replace("_", ".")
+                                Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name2).getTexture(), mmh.mobNames.getString(name2.toLowerCase().replace("_", ".")
                                         , MobHeads.valueOf(name2).getName() + " Head"), entity.getKiller()), entity));
                                 if (debug) {
                                     mmh.logDebug("EDE " + name2 + " Head Dropped");
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
-                                    announceBeheading(entity, mmh.langName.getString(name2.toLowerCase().replace("_", ".")
+                                    announceBeheading(entity, mmh.mobNames.getString(name2.toLowerCase().replace("_", ".")
                                             , MobHeads.valueOf(name2).getName() + "").replace(" Head", ""), entity.getKiller(), mmh.getConfig().getBoolean("announce.mobs.displayname", true));
                                 }
                                 if (coinFlip()) {
                                     name2 = name + "_PROJECTILE";
-                                    Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name2).getTexture(), mmh.langName.getString(name2.toLowerCase()
+                                    Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name2).getTexture(), mmh.mobNames.getString(name2.toLowerCase()
                                             .replace("_", "."), event.getEntity().getName() + " Head"), entity.getKiller()), entity));
                                     if (debug) {
                                         mmh.logDebug("EDE " + name2 + " Head Dropped");
@@ -804,7 +804,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                 }
                                 if (coinFlip()) {
                                     name2 = name + "_BLUE_PROJECTILE";
-                                    Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name2).getTexture(), mmh.langName.getString(name2.toLowerCase()
+                                    Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name2).getTexture(), mmh.mobNames.getString(name2.toLowerCase()
                                             .replaceFirst("_", "."), event.getEntity().getName() + " Head"), entity.getKiller()), entity));
                                     if (debug) {
                                         mmh.logDebug("EDE " + name2 + " Head Dropped");
@@ -819,23 +819,23 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                             if (mmh.DropIt(event, ConfigHelper.Double(chanceConfig, "chance_percent." + name.toLowerCase(),
                                     defpercent))) {
                                 if (wolf.isAngry()) {
-                                    Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name + "_ANGRY").getTexture(), mmh.langName.getString(name.toLowerCase() + "_angry"
+                                    Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name + "_ANGRY").getTexture(), mmh.mobNames.getString(name.toLowerCase() + "_angry"
                                             , MobHeads.valueOf(name + "_ANGRY").getName() + " Head"), entity.getKiller()), entity));
                                     if (debug) {
                                         mmh.logDebug("EDE Angry Wolf Head Dropped");
                                     }
                                     if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
-                                        announceBeheading(entity, mmh.langName.getString(name.toLowerCase() + "_angry", MobHeads.valueOf(name + "_ANGRY").getName() + "")
+                                        announceBeheading(entity, mmh.mobNames.getString(name.toLowerCase() + "_angry", MobHeads.valueOf(name + "_ANGRY").getName() + "")
                                                 .replace(" Head", ""), entity.getKiller(), mmh.getConfig().getBoolean("announce.mobs.displayname", true));
                                     }
                                 } else {
-                                    Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name).getTexture(), mmh.langName.getString(name.toLowerCase()
+                                    Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name).getTexture(), mmh.mobNames.getString(name.toLowerCase()
                                             , event.getEntity().getName() + " Head"), entity.getKiller()), entity));
                                     if (debug) {
                                         mmh.logDebug("EDE Wolf Head Dropped");
                                     }
                                     if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
-                                        announceBeheading(entity, mmh.langName.getString(name.toLowerCase(), MobHeads.valueOf(name).getName() + "")
+                                        announceBeheading(entity, mmh.mobNames.getString(name.toLowerCase(), MobHeads.valueOf(name).getName() + "")
                                                 .replace(" Head", ""), entity.getKiller(), mmh.getConfig().getBoolean("announce.mobs.displayname", true));
                                     }
                                 }
@@ -852,13 +852,13 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                             if (mmh.DropIt(event, ConfigHelper.Double(chanceConfig,
                                     "chance_percent.fox." + dafoxtype.toLowerCase(), defpercent))) {
                                 Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name + "_" + dafoxtype).getTexture()
-                                        , mmh.langName.getString(name.toLowerCase() + "." + dafoxtype.toLowerCase(), MobHeads.valueOf(name + "_" + dafoxtype).getName() + " Head"), entity.getKiller()), entity));
+                                        , mmh.mobNames.getString(name.toLowerCase() + "." + dafoxtype.toLowerCase(), MobHeads.valueOf(name + "_" + dafoxtype).getName() + " Head"), entity.getKiller()), entity));
                                 if (debug) {
                                     mmh.logDebug("EDE Fox Head Dropped");
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
                                     announceBeheading(entity,
-                                            mmh.langName
+                                            mmh.mobNames
                                                     .getString(name.toLowerCase() + "." + dafoxtype.toLowerCase(),
                                                             MobHeads.valueOf(name + "_" + dafoxtype).getName() + "")
                                                     .replace(" Head", ""),
@@ -880,7 +880,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                     "chance_percent.cat." + dacattype.toLowerCase(), defpercent))) {
                                 Drops.add(MoreMobHeadsLib
                                         .addSound(mmh.makeSkull(CatHeads.valueOf(dacattype).getTexture(),
-                                                mmh.langName.getString(name.toLowerCase() + "." + dacattype.toLowerCase(),
+                                                mmh.mobNames.getString(name.toLowerCase() + "." + dacattype.toLowerCase(),
                                                         CatHeads.valueOf(dacattype).getName() + " Head"),
                                                 entity.getKiller()), entity));
                                 if (debug) {
@@ -888,7 +888,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
                                     announceBeheading(entity,
-                                            mmh.langName
+                                            mmh.mobNames
                                                     .getString(name.toLowerCase() + "." + dacattype.toLowerCase(),
                                                             CatHeads.valueOf(dacattype).getName() + "")
                                                     .replace(" Head", ""),
@@ -904,7 +904,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                     defpercent))) {
                                 Drops.add(MoreMobHeadsLib.addSound(
                                         mmh.makeSkull(MobHeads.valueOf(name).getTexture(),
-                                                mmh.langName.getString(MobHeads.valueOf(name).getNameString(),
+                                                mmh.mobNames.getString(MobHeads.valueOf(name).getNameString(),
                                                         MobHeads.valueOf(name).getName() + " Head"),
                                                 entity.getKiller()),
                                         entity));
@@ -913,7 +913,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
                                     announceBeheading(entity,
-                                            mmh.langName.getString(MobHeads.valueOf(name).getNameString(),
+                                            mmh.mobNames.getString(MobHeads.valueOf(name).getNameString(),
                                                     MobHeads.valueOf(name).getName() + "").replace(" Head", ""),
                                             entity.getKiller(),
                                             mmh.getConfig().getBoolean("announce.mobs.displayname", true));
@@ -943,7 +943,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                             MoreMobHeadsLib.addSound(
                                                     mmh.makeSkull(
                                                             MobHeads.valueOf("BEE_ANGRY_POLLINATED").getTexture(),
-                                                            mmh.langName.getString(name.toLowerCase() + ".angry_pollinated",
+                                                            mmh.mobNames.getString(name.toLowerCase() + ".angry_pollinated",
                                                                     "Angry Pollinated Bee Head"),
                                                             entity.getKiller()),
                                                     entity));
@@ -952,7 +952,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                     }
                                     if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
                                         announceBeheading(entity,
-                                                mmh.langName
+                                                mmh.mobNames
                                                         .getString(name.toLowerCase() + ".angry_pollinated",
                                                                 MobHeads.valueOf("BEE_ANGRY_POLLINATED").getName() + "")
                                                         .replace(" Head", ""),
@@ -969,7 +969,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                                     .addSound(
                                                             mmh.makeSkull(
                                                                     MobHeads.valueOf("BEE_ANGRY").getTexture(),
-                                                                    mmh.langName.getString(name.toLowerCase() + ".angry",
+                                                                    mmh.mobNames.getString(name.toLowerCase() + ".angry",
                                                                             "Angry Bee Head"),
                                                                     entity.getKiller()),
                                                             entity));
@@ -978,7 +978,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                     }
                                     if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
                                         announceBeheading(entity,
-                                                mmh.langName
+                                                mmh.mobNames
                                                         .getString(name.toLowerCase() + ".angry",
                                                                 MobHeads.valueOf("BEE_ANGRY").getName() + "")
                                                         .replace(" Head", ""),
@@ -992,7 +992,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                 if (mmh.DropIt(event,
                                         ConfigHelper.Double(chanceConfig, "chance_percent.bee.pollinated", defpercent))) {
                                     Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(
-                                            MobHeads.valueOf("BEE_POLLINATED").getTexture(), mmh.langName
+                                            MobHeads.valueOf("BEE_POLLINATED").getTexture(), mmh.mobNames
                                                     .getString(name.toLowerCase() + ".pollinated", "Pollinated Bee Head"),
                                             entity.getKiller()), entity));
                                     if (debug) {
@@ -1000,7 +1000,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                     }
                                     if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
                                         announceBeheading(entity,
-                                                mmh.langName
+                                                mmh.mobNames
                                                         .getString(name.toLowerCase() + ".pollinated",
                                                                 MobHeads.valueOf("BEE_POLLINATED").getName() + "")
                                                         .replace(" Head", ""),
@@ -1015,14 +1015,14 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                         defpercent))) {
                                     Drops.add(MoreMobHeadsLib
                                             .addSound(mmh.makeSkull(MobHeads.valueOf("BEE").getTexture(),
-                                                    mmh.langName.getString(name.toLowerCase() + ".none", "Bee Head"),
+                                                    mmh.mobNames.getString(name.toLowerCase() + ".none", "Bee Head"),
                                                     entity.getKiller()), entity));
                                     if (debug) {
                                         mmh.logDebug("EDE Bee Head Dropped");
                                     }
                                     if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
                                         announceBeheading(entity,
-                                                mmh.langName
+                                                mmh.mobNames
                                                         .getString(name.toLowerCase() + ".none",
                                                                 MobHeads.valueOf("BEE").getName() + "")
                                                         .replace(" Head", ""),
@@ -1050,7 +1050,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                     "chance_percent.llama." + daLlamaColor.toLowerCase(), defpercent))) {
                                 Drops.add(MoreMobHeadsLib.addSound(
                                         mmh.makeSkull(LlamaHeads.valueOf(name + "_" + daLlamaColor).getTexture(),
-                                                mmh.langName.getString(
+                                                mmh.mobNames.getString(
                                                         name.toLowerCase() + "." + daLlamaColor.toLowerCase(), daLlamaName),
                                                 entity.getKiller()),
                                         entity));
@@ -1059,7 +1059,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
                                     announceBeheading(entity,
-                                            mmh.langName
+                                            mmh.mobNames
                                                     .getString(name.toLowerCase() + "." + daLlamaColor.toLowerCase(),
                                                             LlamaHeads.valueOf(name + "_" + daLlamaColor).getName() + "")
                                                     .replace(" Head", ""),
@@ -1083,7 +1083,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                     "chance_percent.horse." + daHorseColor.toLowerCase(), defpercent))) {
                                 Drops.add(MoreMobHeadsLib.addSound(
                                         mmh.makeSkull(HorseHeads.valueOf(name + "_" + daHorseColor).getTexture(),
-                                                mmh.langName.getString(
+                                                mmh.mobNames.getString(
                                                         name.toLowerCase() + "." + daHorseColor.toLowerCase(), daHorseName),
                                                 entity.getKiller()),
                                         entity));
@@ -1092,7 +1092,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
                                     announceBeheading(entity,
-                                            mmh.langName
+                                            mmh.mobNames
                                                     .getString(name.toLowerCase() + "." + daHorseColor.toLowerCase(),
                                                             HorseHeads.valueOf(name + "_" + daHorseColor).getName() + "")
                                                     .replace(" Head", ""),
@@ -1117,7 +1117,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                     "chance_percent.mushroom_cow." + daCowVariant.toLowerCase(), defpercent))) {
                                 Drops.add(MoreMobHeadsLib.addSound(
                                         mmh.makeSkull(MobHeads.valueOf(name + "_" + daCowVariant).getTexture(),
-                                                mmh.langName.getString(
+                                                mmh.mobNames.getString(
                                                         name.toLowerCase() + "." + daCowVariant.toLowerCase(), daCowName),
                                                 entity.getKiller()),
                                         entity));
@@ -1126,7 +1126,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
                                     announceBeheading(entity,
-                                            mmh.langName
+                                            mmh.mobNames
                                                     .getString(name.toLowerCase() + "." + daCowVariant.toLowerCase(),
                                                             MobHeads.valueOf(name + "_" + daCowVariant).getName() + "")
                                                     .replace(" Head", ""),
@@ -1153,7 +1153,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                     "chance_percent.panda." + daPandaGene.toLowerCase(), defpercent))) {
                                 Drops.add(MoreMobHeadsLib.addSound(
                                         mmh.makeSkull(MobHeads.valueOf(name + "_" + daPandaGene).getTexture(),
-                                                mmh.langName.getString(name.toLowerCase() + "." + daPandaGene.toLowerCase(),
+                                                mmh.mobNames.getString(name.toLowerCase() + "." + daPandaGene.toLowerCase(),
                                                         daPandaName),
                                                 entity.getKiller()),
                                         entity));
@@ -1162,7 +1162,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
                                     announceBeheading(entity,
-                                            mmh.langName
+                                            mmh.mobNames
                                                     .getString(name.toLowerCase() + "." + daPandaGene.toLowerCase(),
                                                             MobHeads.valueOf(name + "_" + daPandaGene).getName() + "")
                                                     .replace(" Head", ""),
@@ -1185,7 +1185,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                     "chance_percent.parrot." + daParrotVariant.toLowerCase(), defpercent))) {
                                 Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(
                                         MobHeads.valueOf(name + "_" + daParrotVariant).getTexture(),
-                                        mmh.langName.getString(name.toLowerCase() + "." + daParrotVariant.toLowerCase(),
+                                        mmh.mobNames.getString(name.toLowerCase() + "." + daParrotVariant.toLowerCase(),
                                                 daParrotName),
                                         entity.getKiller()), entity));
                                 if (debug) {
@@ -1193,7 +1193,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
                                     announceBeheading(entity,
-                                            mmh.langName
+                                            mmh.mobNames
                                                     .getString(name.toLowerCase() + "." + daParrotVariant.toLowerCase(),
                                                             MobHeads.valueOf(name + "_" + daParrotVariant).getName() + "")
                                                     .replace(" Head", ""),
@@ -1221,7 +1221,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                     "chance_percent.rabbit." + daRabbitType.toLowerCase(), defpercent))) {
                                 Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(
                                         RabbitHeads.valueOf(name + "_" + daRabbitType).getTexture(),
-                                        mmh.langName.getString(name.toLowerCase() + "." + daRabbitType.toLowerCase(),
+                                        mmh.mobNames.getString(name.toLowerCase() + "." + daRabbitType.toLowerCase(),
                                                 daRabbitName),
                                         entity.getKiller()), entity));
                                 if (debug) {
@@ -1229,7 +1229,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
                                     announceBeheading(entity,
-                                            mmh.langName
+                                            mmh.mobNames
                                                     .getString(name.toLowerCase() + "." + daRabbitType.toLowerCase(),
                                                             RabbitHeads.valueOf(name + "_" + daRabbitType).getName() + "")
                                                     .replace(" Head", ""),
@@ -1271,7 +1271,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                                         mmh.makeSkull(
                                                                 VillagerHeads.valueOf(name + "_" + daVillagerProfession
                                                                         + "_" + daVillagerType).getTexture(),
-                                                                mmh.langName
+                                                                mmh.mobNames
                                                                         .getString(
                                                                                 name.toLowerCase() + "."
                                                                                         + daVillagerType.toLowerCase() + "."
@@ -1284,7 +1284,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                     mmh.logDebug("EDE Villager Head Dropped");
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
-                                    announceBeheading(entity, mmh.langName.getString(
+                                    announceBeheading(entity, mmh.mobNames.getString(
                                                             name.toLowerCase() + "." + daVillagerType.toLowerCase() + "."
                                                                     + daVillagerProfession.toLowerCase(),
                                                             VillagerHeads.valueOf(name + "_" + daVillagerProfession + "_" + daVillagerType)
@@ -1313,7 +1313,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                                                 ZombieVillagerHeads
                                                                         .valueOf(name + "_" + daZombieVillagerProfession)
                                                                         .getTexture(),
-                                                                mmh.langName
+                                                                mmh.mobNames
                                                                         .getString(
                                                                                 name.toLowerCase() + "."
                                                                                         + daZombieVillagerProfession
@@ -1326,7 +1326,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
                                     announceBeheading(entity,
-                                            mmh.langName.getString(
+                                            mmh.mobNames.getString(
                                                             name.toLowerCase() + "." + daZombieVillagerProfession.toLowerCase(),
                                                             ZombieVillagerHeads.valueOf(name + "_" + daZombieVillagerProfession)
                                                                     .getName() + "")
@@ -1358,7 +1358,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                     "chance_percent.sheep." + daSheepColor.toLowerCase(), defpercent))) {
                                 Drops.add(MoreMobHeadsLib.addSound(
                                         mmh.makeSkull(SheepHeads.valueOf(name + "_" + daSheepColor).getTexture(),
-                                                mmh.langName.getString(
+                                                mmh.mobNames.getString(
                                                         name.toLowerCase() + "." + daSheepColor.toLowerCase(), daSheepName),
                                                 entity.getKiller()),
                                         entity));
@@ -1367,7 +1367,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
                                     announceBeheading(entity,
-                                            mmh.langName
+                                            mmh.mobNames
                                                     .getString(name.toLowerCase() + "." + daSheepColor.toLowerCase(),
                                                             SheepHeads.valueOf(name + "_" + daSheepColor).getName() + "")
                                                     .replace(" Head", ""),
@@ -1390,14 +1390,14 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                     "chance_percent.trader_llama." + daTraderLlamaColor.toLowerCase(), defpercent))) {
                                 Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(
                                         LlamaHeads.valueOf(name + "_" + daTraderLlamaColor).getTexture(),
-                                        mmh.langName.getString(name.toLowerCase() + "." + daTraderLlamaColor.toLowerCase(),
+                                        mmh.mobNames.getString(name.toLowerCase() + "." + daTraderLlamaColor.toLowerCase(),
                                                 daTraderLlamaName),
                                         entity.getKiller()), entity));
                                 if (debug) {
                                     mmh.logDebug("EDE Trader Llama Head Dropped");
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
-                                    announceBeheading(entity, mmh.langName
+                                    announceBeheading(entity, mmh.mobNames
                                                     .getString(name.toLowerCase() + "." + daTraderLlamaColor.toLowerCase(),
                                                             LlamaHeads.valueOf(name + "_" + daTraderLlamaColor).getName() + "")
                                                     .replace(" Head", ""), entity.getKiller(),
@@ -1418,14 +1418,14 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                     "chance_percent.axolotl." + daAxolotlVariant.toLowerCase(), defpercent))) {
                                 Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(
                                         MobHeads117.valueOf(name + "_" + daAxolotlVariant).getTexture(),
-                                        mmh.langName.getString(name.toLowerCase() + "." + daAxolotlVariant.toLowerCase(),
+                                        mmh.mobNames.getString(name.toLowerCase() + "." + daAxolotlVariant.toLowerCase(),
                                                 daAxolotlName),
                                         entity.getKiller()), entity));
                                 if (debug) {
                                     mmh.logDebug("EDE Axolotl Head Dropped");
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
-                                    announceBeheading(entity, mmh.langName
+                                    announceBeheading(entity, mmh.mobNames
                                                     .getString(name.toLowerCase() + "." + daAxolotlVariant.toLowerCase(),
                                                             MobHeads117.valueOf(name + "_" + daAxolotlVariant).getName() + "")
                                                     .replace(" Head", ""), entity.getKiller(),
@@ -1455,7 +1455,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                     "chance_percent.goat." + daGoatVariant.toLowerCase(), defpercent))) {
                                 Drops.add(MoreMobHeadsLib.addSound(mmh
                                                 .makeSkull(MobHeads117.valueOf(name + "_" + daGoatVariant).getTexture(),
-                                                        mmh.langName.getString(
+                                                        mmh.mobNames.getString(
                                                                 name.toLowerCase() + "." + daGoatVariant.toLowerCase(), daGoatName),
                                                         entity.getKiller()),
                                         entity));
@@ -1464,7 +1464,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
                                     announceBeheading(entity,
-                                            mmh.langName
+                                            mmh.mobNames
                                                     .getString(name.toLowerCase() + "." + daGoatVariant.toLowerCase(),
                                                             MobHeads117.valueOf(name + "_" + daGoatVariant).getName() + "")
                                                     .replace(" Head", ""),
@@ -1484,12 +1484,12 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                 // "chance_percent." + name.toLowerCase(),
                                 // defpercent)
                                 if (mmh.DropIt(event, ConfigHelper.Double(chanceConfig, "chance_percent." + name.toLowerCase(), defpercent))) {
-                                    Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name).getTexture(), mmh.langName.getString(name.toLowerCase() + "_shivering", "Shivering " + event.getEntity().getName() + " Head"), entity.getKiller()), entity));
+                                    Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name).getTexture(), mmh.mobNames.getString(name.toLowerCase() + "_shivering", "Shivering " + event.getEntity().getName() + " Head"), entity.getKiller()), entity));
                                     if (debug) {
                                         mmh.logDebug("EDE " + name + " Head Dropped");
                                     }
                                     if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
-                                        announceBeheading(entity, mmh.langName.getString(name.toLowerCase(), MobHeads.valueOf(name).getName() + "").replace(" Head", ""), entity.getKiller(),
+                                        announceBeheading(entity, mmh.mobNames.getString(name.toLowerCase(), MobHeads.valueOf(name).getName() + "").replace(" Head", ""), entity.getKiller(),
                                                 mmh.getConfig().getBoolean("announce.mobs.displayname", true));
                                     }
                                 }
@@ -1497,13 +1497,13 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                 // "chance_percent." + name.toLowerCase(),
                                 // defpercent)
                                 if (mmh.DropIt(event, ConfigHelper.Double(chanceConfig, "chance_percent." + name.toLowerCase(), defpercent))) {
-                                    Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name).getTexture(), mmh.langName.getString(name.toLowerCase(),
+                                    Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name).getTexture(), mmh.mobNames.getString(name.toLowerCase(),
                                             event.getEntity().getName() + " Head"), entity.getKiller()), entity));
                                     if (debug) {
                                         mmh.logDebug("EDE " + name + " Head Dropped");
                                     }
                                     if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
-                                        announceBeheading(entity, mmh.langName.getString(name.toLowerCase(), MobHeads.valueOf(name).getName() + "").replace(" Head", ""), entity.getKiller(), mmh.getConfig().getBoolean("announce.mobs.displayname", true));
+                                        announceBeheading(entity, mmh.mobNames.getString(name.toLowerCase(), MobHeads.valueOf(name).getName() + "").replace(" Head", ""), entity.getKiller(), mmh.getConfig().getBoolean("announce.mobs.displayname", true));
                                     }
                                 }
 
@@ -1519,13 +1519,13 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                             // ConfigHelper.Double(chanceConfig, "chance_percent." + frogName.replace("_",
                             // ".").toLowerCase(), defpercent)
                             if (mmh.DropIt(event, ConfigHelper.Double(chanceConfig, "chance_percent." + frogName.replace("_", ".").toLowerCase(), defpercent))) {
-                                Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads119.valueOf(frogName).getTexture(), mmh.langName.getString(frogName.replace("_", ".").toLowerCase(),
+                                Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads119.valueOf(frogName).getTexture(), mmh.mobNames.getString(frogName.replace("_", ".").toLowerCase(),
                                         daFrogName), entity.getKiller()), entity));
                                 if (debug) {
                                     mmh.logDebug("EDE Frog Head Dropped");
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
-                                    announceBeheading(entity, mmh.langName.getString(frogName.replace("_", ".").toLowerCase(), MobHeads119.valueOf(frogName).getName() + "").replace(" Head", ""),
+                                    announceBeheading(entity, mmh.mobNames.getString(frogName.replace("_", ".").toLowerCase(), MobHeads119.valueOf(frogName).getName() + "").replace(" Head", ""),
                                             entity.getKiller(), mmh.getConfig().getBoolean("announce.mobs.displayname", true));
                                 }
                             }
@@ -1552,13 +1552,13 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                             // ConfigHelper.Double(chanceConfig, "chance_percent." + name.toLowerCase(),
                             // defpercent)
                             if (mmh.DropIt(event, ConfigHelper.Double(chanceConfig, "chance_percent." + name.toLowerCase(), defpercent))) {
-                                Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads119.valueOf(name).getTexture(), mmh.langName.getString(name.toLowerCase(),
+                                Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads119.valueOf(name).getTexture(), mmh.mobNames.getString(name.toLowerCase(),
                                         event.getEntity().getName() + " Head"), entity.getKiller()), entity));
                                 if (debug) {
                                     mmh.logDebug("EDE " + name + " Head Dropped");
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
-                                    announceBeheading(entity, mmh.langName.getString(name.toLowerCase(), MobHeads119.valueOf(name).getName() + "").replace(" Head", ""),
+                                    announceBeheading(entity, mmh.mobNames.getString(name.toLowerCase(), MobHeads119.valueOf(name).getName() + "").replace(" Head", ""),
                                             entity.getKiller(), mmh.getConfig().getBoolean("announce.mobs.displayname", true));
                                 }
                             }
@@ -1589,7 +1589,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                     defpercent))) {
                                 Drops.add(MoreMobHeadsLib.addSound(
                                         mmh.makeSkull(MobHeads120.valueOf(name).getTexture(),
-                                                mmh.langName.getString(name.toLowerCase(),
+                                                mmh.mobNames.getString(name.toLowerCase(),
                                                         event.getEntity().getName() + " Head"),
                                                 entity.getKiller()),
                                         entity));
@@ -1598,7 +1598,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
                                     announceBeheading(entity,
-                                            mmh.langName
+                                            mmh.mobNames
                                                     .getString(name.toLowerCase(), MobHeads120.valueOf(name).getName() + "")
                                                     .replace(" Head", ""),
                                             entity.getKiller(),
@@ -1628,19 +1628,19 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                             if (mmh.DropIt(event, ConfigHelper.Double(chanceConfig, "chance_percent." + name.toLowerCase(),
                                     defpercent))) {
                                 Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name).getTexture(),
-                                        mmh.langName.getString(name.toLowerCase(), event.getEntity().getName() + " Head"), entity.getKiller()), entity));
+                                        mmh.mobNames.getString(name.toLowerCase(), event.getEntity().getName() + " Head"), entity.getKiller()), entity));
                                 if (debug) {
                                     mmh.logDebug("EDE " + name + " Head Dropped");
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
-                                    announceBeheading(entity, mmh.langName.getString(name.toLowerCase(), MobHeads.valueOf(name).getName() + "").replace(" Head", ""),
+                                    announceBeheading(entity, mmh.mobNames.getString(name.toLowerCase(), MobHeads.valueOf(name).getName() + "").replace(" Head", ""),
                                             entity.getKiller(), mmh.getConfig().getBoolean("announce.mobs.displayname", true));
                                 }
                                 if (coinFlip()) {
                                     String name2 = name;
                                     name2 = name2 + "_ANGRY";
                                     Drops.add(MoreMobHeadsLib.addSound(mmh.makeSkull(MobHeads.valueOf(name2).getTexture(),
-                                            mmh.langName.getString(name2.toLowerCase(), event.getEntity().getName() + " Head"), entity.getKiller()), entity));
+                                            mmh.mobNames.getString(name2.toLowerCase(), event.getEntity().getName() + " Head"), entity.getKiller()), entity));
                                     if (debug) {
                                         mmh.logDebug("EDE " + name2 + " Head Dropped");
                                     }
@@ -1674,7 +1674,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                     defpercent))) {
                                 Drops.add(MoreMobHeadsLib.addSound(
                                         mmh.makeSkull(MobHeads.valueOf(name).getTexture(),
-                                                mmh.langName.getString(name.toLowerCase(),
+                                                mmh.mobNames.getString(name.toLowerCase(),
                                                         event.getEntity().getName() + " Head"),
                                                 entity.getKiller()),
                                         entity));
@@ -1683,7 +1683,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                 }
                                 if (mmh.getConfig().getBoolean("announce.mobs.enabled", true)) {
                                     announceBeheading(entity,
-                                            mmh.langName
+                                            mmh.mobNames
                                                     .getString(name.toLowerCase(), MobHeads.valueOf(name).getName() + "")
                                                     .replace(" Head", ""),
                                             entity.getKiller(),
@@ -2111,7 +2111,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                     sender.sendMessage(
                             "" + mmh.getName() + " " + mmh.getDescription().getVersion() + " display varss start");
                     sender.sendMessage("debug=" + debug);
-                    sender.sendMessage("daLang=" + mmh.daLang);
+                    sender.sendMessage("daLang=" + mmh.languageName);
 
                     world_whitelist = mmh.getConfig().getString("world.whitelist", "");
                     world_blacklist = mmh.getConfig().getString("world.blacklist", "");
@@ -3035,7 +3035,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                                     }
                                                     List<String> skullLore = skullname.getLore();
                                                     if (skullLore != null) {
-                                                        if (skullLore.toString().contains(ChatColorUtils.setColors(mmh.langName.getString("killedby", "<RED>Killed <RESET>By <YELLOW><player>")))) {
+                                                        if (skullLore.toString().contains(ChatColorUtils.setColors(mmh.mobNames.getString("killedby", "<RED>Killed <RESET>By <YELLOW><player>")))) {
                                                             lore.addAll(skullname.getLore());
                                                         }
                                                     }
@@ -3046,10 +3046,10 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                                         }
                                                     }
                                                     if (!daMobName.equals("null")) {
-                                                        daMobName = mmh.langName.getString(
+                                                        daMobName = mmh.mobNames.getString(
                                                                 daMobName.toLowerCase().replace(" ", "."), daMobName);
                                                     } else {
-                                                        daMobName = mmh.langName.getString(
+                                                        daMobName = mmh.mobNames.getString(
                                                                 daMobName.toLowerCase().replace(" ", "."),
                                                                 "404 Name Not Found");
                                                     }
@@ -3170,33 +3170,33 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                     case "creeper_charged":
                                         player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(
                                                 mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(),
-                                                        mmh.langName.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number), EntityType.CREEPER)
+                                                        mmh.mobNames.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number), EntityType.CREEPER)
                                         );
                                         break;
                                     case "creeper":
                                         if (mmh.getConfig().getBoolean("vanilla_heads.creeper", false)) {
                                             player.getWorld().dropItemNaturally(player.getLocation(), new ItemStack(Material.CREEPER_HEAD));
                                         } else { // mmh.langName
-                                            player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(), mmh.langName.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number), EntityType.CREEPER));
+                                            player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(), mmh.mobNames.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number), EntityType.CREEPER));
                                         } // MobHeads.valueOf(name).getName() + "
                                         // Head"
                                         break;
                                     case "mushroom_cow":
                                         player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(
                                                 mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(),
-                                                        mmh.langName.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName()), number), EntityType.MUSHROOM_COW));
+                                                        mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName()), number), EntityType.MUSHROOM_COW));
                                         break;
                                     case "strider_shivering":
                                         player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(
                                                 mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(),
-                                                        mmh.langName.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number), EntityType.STRIDER)
+                                                        mmh.mobNames.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number), EntityType.STRIDER)
                                         );
                                         break;
                                     case "zombie":
                                         if (mmh.getConfig().getBoolean("vanilla_heads.zombie", false)) {
                                             player.getWorld().dropItemNaturally(player.getLocation(), new ItemStack(Material.ZOMBIE_HEAD));
                                         } else { // mmh.langName
-                                            player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(), mmh.langName.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number), EntityType.ZOMBIE));
+                                            player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(), mmh.mobNames.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number), EntityType.ZOMBIE));
                                         } // MobHeads.valueOf(name).getName() + "
                                         // Head"
                                         break;
@@ -3205,7 +3205,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                         if (mmh.getConfig().getBoolean("vanilla_heads.piglin", false)) {
                                             player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.getVanilla(EntityType.fromName("PIGLIN")));
                                         } else { // mmh.langName
-                                            player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(), mmh.langName.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number), EntityType.PIGLIN));
+                                            player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(), mmh.mobNames.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number), EntityType.PIGLIN));
                                         } // MobHeads.valueOf(name).getName() + "
                                         // Head"
                                         break;
@@ -3213,7 +3213,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                         if (mmh.getConfig().getBoolean("vanilla_heads.skeleton", false)) {
                                             player.getWorld().dropItemNaturally(player.getLocation(), new ItemStack(Material.SKELETON_SKULL));
                                         } else { // mmh.langName
-                                            player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(), mmh.langName.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number), EntityType.SKELETON));
+                                            player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(), mmh.mobNames.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number), EntityType.SKELETON));
                                         } // MobHeads.valueOf(name).getName() + "
                                         // Head"
                                         break;
@@ -3221,7 +3221,7 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                         if (mmh.getConfig().getBoolean("vanilla_heads.wither_skeleton", false)) {
                                             player.getWorld().dropItemNaturally(player.getLocation(), new ItemStack(Material.WITHER_SKELETON_SKULL));
                                         } else { // mmh.langName
-                                            player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(), mmh.langName.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number), EntityType.WITHER_SKELETON));
+                                            player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(), mmh.mobNames.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number), EntityType.WITHER_SKELETON));
                                         } // MobHeads.valueOf(name).getName() + "
                                         // Head"
                                         break;
@@ -3229,47 +3229,47 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                         if (mmh.getConfig().getBoolean("vanilla_heads.ender_dragon", false)) {
                                             player.getWorld().dropItemNaturally(player.getLocation(), new ItemStack(Material.DRAGON_HEAD));
                                         } else { // mmh.langName
-                                            player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(), mmh.langName.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number), EntityType.ENDER_DRAGON));
+                                            player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(), mmh.mobNames.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number), EntityType.ENDER_DRAGON));
                                         } // MobHeads.valueOf(name).getName() + "
                                         // Head"
                                         break;
                                     case "cat":
-                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(CatHeads.valueOf(splitmob[1].toUpperCase()).getTexture(), mmh.langName.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), CatHeads.valueOf(splitmob[1].toUpperCase()).getName() + " Head"), number), EntityType.CAT));
+                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(CatHeads.valueOf(splitmob[1].toUpperCase()).getTexture(), mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), CatHeads.valueOf(splitmob[1].toUpperCase()).getName() + " Head"), number), EntityType.CAT));
                                         break;
                                     case "bee":
                                         log("splitmob.length=" + splitmob.length);
                                         if (splitmob.length == 1) {
-                                            player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(), mmh.langName.getString(splitmob[0].toLowerCase() + ".none", MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number), EntityType.BEE));
+                                            player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(), mmh.mobNames.getString(splitmob[0].toLowerCase() + ".none", MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number), EntityType.BEE));
                                         } else {
-                                            player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads.valueOf(mob.toUpperCase().replace(".", "_")).getTexture(), mmh.langName.getString(mob.toLowerCase().replace(".", "_"), MobHeads.valueOf(mob.toUpperCase().replace(".", "_")).getName() + " Head"), number), EntityType.BEE));
+                                            player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads.valueOf(mob.toUpperCase().replace(".", "_")).getTexture(), mmh.mobNames.getString(mob.toLowerCase().replace(".", "_"), MobHeads.valueOf(mob.toUpperCase().replace(".", "_")).getName() + " Head"), number), EntityType.BEE));
                                         }
                                         break;
                                     case "villager": // villager type profession,
                                         // villager profession type
                                         // name = splitmob[0], type = splitmob[1],
                                         // profession = splitmob[2]
-                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(VillagerHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[2].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(), mmh.langName.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase() + "." + splitmob[2].toLowerCase(), VillagerHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[2].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName() + " Head"), number), EntityType.VILLAGER));
+                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(VillagerHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[2].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(), mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase() + "." + splitmob[2].toLowerCase(), VillagerHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[2].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName() + " Head"), number), EntityType.VILLAGER));
                                         break;
                                     case "zombie_villager":
-                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(ZombieVillagerHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(), mmh.langName.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), ZombieVillagerHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName()), number), EntityType.ZOMBIE_VILLAGER));
+                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(ZombieVillagerHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(), mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), ZombieVillagerHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName()), number), EntityType.ZOMBIE_VILLAGER));
                                         break;
                                     case "llama":
                                     case "trader_llama":
-                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(LlamaHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(), mmh.langName.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), LlamaHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName()), number), EntityType.LLAMA));
+                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(LlamaHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(), mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), LlamaHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName()), number), EntityType.LLAMA));
                                         break;
                                     case "horse":
-                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(HorseHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(), mmh.langName.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), HorseHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName()), number), EntityType.HORSE));
+                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(HorseHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(), mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), HorseHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName()), number), EntityType.HORSE));
                                         break;
                                     case "rabbit":
                                         if (splitmob[1].equalsIgnoreCase("Toast")) {
                                             player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(
                                                     mmh.makeSkulls(RabbitHeads.valueOf(splitmob[0].toUpperCase() + "_" + StrUtils.toTitleCase(splitmob[1])).getTexture(),
-                                                            mmh.langName.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), RabbitHeads.valueOf(splitmob[0].toUpperCase() + "_" + StrUtils.toTitleCase(splitmob[1])).getName()), number), EntityType.RABBIT));
+                                                            mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), RabbitHeads.valueOf(splitmob[0].toUpperCase() + "_" + StrUtils.toTitleCase(splitmob[1])).getName()), number), EntityType.RABBIT));
                                             break;
                                         }
                                         player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(
                                                 mmh.makeSkulls(RabbitHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(),
-                                                        mmh.langName.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), RabbitHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName()), number), EntityType.RABBIT));
+                                                        mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), RabbitHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName()), number), EntityType.RABBIT));
                                         break;
                                     case "sheep":
                                         String sheeptype;
@@ -3278,39 +3278,39 @@ public class EventHandler_1_20 implements CommandExecutor, TabCompleter, Listene
                                         } else {
                                             sheeptype = splitmob[1].toUpperCase();
                                         }
-                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(SheepHeads.valueOf(splitmob[0].toUpperCase() + "_" + sheeptype).getTexture(), mmh.langName.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), SheepHeads.valueOf(splitmob[0].toUpperCase() + "_" + sheeptype).getName()), number), EntityType.SHEEP));
+                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(SheepHeads.valueOf(splitmob[0].toUpperCase() + "_" + sheeptype).getTexture(), mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), SheepHeads.valueOf(splitmob[0].toUpperCase() + "_" + sheeptype).getName()), number), EntityType.SHEEP));
                                         break;
                                     case "goat":
-                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads117.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(), mmh.langName.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), MobHeads117.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName()), number), EntityType.fromName("goat")));
+                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads117.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(), mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), MobHeads117.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName()), number), EntityType.fromName("goat")));
                                         break;
                                     case "axolotl":
-                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads117.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(), mmh.langName.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), MobHeads117.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName()), number), EntityType.fromName("axolotl")));
+                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads117.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(), mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), MobHeads117.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName()), number), EntityType.fromName("axolotl")));
                                         break;
                                     case "frog":
-                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads119.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(), mmh.langName.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), MobHeads119.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName()), number), EntityType.fromName("frog")));
+                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads119.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(), mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), MobHeads119.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName()), number), EntityType.fromName("frog")));
                                         break;
                                     case "camel":
-                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads120.valueOf(splitmob[0].toUpperCase()).getTexture(), mmh.langName.getString(splitmob[0].toLowerCase(), MobHeads120.valueOf(splitmob[0].toUpperCase()).getName()), number), EntityType.fromName("camel")));
+                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads120.valueOf(splitmob[0].toUpperCase()).getTexture(), mmh.mobNames.getString(splitmob[0].toLowerCase(), MobHeads120.valueOf(splitmob[0].toUpperCase()).getName()), number), EntityType.fromName("camel")));
                                         break;
                                     case "sniffer":
-                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads120.valueOf(splitmob[0].toUpperCase()).getTexture(), mmh.langName.getString(splitmob[0].toLowerCase(), MobHeads120.valueOf(splitmob[0].toUpperCase()).getName()), number), EntityType.fromName("sniffer")));
+                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads120.valueOf(splitmob[0].toUpperCase()).getTexture(), mmh.mobNames.getString(splitmob[0].toLowerCase(), MobHeads120.valueOf(splitmob[0].toUpperCase()).getName()), number), EntityType.fromName("sniffer")));
                                         break;
                                     case "allay":
                                     case "tadpole":
                                     case "warden":
-                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads119.valueOf(mob.toUpperCase().replace(".", "_")).getTexture(), mmh.langName.getString(mob.toLowerCase(), MobHeads119.valueOf(mob.toUpperCase().replace(".", "_")).getName() + " Head"), number), EntityType.fromName(splitmob[0])));
+                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(MobHeads119.valueOf(mob.toUpperCase().replace(".", "_")).getTexture(), mmh.mobNames.getString(mob.toLowerCase(), MobHeads119.valueOf(mob.toUpperCase().replace(".", "_")).getName() + " Head"), number), EntityType.fromName(splitmob[0])));
                                         break;
                                     case "tropical_fish":// TropicalFishHeads
                                         String fishType = splitmob[1].toUpperCase();
                                         log("splitmob[0]=" + splitmob[0]);
                                         log("splitmob[1]=" + splitmob[1]);
                                         log("fishType=" + fishType);
-                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(TropicalFishHeads.valueOf(splitmob[0].toUpperCase() + "_" + fishType.toUpperCase()).getTexture(), mmh.langName.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), TropicalFishHeads.valueOf(splitmob[0].toUpperCase() + "_" + fishType.toUpperCase()).getName()), number), EntityType.TROPICAL_FISH));
+                                        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(mmh.makeSkulls(TropicalFishHeads.valueOf(splitmob[0].toUpperCase() + "_" + fishType.toUpperCase()).getTexture(), mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), TropicalFishHeads.valueOf(splitmob[0].toUpperCase() + "_" + fishType.toUpperCase()).getName()), number), EntityType.TROPICAL_FISH));
                                         break;
                                     default:
                                         player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(
                                                 mmh.makeSkulls(MobHeads.valueOf(mob.toUpperCase().replace(".", "_")).getTexture(),
-                                                        mmh.langName.getString(mob.toLowerCase(), MobHeads.valueOf(mob.toUpperCase().replace(".", "_")).getName() + " Head"), number), EntityType.fromName(splitmob[0])));
+                                                        mmh.mobNames.getString(mob.toLowerCase(), MobHeads.valueOf(mob.toUpperCase().replace(".", "_")).getName() + " Head"), number), EntityType.fromName(splitmob[0])));
                                         break;
                                 }
                             }

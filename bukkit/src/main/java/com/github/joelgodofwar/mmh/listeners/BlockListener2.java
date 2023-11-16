@@ -35,7 +35,7 @@ import java.util.logging.Logger;
 
 class BlockListener2 implements Listener {
     public final static Logger logger = Logger.getLogger("Minecraft");
-    private Plugin plugin;
+    private final Plugin plugin;
 
     BlockListener2(Plugin plugin) {
         this.plugin = plugin;

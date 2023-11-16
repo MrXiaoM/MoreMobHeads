@@ -5,8 +5,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class Utils {
+
+    @SuppressWarnings({"unchecked"})
+    public static <T extends ItemMeta> T getItemMeta(ItemStack item) {
+        ItemMeta meta = item.getItemMeta();
+        return (T)(meta != null ? meta : Bukkit.getItemFactory().getItemMeta(item.getType()));
+    }
 
     public static void sendJson(CommandSender player, String string) {
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "tellraw \"" + player.getName() + "\" " + string);

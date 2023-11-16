@@ -7,6 +7,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.file.YamlConstructor;
 import org.bukkit.configuration.file.YamlRepresenter;
+import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.representer.Representer;
@@ -27,9 +28,9 @@ public class YmlConfiguration extends YamlConfiguration {
     private final DumperOptions yamlOptions = new DumperOptions();
     private final Representer yamlRepresenter = new YamlRepresenter();
     private final Yaml yaml = new Yaml(new YamlConstructor(), yamlRepresenter, yamlOptions);
-    private Map<Integer, String> commentContainer = new HashMap<>();
+    private final Map<Integer, String> commentContainer = new HashMap<>();
 
-    public void save(File file) throws IOException {
+    public void save(@NotNull File file) throws IOException {
         Validate.notNull(file);
 
         try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), Charsets.UTF_8)) {
@@ -47,7 +48,7 @@ public class YmlConfiguration extends YamlConfiguration {
     }
 
     @Override
-    public String saveToString() {
+    public @NotNull String saveToString() {
         yamlOptions.setIndent(options().indent());
         yamlOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         yamlRepresenter.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
@@ -76,7 +77,7 @@ public class YmlConfiguration extends YamlConfiguration {
     }
 
     @Override
-    public void load(Reader reader) throws IOException, InvalidConfigurationException {
+    public void load(@NotNull Reader reader) throws IOException, InvalidConfigurationException {
         BufferedReader input = reader instanceof BufferedReader ? (BufferedReader) reader : new BufferedReader(reader);
 
         StringBuilder builder = new StringBuilder();

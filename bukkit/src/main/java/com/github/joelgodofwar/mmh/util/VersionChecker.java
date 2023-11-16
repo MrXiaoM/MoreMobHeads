@@ -17,17 +17,15 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class VersionChecker {
     private String pluginName;
-    private JavaPlugin plugin;
-    private int projectID;
-    private String currentVersion;
-    private String githubURL; // = "https://github.com/JoelGodOfwar/MoreMobHeads/raw/master/versioncheck/1.15/versions.xml";
+    private final int projectID;
+    private final String currentVersion;
+    private final String githubURL;
     String versionType;
-    private List<String> releaseList = new ArrayList<>();
-    private List<String> developerList = new ArrayList<>();
+    private final List<String> releaseList = new ArrayList<>();
+    private final List<String> developerList = new ArrayList<>();
     private String recommendedVersion = "uptodate";
 
     public VersionChecker(JavaPlugin plugin, int projectID, String githubURL) {
-        this.plugin = plugin;
         this.projectID = projectID;
         this.currentVersion = plugin.getDescription().getVersion();
         this.githubURL = githubURL;
@@ -73,9 +71,7 @@ public class VersionChecker {
             }
         }
 
-        if (connection != null) {
-            connection.getInputStream().close();
-        }
+        connection.getInputStream().close();
         String releaseVersion = releaseList.get(0);
         String developerVersion = developerList.get(0);
         Bukkit.getLogger().warning(Ansi.LIGHT_YELLOW + "currentVersion=" + currentVersion + Ansi.RESET);
@@ -152,76 +148,4 @@ public class VersionChecker {
             return "UpToDate";
         }
     }
-
-    /*public boolean checkForUpdates2() {
-     if(currentVersion.contains(".D")){
-     versionType = "developer";
-     }else{
-     versionType = "release";
-     }
-     String[] versionArray = getLatestVersion(versionType);
-
-     if (versionArray == null) {
-     Bukkit.getLogger().warning(Ansi.RED + "Could not connect to update server.");
-     return false;
-     }
-
-     String latestVersion = versionArray[0];
-     String latestNotes = versionArray[1];
-
-     if (latestVersion.equals(currentVersion)) {
-     return false;
-     } else {
-     System.out.println("There is a new version of " + pluginName + " available!");
-     System.out.println("Your version: " + currentVersion);
-     System.out.println("Latest version: " + latestVersion);
-     System.out.println("Update notes: " + latestNotes);
-     System.out.println("Please update to the newest version.");
-     System.out.println("Download: https://www.spigotmc.org/resources/" + pluginName + ".75749/history");
-     System.out.println("Donate: <donation link>");
-     return true;
-     }
-     }//*/
-
-    /*private String[] getLatestVersion(String versionType) {
-     try {
-     URL url = new URL(githubURL);
-     InputStream stream = url.openStream();
-     Scanner scanner = new Scanner(stream);
-     scanner.useDelimiter("\\Z");
-     String xmlContent = scanner.next();
-     scanner.close();
-     stream.close();
-
-     String versionTag = "<" + versionType + ">";
-     String notesTag = "<" + versionType + "-notes>";
-     String endTag = "</" + versionType + ">";
-
-     int versionStartIndex = xmlContent.indexOf(versionTag);
-     int notesStartIndex = xmlContent.indexOf(notesTag);
-     int versionEndIndex = xmlContent.indexOf(endTag);
-
-     if (versionStartIndex == -1 || notesStartIndex == -1 || versionEndIndex == -1) {
-     return null;
-     }
-
-     String versionNumber = xmlContent.substring(versionStartIndex + versionTag.length(), versionEndIndex);
-     String notes = xmlContent.substring(notesStartIndex + notesTag.length(), xmlContent.indexOf(endTag + "-notes>"));
-     String[] versionArray = new String[2];
-     versionArray[0] = versionNumber;
-     versionArray[1] = notes;
-     return versionArray;
-     } catch (IOException e) {
-     e.printStackTrace();
-     return null;
-     }
-     }//*/
-
-    /*public static void main(String[] args) {
-     //String pluginName = "MyPlugin";
-     String currentVersion = "1.14_1.0.4";
-     String githubURL = "https://github.com/JoelGodOfwar/NoEndermanGrief/raw/master/versions/1.14/versions.xml";
-     VersionChecker checker = new VersionChecker(currentVersion, 71236, githubURL);
-     checker.checkForUpdates();
-     }//*/
 }
