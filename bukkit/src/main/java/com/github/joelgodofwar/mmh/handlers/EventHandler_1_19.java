@@ -1,5 +1,6 @@
 package com.github.joelgodofwar.mmh.handlers;
 
+import com.github.joelgodofwar.mmh.Config;
 import com.github.joelgodofwar.mmh.MoreMobHeads;
 import com.github.joelgodofwar.mmh.MoreMobHeadsLib;
 import com.github.joelgodofwar.mmh.enums.*;
@@ -1711,7 +1712,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                     mmh.logDebug(sender.getName() + " has the permission " + perm + "=" + hasPerm);
                 }
                 if (hasPerm || !(sender instanceof Player)) {
-                    mmh.configReload();
+                    Config.reload(mmh);
                     blockFile117 = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_17.yml");
                     blockFile1172 = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_17_2.yml");
                     blockFile1173 = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_17_3.yml");

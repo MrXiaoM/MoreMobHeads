@@ -1,9 +1,9 @@
 package com.github.joelgodofwar.mmh.handlers;
 
+import com.github.joelgodofwar.mmh.Config;
 import com.github.joelgodofwar.mmh.MoreMobHeads;
 import com.github.joelgodofwar.mmh.enums.*;
 import com.github.joelgodofwar.mmh.util.StrUtils;
-import com.github.joelgodofwar.mmh.util.YmlConfiguration;
 import de.tr7zw.nbtapi.NBTItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -1407,7 +1407,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                     mmh.logDebug(sender.getName() + " has the permission " + perm + "=" + hasPerm);
                 }
                 if (hasPerm || !(sender instanceof Player)) {
-                    mmh.configReload();
+                    Config.reload(mmh);
                     blockFile116 = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_16.yml");
                     blockFile1162 = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_16_2.yml");
                     if (mmh.getConfig().getBoolean("wandering_trades.custom_wandering_trader", true)) {
