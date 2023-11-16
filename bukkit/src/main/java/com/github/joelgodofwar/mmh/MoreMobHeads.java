@@ -329,63 +329,64 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
 
 
         consoleInfo("Enabled - Loading took " + LoadTime(startTime));
+        if (getConfig().getBoolean("metrics", false)) {
+            Metrics metrics = new Metrics(this, 6128);
+            // New chart here
+            // myPlugins()
+            metrics.addCustomChart(new Metrics.AdvancedPie("my_other_plugins", () -> {
+                Map<String, Integer> valueMap = new HashMap<>();
 
-        Metrics metrics = new Metrics(this, 6128);
-        // New chart here
-        // myPlugins()
-        metrics.addCustomChart(new Metrics.AdvancedPie("my_other_plugins", () -> {
-            Map<String, Integer> valueMap = new HashMap<>();
-
-            if (getServer().getPluginManager().getPlugin("DragonDropElytra") != null) {
-                valueMap.put("DragonDropElytra", 1);
-            }
-            if (getServer().getPluginManager().getPlugin("NoEndermanGrief") != null) {
-                valueMap.put("NoEndermanGrief", 1);
-            }
-            if (getServer().getPluginManager().getPlugin("PortalHelper") != null) {
-                valueMap.put("PortalHelper", 1);
-            }
-            if (getServer().getPluginManager().getPlugin("ShulkerRespawner") != null) {
-                valueMap.put("ShulkerRespawner", 1);
-            }
-            //if(getServer().getPluginManager().getPlugin("MoreMobHeads") != null){valueMap.put("MoreMobHeads", 1);}
-            if (getServer().getPluginManager().getPlugin("SilenceMobs") != null) {
-                valueMap.put("SilenceMobs", 1);
-            }
-            if (getServer().getPluginManager().getPlugin("SinglePlayerSleep") != null) {
-                valueMap.put("SinglePlayerSleep", 1);
-            }
-            if (getServer().getPluginManager().getPlugin("VillagerWorkstationHighlights") != null) {
-                valueMap.put("VillagerWorkstationHighlights", 1);
-            }
-            if (getServer().getPluginManager().getPlugin("RotationalWrench") != null) {
-                valueMap.put("RotationalWrench", 1);
-            }
-            return valueMap;
-        }));
-        metrics.addCustomChart(new Metrics.AdvancedPie("vanilla_heads", () -> {
-            Map<String, Integer> valueMap = new HashMap<>();
-            //int varTotal = myPlugins();
-            valueMap.put("CREEPER " + getConfig().getString("vanilla_heads.creeper").toUpperCase(), 1);
-            valueMap.put("ENDER_DRAGON " + getConfig().getString("vanilla_heads.ender_dragon").toUpperCase(), 1);
-            valueMap.put("SKELETON " + getConfig().getString("vanilla_heads.skeleton").toUpperCase(), 1);
-            valueMap.put("WITHER_SKELETON " + getConfig().getString("vanilla_heads.wither_skeleton").toUpperCase(), 1);
-            valueMap.put("ZOMBIE " + getConfig().getString("vanilla_heads.zombie").toUpperCase(), 1);
-            return valueMap;
-        }));
-        metrics.addCustomChart(new Metrics.SimplePie("auto_update_check", () -> "" + getConfig().getString("auto_update_check").toUpperCase()));
-        // add to site
-        metrics.addCustomChart(new Metrics.SimplePie("var_debug", () -> "" + getConfig().getString("debug").toUpperCase()));
-        metrics.addCustomChart(new Metrics.SimplePie("var_lang", () -> "" + getConfig().getString("lang").toUpperCase()));
-        metrics.addCustomChart(new Metrics.SimplePie("whitelist.enforce", () -> "" + getConfig().getString("whitelist.enforce").toUpperCase()));
-        metrics.addCustomChart(new Metrics.SimplePie("blacklist.enforce", () -> "" + getConfig().getString("blacklist.enforce").toUpperCase()));
-        metrics.addCustomChart(new Metrics.SimplePie("custom_wandering_trader", () -> "" + getConfig().getString("wandering_trades.custom_wandering_trader").toUpperCase()));
-        metrics.addCustomChart(new Metrics.SimplePie("player_heads", () -> "" + getConfig().getString("wandering_trades.player_heads.enabled").toUpperCase()));
-        metrics.addCustomChart(new Metrics.SimplePie("block_heads", () -> "" + getConfig().getString("wandering_trades.block_heads.enabled").toUpperCase()));
-        metrics.addCustomChart(new Metrics.SimplePie("custom_trades", () -> "" + getConfig().getString("wandering_trades.custom_trades.enabled").toUpperCase()));
-        metrics.addCustomChart(new Metrics.SimplePie("apply_looting", () -> "" + getConfig().getString("apply_looting").toUpperCase()));
-        metrics.addCustomChart(new Metrics.SimplePie("show_killer", () -> "" + getConfig().getString("lore.show_killer").toUpperCase()));
-        metrics.addCustomChart(new Metrics.SimplePie("show_plugin_name", () -> "" + getConfig().getString("lore.show_plugin_name").toUpperCase()));
+                if (getServer().getPluginManager().getPlugin("DragonDropElytra") != null) {
+                    valueMap.put("DragonDropElytra", 1);
+                }
+                if (getServer().getPluginManager().getPlugin("NoEndermanGrief") != null) {
+                    valueMap.put("NoEndermanGrief", 1);
+                }
+                if (getServer().getPluginManager().getPlugin("PortalHelper") != null) {
+                    valueMap.put("PortalHelper", 1);
+                }
+                if (getServer().getPluginManager().getPlugin("ShulkerRespawner") != null) {
+                    valueMap.put("ShulkerRespawner", 1);
+                }
+                //if(getServer().getPluginManager().getPlugin("MoreMobHeads") != null){valueMap.put("MoreMobHeads", 1);}
+                if (getServer().getPluginManager().getPlugin("SilenceMobs") != null) {
+                    valueMap.put("SilenceMobs", 1);
+                }
+                if (getServer().getPluginManager().getPlugin("SinglePlayerSleep") != null) {
+                    valueMap.put("SinglePlayerSleep", 1);
+                }
+                if (getServer().getPluginManager().getPlugin("VillagerWorkstationHighlights") != null) {
+                    valueMap.put("VillagerWorkstationHighlights", 1);
+                }
+                if (getServer().getPluginManager().getPlugin("RotationalWrench") != null) {
+                    valueMap.put("RotationalWrench", 1);
+                }
+                return valueMap;
+            }));
+            metrics.addCustomChart(new Metrics.AdvancedPie("vanilla_heads", () -> {
+                Map<String, Integer> valueMap = new HashMap<>();
+                //int varTotal = myPlugins();
+                valueMap.put("CREEPER " + getConfig().getString("vanilla_heads.creeper").toUpperCase(), 1);
+                valueMap.put("ENDER_DRAGON " + getConfig().getString("vanilla_heads.ender_dragon").toUpperCase(), 1);
+                valueMap.put("SKELETON " + getConfig().getString("vanilla_heads.skeleton").toUpperCase(), 1);
+                valueMap.put("WITHER_SKELETON " + getConfig().getString("vanilla_heads.wither_skeleton").toUpperCase(), 1);
+                valueMap.put("ZOMBIE " + getConfig().getString("vanilla_heads.zombie").toUpperCase(), 1);
+                return valueMap;
+            }));
+            metrics.addCustomChart(new Metrics.SimplePie("auto_update_check", () -> "" + getConfig().getString("auto_update_check").toUpperCase()));
+            // add to site
+            metrics.addCustomChart(new Metrics.SimplePie("var_debug", () -> "" + getConfig().getString("debug").toUpperCase()));
+            metrics.addCustomChart(new Metrics.SimplePie("var_lang", () -> "" + getConfig().getString("lang").toUpperCase()));
+            metrics.addCustomChart(new Metrics.SimplePie("whitelist.enforce", () -> "" + getConfig().getString("whitelist.enforce").toUpperCase()));
+            metrics.addCustomChart(new Metrics.SimplePie("blacklist.enforce", () -> "" + getConfig().getString("blacklist.enforce").toUpperCase()));
+            metrics.addCustomChart(new Metrics.SimplePie("custom_wandering_trader", () -> "" + getConfig().getString("wandering_trades.custom_wandering_trader").toUpperCase()));
+            metrics.addCustomChart(new Metrics.SimplePie("player_heads", () -> "" + getConfig().getString("wandering_trades.player_heads.enabled").toUpperCase()));
+            metrics.addCustomChart(new Metrics.SimplePie("block_heads", () -> "" + getConfig().getString("wandering_trades.block_heads.enabled").toUpperCase()));
+            metrics.addCustomChart(new Metrics.SimplePie("custom_trades", () -> "" + getConfig().getString("wandering_trades.custom_trades.enabled").toUpperCase()));
+            metrics.addCustomChart(new Metrics.SimplePie("apply_looting", () -> "" + getConfig().getString("apply_looting").toUpperCase()));
+            metrics.addCustomChart(new Metrics.SimplePie("show_killer", () -> "" + getConfig().getString("lore.show_killer").toUpperCase()));
+            metrics.addCustomChart(new Metrics.SimplePie("show_plugin_name", () -> "" + getConfig().getString("lore.show_plugin_name").toUpperCase()));
+        }
     }
 
     @Override // TODO: onDisable

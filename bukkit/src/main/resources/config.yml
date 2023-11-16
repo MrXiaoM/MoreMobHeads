@@ -1,7 +1,8 @@
 # DO NOT CHANGE VERSION
 version: ${config_version}
 # change to false to stop auto-update-check
-auto_update_check: true
+auto_update_check: false
+metrics: false
 # set to true before sending a log about an issue.
 # logs trace data required to pinpoint where errors are.
 debug: false
