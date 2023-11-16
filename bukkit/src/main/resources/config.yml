@@ -1,5 +1,5 @@
 # DO NOT CHANGE VERSION
-version: 1.0.21
+version: ${config_version}
 # change to false to stop auto-update-check
 auto_update_check: true
 # set to true before sending a log about an issue.

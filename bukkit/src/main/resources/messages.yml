@@ -1,5 +1,5 @@
 # DO NOT CHANGE VERSION
-version: 1.0.2
+version: ${message_version}
 # Configuration file for announcement messages
 messages:
   message_1: "Using %weaponName%, %killerName% beheaded %entityName%."

@@ -1,6 +1,20 @@
 plugins {
     id 'java'
     id 'com.github.johnrengelman.shadow'
+    id 'com.github.gmazzo.buildconfig'
+}
+
+def configVersion = '1.0.21'
+def chanceConfigVersion = '1.0.25'
+def messageVersion = '1.0.2'
+
+buildConfig {
+    className("BuildConstants")
+    packageName("com.github.joelgodofwar.mmh")
+
+    buildConfigField("String", "CONFIG_VERSION", "\"${configVersion}\"")
+    buildConfigField("String", "CHANCE_CONFIG_VERSION", "\"${chanceConfigVersion}\"")
+    buildConfigField("String", "MESSAGE_VERSION", "\"${messageVersion}\"")
 }
 
 dependencies {
@@ -29,3 +43,19 @@ shadowJar {
     //relocate("org.apache.commons", "top.mrxiaom.sweetricebase.utils.commons")
 }
 tasks.build.dependsOn(shadowJar)
+
+processResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    from(sourceSets.main.resources.srcDirs) {
+        expand(
+                'version': version,
+                'config_version': configVersion,
+                'chance_config_version': chanceConfigVersion,
+                'message_version': messageVersion
+        )
+        include 'plugin.yml'
+        include 'config.yml'
+        include 'chance_config.yml'
+        include 'messages.yml'
+    }
+}
