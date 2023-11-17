@@ -1338,57 +1338,71 @@ public class EventHandler_1_17 implements CommandExecutor, TabCompleter, Listene
     }
 
     @SuppressWarnings({"unused", "static-access", "deprecation", "rawtypes", "unchecked"})
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) { // TODO: Commands
-        //log("command=" + cmd.getName() + " args=" + args[0] + args[1]);
-        if (cmd.getName().equalsIgnoreCase("MMH")) {
-            if (args.length == 0) {
-                sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
-                sender.sendMessage(ChatColor.WHITE + " ");// https://ko-fi.com/joelgodofwar
-                sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.version.donate") + ": https://ko-fi.com/joelgodofwar");// https://ko-fi.com/joelgodofwar
-                sender.sendMessage(ChatColor.WHITE + " ");// https://ko-fi.com/joelgodofwar
-                sender.sendMessage(ChatColor.WHITE + " /mmh reload - " + mmh.get("mmh.command.reload", "Reloads this plugin."));//subject to server admin approval");
-                sender.sendMessage(ChatColor.WHITE + " /mmh toggledebug - " + mmh.get("mmh.command.debuguse", "Temporarily toggles debug."));//Cancels SinglePlayerSleep");
-                if (mmh.getConfig().getBoolean("wandering_trades.custom_wandering_trader", true)) {
-                    sender.sendMessage(ChatColor.WHITE + " /mmh playerheads - " + mmh.get("mmh.command.playerheads", "Shows how to use the playerheads commands"));
-                    //sender.sendMessage(ChatColor.WHITE + " /mmh blockheads - " + mmh.lang.get("blockheads", "Shows how to use the blockheads commands"));
-                    sender.sendMessage(ChatColor.WHITE + " /mmh customtrader - " + mmh.get("mmh.command.customtrader", "Shows how to use the customtrader commands"));
-                }
-                sender.sendMessage(ChatColor.WHITE + " /mmh fixhead - " + mmh.get("mmh.command.headfix"));
-                sender.sendMessage(ChatColor.WHITE + " /mmh givemh - " + mmh.get("mmh.command.give.mobhead"));
-                sender.sendMessage(ChatColor.WHITE + " /mmh giveph - " + mmh.get("mmh.command.give.playerhead"));
-                sender.sendMessage(ChatColor.WHITE + " /mmh givebh - " + mmh.get("mmh.command.give.blockhead"));
-                sender.sendMessage(ChatColor.WHITE + " /mmh display perms/vars - " + mmh.get("mmh.command.display.help"));
-                sender.sendMessage(ChatColor.WHITE + " ");
-                sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (args.length == 0) {
+            sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
+            sender.sendMessage(ChatColor.WHITE + " ");// https://ko-fi.com/joelgodofwar
+            sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.version.donate") + ": https://ko-fi.com/joelgodofwar");// https://ko-fi.com/joelgodofwar
+            sender.sendMessage(ChatColor.WHITE + " ");// https://ko-fi.com/joelgodofwar
+            sender.sendMessage(ChatColor.WHITE + " /mmh reload - " + mmh.get("mmh.command.reload", "Reloads this plugin."));//subject to server admin approval");
+            sender.sendMessage(ChatColor.WHITE + " /mmh toggledebug - " + mmh.get("mmh.command.debuguse", "Temporarily toggles debug."));//Cancels SinglePlayerSleep");
+            if (mmh.getConfig().getBoolean("wandering_trades.custom_wandering_trader", true)) {
+                sender.sendMessage(ChatColor.WHITE + " /mmh playerheads - " + mmh.get("mmh.command.playerheads", "Shows how to use the playerheads commands"));
+                //sender.sendMessage(ChatColor.WHITE + " /mmh blockheads - " + mmh.lang.get("blockheads", "Shows how to use the blockheads commands"));
+                sender.sendMessage(ChatColor.WHITE + " /mmh customtrader - " + mmh.get("mmh.command.customtrader", "Shows how to use the customtrader commands"));
+            }
+            sender.sendMessage(ChatColor.WHITE + " /mmh fixhead - " + mmh.get("mmh.command.headfix"));
+            sender.sendMessage(ChatColor.WHITE + " /mmh givemh - " + mmh.get("mmh.command.give.mobhead"));
+            sender.sendMessage(ChatColor.WHITE + " /mmh giveph - " + mmh.get("mmh.command.give.playerhead"));
+            sender.sendMessage(ChatColor.WHITE + " /mmh givebh - " + mmh.get("mmh.command.give.blockhead"));
+            sender.sendMessage(ChatColor.WHITE + " /mmh display perms/vars - " + mmh.get("mmh.command.display.help"));
+            sender.sendMessage(ChatColor.WHITE + " ");
+            sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
+            return true;
+        }
+        if (args[0].equalsIgnoreCase("headNBT")) {
+            if (!(sender instanceof Player)) {
                 return true;
             }
-            if (args[0].equalsIgnoreCase("headNBT")) {
-                if (!(sender instanceof Player)) {
-                    return true;
-                }
-                Player player = (Player) sender;
-                ItemStack mainHand = player.getInventory().getItemInMainHand();
-                ItemStack offHand = player.getInventory().getItemInOffHand();
-                if (mainHand != null && mainHand.getType().equals(Material.PLAYER_HEAD)) {
-                    NBTItem item = new NBTItem(mainHand);
-                    log(Level.INFO, "" + item);
-                    player.sendMessage("" + item);
-                } else if (offHand != null && offHand.getType().equals(Material.PLAYER_HEAD)) {
-                    NBTItem item = new NBTItem(offHand);
-                    player.sendMessage("" + item);
-                    log(Level.INFO, "" + item);
-                } else {
-                    //log(Level.INFO,"You do not have a head in either hand.");
-                    player.sendMessage("" + mmh.get("mmh.command.headnbt"));
-                }
+            Player player = (Player) sender;
+            ItemStack mainHand = player.getInventory().getItemInMainHand();
+            ItemStack offHand = player.getInventory().getItemInOffHand();
+            if (mainHand != null && mainHand.getType().equals(Material.PLAYER_HEAD)) {
+                NBTItem item = new NBTItem(mainHand);
+                log(Level.INFO, "" + item);
+                player.sendMessage("" + item);
+            } else if (offHand != null && offHand.getType().equals(Material.PLAYER_HEAD)) {
+                NBTItem item = new NBTItem(offHand);
+                player.sendMessage("" + item);
+                log(Level.INFO, "" + item);
+            } else {
+                //log(Level.INFO,"You do not have a head in either hand.");
+                player.sendMessage("" + mmh.get("mmh.command.headnbt"));
             }
-            // /mmh display permvar playername
-            // /     0        1        2
-            if (args[0].equalsIgnoreCase("display")) {
-                if (args[1].equalsIgnoreCase("perms") || args[1].equalsIgnoreCase("permissions")) {
-                    if (sender instanceof Player) {
-                        Player player = (Player) sender;
-                        sender.sendMessage("" + mmh.get("mmh.command.display.you").replace("<player>", player.getDisplayName()));
+        }
+        // /mmh display permvar playername
+        // /     0        1        2
+        if (args[0].equalsIgnoreCase("display")) {
+            if (args[1].equalsIgnoreCase("perms") || args[1].equalsIgnoreCase("permissions")) {
+                if (sender instanceof Player) {
+                    Player player = (Player) sender;
+                    sender.sendMessage("" + mmh.get("mmh.command.display.you").replace("<player>", player.getDisplayName()));
+                    sender.sendMessage("moremobheads.players=" + player.hasPermission("moremobheads.players"));
+                    sender.sendMessage("moremobheads.mobs=" + player.hasPermission("moremobheads.mobs"));
+                    sender.sendMessage("moremobheads.nametag=" + player.hasPermission("moremobheads.nametag"));
+                    sender.sendMessage("moremobheads.reload=" + player.hasPermission("moremobheads.reload"));
+                    sender.sendMessage("moremobheads.toggledebug=" + player.hasPermission("moremobheads.toggledebug"));
+                    sender.sendMessage("moremobheads.showUpdateAvailable=" + player.hasPermission("moremobheads.showUpdateAvailable"));
+                    sender.sendMessage("moremobheads.customtrader=" + player.hasPermission("moremobheads.customtrader"));
+                    sender.sendMessage("moremobheads.playerheads=" + player.hasPermission("moremobheads.playerheads"));
+                    sender.sendMessage("moremobheads.blockheads=" + player.hasPermission("moremobheads.blockheads"));
+                    sender.sendMessage("moremobheads.fixhead=" + player.hasPermission("moremobheads.fixhead"));
+                    sender.sendMessage("moremobheads.give=" + player.hasPermission("moremobheads.give"));
+                    sender.sendMessage("" + mmh.getName() + " " + mmh.getDescription().getVersion() + " display perms end");
+                } else {
+                    if (args.length >= 2) {
+                        Player player = sender.getServer().getPlayer(args[2]);
+                        sender.sendMessage("" + mmh.get("mmh.command.display.them").replace("<player>", player.getDisplayName()));
                         sender.sendMessage("moremobheads.players=" + player.hasPermission("moremobheads.players"));
                         sender.sendMessage("moremobheads.mobs=" + player.hasPermission("moremobheads.mobs"));
                         sender.sendMessage("moremobheads.nametag=" + player.hasPermission("moremobheads.nametag"));
@@ -1402,1059 +1416,1042 @@ public class EventHandler_1_17 implements CommandExecutor, TabCompleter, Listene
                         sender.sendMessage("moremobheads.give=" + player.hasPermission("moremobheads.give"));
                         sender.sendMessage("" + mmh.getName() + " " + mmh.getDescription().getVersion() + " display perms end");
                     } else {
-                        if (args.length >= 2) {
-                            Player player = sender.getServer().getPlayer(args[2]);
-                            sender.sendMessage("" + mmh.get("mmh.command.display.them").replace("<player>", player.getDisplayName()));
-                            sender.sendMessage("moremobheads.players=" + player.hasPermission("moremobheads.players"));
-                            sender.sendMessage("moremobheads.mobs=" + player.hasPermission("moremobheads.mobs"));
-                            sender.sendMessage("moremobheads.nametag=" + player.hasPermission("moremobheads.nametag"));
-                            sender.sendMessage("moremobheads.reload=" + player.hasPermission("moremobheads.reload"));
-                            sender.sendMessage("moremobheads.toggledebug=" + player.hasPermission("moremobheads.toggledebug"));
-                            sender.sendMessage("moremobheads.showUpdateAvailable=" + player.hasPermission("moremobheads.showUpdateAvailable"));
-                            sender.sendMessage("moremobheads.customtrader=" + player.hasPermission("moremobheads.customtrader"));
-                            sender.sendMessage("moremobheads.playerheads=" + player.hasPermission("moremobheads.playerheads"));
-                            sender.sendMessage("moremobheads.blockheads=" + player.hasPermission("moremobheads.blockheads"));
-                            sender.sendMessage("moremobheads.fixhead=" + player.hasPermission("moremobheads.fixhead"));
-                            sender.sendMessage("moremobheads.give=" + player.hasPermission("moremobheads.give"));
-                            sender.sendMessage("" + mmh.getName() + " " + mmh.getDescription().getVersion() + " display perms end");
-                        } else {
-                            sender.sendMessage("Console can only check permissions of Players.");
+                        sender.sendMessage("Console can only check permissions of Players.");
+                    }
+                }
+            } else if (args[1].equalsIgnoreCase("vars") || args[1].equalsIgnoreCase("variables")) {
+                sender.sendMessage("" + mmh.getName() + " " + mmh.getDescription().getVersion() + " display varss start");
+                sender.sendMessage("debug=" + debug);
+                sender.sendMessage("daLang=" + mmh.languageName);
+
+                world_whitelist = mmh.getConfig().getString("world.whitelist", "");
+                world_blacklist = mmh.getConfig().getString("world.blacklist", "");
+                mob_whitelist = mmh.getConfig().getString("mob.whitelist", "");
+                mob_blacklist = mmh.getConfig().getString("mob.blacklist", "");
+
+                sender.sendMessage("world_whitelist=" + world_whitelist);
+                sender.sendMessage("world_blacklist=" + world_blacklist);
+                sender.sendMessage("mob_whitelist=" + mob_whitelist);
+                sender.sendMessage("mob_blacklist=" + mob_blacklist);
+                sender.sendMessage("" + mmh.getName() + " " + mmh.getDescription().getVersion() + " display varss end");
+            } else if (args[1].equalsIgnoreCase("chance") || args[1].equalsIgnoreCase("chance_percent")) {
+                ConfigurationSection cs = mmh.chanceConfig.getConfigurationSection("chance_percent");
+                List<String> daSet = new ArrayList<>();
+                //log(Level.INFO, "args.lngth=" + args.length);
+                if (args.length == 3) {
+                    for (String key : cs.getKeys(true)) {
+                        if (key.contains(args[2])) {
+                            sender.sendMessage("" + key + "=" + cs.get(key));
+                            daSet.add("" + key + "=" + cs.get(key));
                         }
                     }
-                } else if (args[1].equalsIgnoreCase("vars") || args[1].equalsIgnoreCase("variables")) {
-                    sender.sendMessage("" + mmh.getName() + " " + mmh.getDescription().getVersion() + " display varss start");
-                    sender.sendMessage("debug=" + debug);
-                    sender.sendMessage("daLang=" + mmh.languageName);
 
-                    world_whitelist = mmh.getConfig().getString("world.whitelist", "");
-                    world_blacklist = mmh.getConfig().getString("world.blacklist", "");
-                    mob_whitelist = mmh.getConfig().getString("mob.whitelist", "");
-                    mob_blacklist = mmh.getConfig().getString("mob.blacklist", "");
-
-                    sender.sendMessage("world_whitelist=" + world_whitelist);
-                    sender.sendMessage("world_blacklist=" + world_blacklist);
-                    sender.sendMessage("mob_whitelist=" + mob_whitelist);
-                    sender.sendMessage("mob_blacklist=" + mob_blacklist);
-                    sender.sendMessage("" + mmh.getName() + " " + mmh.getDescription().getVersion() + " display varss end");
-                } else if (args[1].equalsIgnoreCase("chance") || args[1].equalsIgnoreCase("chance_percent")) {
-                    ConfigurationSection cs = mmh.chanceConfig.getConfigurationSection("chance_percent");
-                    List<String> daSet = new ArrayList<>();
-                    //log(Level.INFO, "args.lngth=" + args.length);
-                    if (args.length == 3) {
-                        for (String key : cs.getKeys(true)) {
-                            if (key.contains(args[2])) {
-                                sender.sendMessage("" + key + "=" + cs.get(key));
-                                daSet.add("" + key + "=" + cs.get(key));
+                    if (!daSet.isEmpty()) {
+                        File chanceFile = new File(mmh.getDataFolder(), "logs/chance_dump.log");
+                        try (PrintWriter pw = new PrintWriter(
+                                new OutputStreamWriter(new FileOutputStream(chanceFile), StandardCharsets.UTF_8))) {
+                            for (String s : daSet) {
+                                pw.println(s);
                             }
+                            pw.flush();
+                        } catch (FileNotFoundException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
                         }
-
-                        if (!daSet.isEmpty()) {
-                            File chanceFile = new File(mmh.getDataFolder(), "logs/chance_dump.log");
-                            try (PrintWriter pw = new PrintWriter(
-                                    new OutputStreamWriter(new FileOutputStream(chanceFile), StandardCharsets.UTF_8))) {
-                                for (String s : daSet) {
-                                    pw.println(s);
-                                }
-                                pw.flush();
-                            } catch (FileNotFoundException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            }
-                            sender.sendMessage("chance_config.yml has been dumped into " + chanceFile);
-                            log(Level.INFO, "chance_config.yml has been dumped into " + chanceFile);
-                        } else {
-                            sender.sendMessage("" + args[2] + " was not found in chance_percent.yml");
-                        }
+                        sender.sendMessage("chance_config.yml has been dumped into " + chanceFile);
+                        log(Level.INFO, "chance_config.yml has been dumped into " + chanceFile);
                     } else {
-                        for (String key : cs.getKeys(true)) {
-                            if (!cs.get(key).toString().contains("MemorySection")) {
-                                sender.sendMessage("" + key + "=" + cs.get(key).toString());
-                                daSet.add("" + key + "=" + cs.get(key).toString());
-                            }
-                        }
-                        if (!daSet.isEmpty()) {
-                            File chanceFile = new File(mmh.getDataFolder(), "logs/chance_dump.log");
-                            try (PrintWriter pw = new PrintWriter(
-                                    new OutputStreamWriter(new FileOutputStream(chanceFile), StandardCharsets.UTF_8))) {
-                                for (String s : daSet) {
-                                    pw.println(s);
-                                }
-                                pw.flush();
-                            } catch (FileNotFoundException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            }
-                            sender.sendMessage("chance_config.yml has been dumped into " + chanceFile);
-                            log(Level.INFO, "chance_config.yml has been dumped into " + chanceFile);
-                        } else {
-                            sender.sendMessage("Error dumping chance_percent.yml");
+                        sender.sendMessage("" + args[2] + " was not found in chance_percent.yml");
+                    }
+                } else {
+                    for (String key : cs.getKeys(true)) {
+                        if (!cs.get(key).toString().contains("MemorySection")) {
+                            sender.sendMessage("" + key + "=" + cs.get(key).toString());
+                            daSet.add("" + key + "=" + cs.get(key).toString());
                         }
                     }
-                    //mmh.chanceConfig
-
-
-                }
-            }
-            if (args[0].equalsIgnoreCase("reload")) {
-                String perm = "moremobheads.reload";
-                boolean hasPerm = sender.hasPermission(perm);
-                if (debug) {
-                    mmh.logDebug(sender.getName() + " has the permission " + perm + "=" + hasPerm);
-                }
-                if (hasPerm || !(sender instanceof Player)) {
-                    Config.reload(mmh);
-                    sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.reloaded"));
-                    return true;
-                } else if (!hasPerm) {
-                    sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.noperm").replace("<perm>", perm));
-                    return false;
-                }
-            }
-            if (args[0].equalsIgnoreCase("toggledebug") || args[0].equalsIgnoreCase("td")) {
-                String perm = "moremobheads.toggledebug";
-                boolean hasPerm = sender.hasPermission(perm);
-                if (debug) {
-                    logDebug(sender.getName() + " has the permission " + perm + "=" + hasPerm);
-                }
-                if (sender.isOp() || hasPerm || !(sender instanceof Player)) {
-                    debug = !debug;
-                    sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.debugtrue").replace("boolean", "" + debug));
-                    return true;
-                } else if (!hasPerm) {
-                    sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.noperm").replace("<perm>", perm));
-                    return false;
-                }
-            }
-            if (args[0].equalsIgnoreCase("customtrader") || args[0].equalsIgnoreCase("ct")) {
-                String perm = "moremobheads.customtrader";
-                boolean hasPerm = sender.hasPermission(perm);
-                if (debug) {
-                    logDebug(sender.getName() + " has the permission " + perm + "=" + hasPerm);
-                }
-                if (hasPerm && sender instanceof Player
-                        && mmh.getConfig().getBoolean("wandering_trades.custom_wandering_trader", true)) {
-                    log(Level.INFO, "has permission");
-                    Player player = (Player) sender;
-                    if (!(args.length >= 2)) {
-                        sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
-                        sender.sendMessage(ChatColor.WHITE + " ");
-                        sender.sendMessage(ChatColor.WHITE + " /mmh ct - " + mmh.get("mmh.command.ct.help"));
-                        sender.sendMessage(ChatColor.WHITE + " /mmh ct add - " + mmh.get("mmh.command.ct.add") + "custom_trades.yml");
-                        sender.sendMessage(ChatColor.WHITE + " /mmh ct remove # - " + mmh.get("mmh.command.ct.remove"));
-                        sender.sendMessage(ChatColor.WHITE + " /mmh ct replace # - " + mmh.get("mmh.command.ct.replace").replace("<num>", "#"));
-                        sender.sendMessage(ChatColor.WHITE + " ");
-                        sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
-                        return true;
-                    } else if (args[1].equalsIgnoreCase("add")) {
-                        if (debug) {
-                            logDebug("CMD CT ADD Start -----");
-                        }
-                        ItemStack itemstack = player.getInventory().getItemInOffHand();
-                        ItemStack price1 = player.getInventory().getItem(0);
-                        ItemStack price2 = player.getInventory().getItem(1);
-                        if (price1 == null) {
-                            price1 = new ItemStack(Material.AIR);
-                        }
-                        if (price2 == null) {
-                            price2 = new ItemStack(Material.AIR);
-                        }
-                        //Material price1 = item1.getType();
-                        //Material price2 = item2.getType();
-
-                        if (itemstack.getType() == Material.AIR || price1 == null || price1.getType() == Material.AIR) {
-                            log(Level.INFO, "error air");
-                            sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
-                            sender.sendMessage(ChatColor.WHITE + " ");
-                            sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line1") + "custom_trades.yml");
-                            sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line2"));
-                            sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line3"));
-                            sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line4") + "/mmh ct add");
-                            sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line5") + "custom trade.");
-                            sender.sendMessage(ChatColor.WHITE + " ");
-                            sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
-                            if (debug) {
-                                logDebug("CMD CT ADD End Error -----");
+                    if (!daSet.isEmpty()) {
+                        File chanceFile = new File(mmh.getDataFolder(), "logs/chance_dump.log");
+                        try (PrintWriter pw = new PrintWriter(
+                                new OutputStreamWriter(new FileOutputStream(chanceFile), StandardCharsets.UTF_8))) {
+                            for (String s : daSet) {
+                                pw.println(s);
                             }
-                            return false;
-                        }
-                        int tradeNumber = (int) mmh.traderCustom.get("custom_trades.number", 1);
-                        mmh.traderCustom.set("custom_trades.trade_" + (tradeNumber + 1) + ".price_1", price1);
-                        mmh.traderCustom.set("custom_trades.trade_" + (tradeNumber + 1) + ".price_2", price2);
-                        mmh.traderCustom.set("custom_trades.trade_" + (tradeNumber + 1) + ".itemstack", itemstack);
-                        mmh.traderCustom.set("custom_trades.trade_" + (tradeNumber + 1) + ".quantity", itemstack.getAmount());
-                        mmh.traderCustom.set("custom_trades.trade_" + (tradeNumber + 1) + ".chance", 0.002);
-                        mmh.traderCustom.set("custom_trades.number", (tradeNumber + 1));
-                        if (debug) {
-                            logDebug("CMD CT ADD price1=" + price1.getType());
-                        }
-                        if (debug) {
-                            logDebug("CMD CT ADD price2=" + price2.getType());
-                        }
-                        if (debug) {
-                            logDebug("CMD CT ADD itemstack=" + itemstack.getType());
-                        }
-                        if (debug) {
-                            if (itemstack.getType() == Material.PLAYER_HEAD) {
-                                ItemMeta skullMeta = itemstack.getItemMeta();
-                                logDebug("CMD CT ADD IS DisplayName=" + skullMeta.getDisplayName());
-                                if (skullMeta.hasLore()) {
-                                    logDebug("CMD CT ADD IS lore=" + String.join(",", skullMeta.getLore()));
-                                }
-                            }
-                        }
-                        if (debug) {
-                            logDebug("CMD CT ADD quantity=" + itemstack.getAmount());
-                        }
-                        if (debug) {
-                            logDebug("CMD CT ADD chance=0.002");
-                        }
-                        //log("customFile=" + customFile);
-                        try {
-                            mmh.traderCustom.save(mmh.customFile);
-                            mmh.traderCustom.load(mmh.customFile);
-                        } catch (IOException | InvalidConfigurationException e) {
-                            mmh.stacktraceInfo();
+                            pw.flush();
+                        } catch (FileNotFoundException e) {
+                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
-                        if (debug) {
-                            logDebug("CMD CT ADD End -----");
-                        }
-                        sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.WHITE + " trade_" + (tradeNumber + 1) + " " + mmh.get("mmh.message.ct.successadd"));
-                        return true;
-                    } else if (args[1].equalsIgnoreCase("remove")) {
-                        if (debug) {
-                            logDebug("CMD CT Remove Start -----");
-                        }
-                        if (!(args.length >= 3)) {
-                            sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.argument"));
-                            return false;
-                        } else {
-                            if (Utils.isInteger(args[2])) {
-                                mmh.traderCustom.set("custom_trades.trade_" + args[2] + ".price_1", "");
-                                mmh.traderCustom.set("custom_trades.trade_" + args[2] + ".price_2", "");
-                                mmh.traderCustom.set("custom_trades.trade_" + args[2] + ".itemstack", "");
-                                mmh.traderCustom.set("custom_trades.trade_" + args[2] + ".quantity", "");
-                                mmh.traderCustom.set("custom_trades.trade_" + args[2] + ".chance", "");
-                                if (debug) {
-                                    logDebug("customFile=" + mmh.customFile);
-                                }
-                                try {
-                                    mmh.traderCustom.save(mmh.customFile);
-                                    mmh.traderCustom.load(mmh.customFile);
-                                } catch (IOException | InvalidConfigurationException e) {
-                                    if (debug) {
-                                        logDebug("CMD CT Remove End Exception -----");
-                                    }
-                                    sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.error"));
-                                    return false;
-                                    //e.printStackTrace();
-                                }
-                                if (debug) {
-                                    logDebug("CMD CT Remove End -----");
-                                }
-                                sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.WHITE + " trade_" + args[2] + " " + mmh.get("mmh.message.ct.successrem"));
-                                return true;
-                            } else {
-                                if (debug) {
-                                    logDebug("CMD CT Remove End 2 -----");
-                                }
-                                sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.numberreq"));
-                                return false;
-                            }
-                        }
-                    } else if (args[1].equalsIgnoreCase("replace")) {
-                        if (debug) {
-                            logDebug("CMD CT Replace Start -----");
-                        }
-                        if (args.length != 3) {
-                            sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.argument"));
-                            return false;
-                        } else {
-                            if (Utils.isInteger(args[2])) {
-                                ItemStack itemstack = player.getInventory().getItemInOffHand();
-                                ItemStack price1 = player.getInventory().getItem(0);
-                                ItemStack price2 = player.getInventory().getItem(1);
-                                if (price1 == null) {
-                                    price1 = new ItemStack(Material.AIR);
-                                }
-                                if (price2 == null) {
-                                    price2 = new ItemStack(Material.AIR);
-                                }
-                                if (itemstack.getType() == Material.AIR || price1 == null || price1.getType() == Material.AIR) {
-                                    sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
-                                    sender.sendMessage(ChatColor.WHITE + " ");
-                                    sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line1") + "custom_trades.yml");
-                                    sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line2"));
-                                    sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line3"));
-                                    sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line4") + "/mmh ct add");
-                                    sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line5") + "custom trade.");
-                                    sender.sendMessage(ChatColor.WHITE + " ");
-                                    sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
-                                    if (debug) {
-                                        logDebug("CMD CT Replace End Error -----");
-                                    }
-                                    return false;
-                                }
-                                int tradeNumber = Integer.parseInt(args[2]);
-                                mmh.traderCustom.set("custom_trades.trade_" + (tradeNumber) + ".price_1", price1);
-                                mmh.traderCustom.set("custom_trades.trade_" + (tradeNumber) + ".price_2", price2);
-                                mmh.traderCustom.set("custom_trades.trade_" + (tradeNumber) + ".itemstack", itemstack);
-                                mmh.traderCustom.set("custom_trades.trade_" + (tradeNumber) + ".quantity", itemstack.getAmount());
-                                mmh.traderCustom.set("custom_trades.trade_" + (tradeNumber) + ".chance", 0.002);
-                                if (debug) {
-                                    logDebug("CMD CT Replace price1=" + price1.getType());
-                                }
-                                if (debug) {
-                                    logDebug("CMD CT Replace price2=" + price2.getType());
-                                }
-                                if (debug) {
-                                    logDebug("CMD CT Replace itemstack=" + itemstack.getType());
-                                }
-                                if (debug) {
-                                    if (itemstack.getType() == Material.PLAYER_HEAD) {
-                                        ItemMeta skullMeta = itemstack.getItemMeta();
-                                        logDebug("CMD CT Replace IS DisplayName=" + skullMeta.getDisplayName());
-                                        if (skullMeta.hasLore()) {
-                                            logDebug("CMD CT Replace IS lore=" + String.join(",", skullMeta.getLore()));
-                                        }
-                                    }
-                                }
-                                if (debug) {
-                                    logDebug("CMD CT Replace quantity=" + itemstack.getAmount());
-                                }
-                                if (debug) {
-                                    logDebug("CMD CT Replace chance=0.002");
-                                }
-
-                                //log("customFile=" + customFile);
-                                try {
-                                    mmh.traderCustom.save(mmh.customFile);
-                                    mmh.traderCustom.load(mmh.customFile);
-                                } catch (IOException | InvalidConfigurationException e) {
-                                    if (debug) {
-                                        logDebug("CMD CT Replace End Exception -----");
-                                    }
-                                    sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.error"));
-                                    return false;
-                                    //e.printStackTrace();
-                                }
-                                if (debug) {
-                                    logDebug("CMD CT Replace End -----");
-                                }
-                                sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.WHITE + " trade_" + args[2] + " " + mmh.get("mmh.message.ct.successrep"));
-                                return true;
-                            } else {
-                                if (debug) {
-                                    logDebug("CMD CT Replace End 2 -----");
-                                }
-                                sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.numberreq"));
-                                return false;
-                            }
-                        }
+                        sender.sendMessage("chance_config.yml has been dumped into " + chanceFile);
+                        log(Level.INFO, "chance_config.yml has been dumped into " + chanceFile);
+                    } else {
+                        sender.sendMessage("Error dumping chance_percent.yml");
                     }
-                } else if (!(sender instanceof Player)) {
-                    if (debug) {
-                        logDebug("CMD CT Replace End Console -----");
-                    }
-                    sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.noconsole"));
-                    return false;
-                } else if (!hasPerm) {
-                    if (debug) {
-                        logDebug("CMD CT Replace End !Perm -----");
-                    }
-                    sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.nopermordisabled").replace("<perm>", perm));
-                    return false;
                 }
+                //mmh.chanceConfig
+
+
             }
-            if (args[0].equalsIgnoreCase("playerheads") || args[0].equalsIgnoreCase("ph")) {
-                String perm = "moremobheads.playerheads";
-                boolean hasPerm = sender.hasPermission(perm);
-                if (debug) {
-                    logDebug(sender.getName() + " has the permission " + perm + "=" + hasPerm);
-                }
-                if (hasPerm && sender instanceof Player
-                        && mmh.getConfig().getBoolean("wandering_trades.custom_wandering_trader", true)) {
-                    Player player = (Player) sender;
-                    if (!(args.length >= 2)) {
-                        sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
-                        sender.sendMessage(ChatColor.WHITE + " ");
-                        sender.sendMessage(ChatColor.WHITE + " /mmh ph - " + mmh.get("mmh.command.ct.help"));
-                        sender.sendMessage(ChatColor.WHITE + " /mmh ph add - " + mmh.get("mmh.command.ct.add") + "player_heads.yml");
-                        sender.sendMessage(ChatColor.WHITE + " /mmh ph remove # - " + mmh.get("mmh.command.ct.remove").replace("custom_trades", "playerheads"));
-                        sender.sendMessage(ChatColor.WHITE + " /mmh ph replace # - " + mmh.get("mmh.command.ct.replace").replace("<num>", "#").replace("custom trade", "pleayerhead"));
-                        //sender.sendMessage(ChatColor.WHITE + " ");
-                        sender.sendMessage(ChatColor.WHITE + " ");
-                        sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
-                        return true;
-                    } else if (args[1].equalsIgnoreCase("add")) {
-                        if (debug) {
-                            logDebug("CMD PH ADD Start -----");
-                        }
-                        ItemStack itemstack = player.getInventory().getItemInOffHand();
-                        ItemStack price1 = player.getInventory().getItem(0);
-                        ItemStack price2 = player.getInventory().getItem(1);
-                        if (price1 == null) {
-                            price1 = new ItemStack(Material.AIR);
-                        }
-                        if (price2 == null) {
-                            price2 = new ItemStack(Material.AIR);
-                        }
-                        //Material price1 = item1.getType();
-                        //Material price2 = item2.getType();
+        }
+        if (args[0].equalsIgnoreCase("reload")) {
+            String perm = "moremobheads.reload";
+            boolean hasPerm = sender.hasPermission(perm);
+            if (debug) {
+                mmh.logDebug(sender.getName() + " has the permission " + perm + "=" + hasPerm);
+            }
+            if (hasPerm || !(sender instanceof Player)) {
+                Config.reload(mmh);
+                sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.reloaded"));
+                return true;
+            } else if (!hasPerm) {
+                sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.noperm").replace("<perm>", perm));
+                return false;
+            }
+        }
+        if (args[0].equalsIgnoreCase("toggledebug") || args[0].equalsIgnoreCase("td")) {
+            String perm = "moremobheads.toggledebug";
+            boolean hasPerm = sender.hasPermission(perm);
+            if (debug) {
+                logDebug(sender.getName() + " has the permission " + perm + "=" + hasPerm);
+            }
+            if (sender.isOp() || hasPerm || !(sender instanceof Player)) {
+                debug = !debug;
+                sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.debugtrue").replace("boolean", "" + debug));
+                return true;
+            } else if (!hasPerm) {
+                sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.noperm").replace("<perm>", perm));
+                return false;
+            }
+        }
+        if (args[0].equalsIgnoreCase("customtrader") || args[0].equalsIgnoreCase("ct")) {
+            String perm = "moremobheads.customtrader";
+            boolean hasPerm = sender.hasPermission(perm);
+            if (debug) {
+                logDebug(sender.getName() + " has the permission " + perm + "=" + hasPerm);
+            }
+            if (hasPerm && sender instanceof Player
+                    && mmh.getConfig().getBoolean("wandering_trades.custom_wandering_trader", true)) {
+                log(Level.INFO, "has permission");
+                Player player = (Player) sender;
+                if (!(args.length >= 2)) {
+                    sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
+                    sender.sendMessage(ChatColor.WHITE + " ");
+                    sender.sendMessage(ChatColor.WHITE + " /mmh ct - " + mmh.get("mmh.command.ct.help"));
+                    sender.sendMessage(ChatColor.WHITE + " /mmh ct add - " + mmh.get("mmh.command.ct.add") + "custom_trades.yml");
+                    sender.sendMessage(ChatColor.WHITE + " /mmh ct remove # - " + mmh.get("mmh.command.ct.remove"));
+                    sender.sendMessage(ChatColor.WHITE + " /mmh ct replace # - " + mmh.get("mmh.command.ct.replace").replace("<num>", "#"));
+                    sender.sendMessage(ChatColor.WHITE + " ");
+                    sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
+                    return true;
+                } else if (args[1].equalsIgnoreCase("add")) {
+                    if (debug) {
+                        logDebug("CMD CT ADD Start -----");
+                    }
+                    ItemStack itemstack = player.getInventory().getItemInOffHand();
+                    ItemStack price1 = player.getInventory().getItem(0);
+                    ItemStack price2 = player.getInventory().getItem(1);
+                    if (price1 == null) {
+                        price1 = new ItemStack(Material.AIR);
+                    }
+                    if (price2 == null) {
+                        price2 = new ItemStack(Material.AIR);
+                    }
+                    //Material price1 = item1.getType();
+                    //Material price2 = item2.getType();
 
-                        if (itemstack.getType() == Material.AIR || price1 == null || price1.getType() == Material.AIR || itemstack.getType() != Material.PLAYER_HEAD) {
-                            sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
-                            sender.sendMessage(ChatColor.WHITE + " ");
-                            if (itemstack.getType() != Material.PLAYER_HEAD) {
-                                sender.sendMessage(ChatColor.RED + " " + mmh.get("mmh.command.playerhead.msg"));
+                    if (itemstack.getType() == Material.AIR || price1 == null || price1.getType() == Material.AIR) {
+                        log(Level.INFO, "error air");
+                        sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
+                        sender.sendMessage(ChatColor.WHITE + " ");
+                        sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line1") + "custom_trades.yml");
+                        sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line2"));
+                        sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line3"));
+                        sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line4") + "/mmh ct add");
+                        sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line5") + "custom trade.");
+                        sender.sendMessage(ChatColor.WHITE + " ");
+                        sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
+                        if (debug) {
+                            logDebug("CMD CT ADD End Error -----");
+                        }
+                        return false;
+                    }
+                    int tradeNumber = (int) mmh.traderCustom.get("custom_trades.number", 1);
+                    mmh.traderCustom.set("custom_trades.trade_" + (tradeNumber + 1) + ".price_1", price1);
+                    mmh.traderCustom.set("custom_trades.trade_" + (tradeNumber + 1) + ".price_2", price2);
+                    mmh.traderCustom.set("custom_trades.trade_" + (tradeNumber + 1) + ".itemstack", itemstack);
+                    mmh.traderCustom.set("custom_trades.trade_" + (tradeNumber + 1) + ".quantity", itemstack.getAmount());
+                    mmh.traderCustom.set("custom_trades.trade_" + (tradeNumber + 1) + ".chance", 0.002);
+                    mmh.traderCustom.set("custom_trades.number", (tradeNumber + 1));
+                    if (debug) {
+                        logDebug("CMD CT ADD price1=" + price1.getType());
+                    }
+                    if (debug) {
+                        logDebug("CMD CT ADD price2=" + price2.getType());
+                    }
+                    if (debug) {
+                        logDebug("CMD CT ADD itemstack=" + itemstack.getType());
+                    }
+                    if (debug) {
+                        if (itemstack.getType() == Material.PLAYER_HEAD) {
+                            ItemMeta skullMeta = itemstack.getItemMeta();
+                            logDebug("CMD CT ADD IS DisplayName=" + skullMeta.getDisplayName());
+                            if (skullMeta.hasLore()) {
+                                logDebug("CMD CT ADD IS lore=" + String.join(",", skullMeta.getLore()));
+                            }
+                        }
+                    }
+                    if (debug) {
+                        logDebug("CMD CT ADD quantity=" + itemstack.getAmount());
+                    }
+                    if (debug) {
+                        logDebug("CMD CT ADD chance=0.002");
+                    }
+                    //log("customFile=" + customFile);
+                    try {
+                        mmh.traderCustom.save(mmh.customFile);
+                        mmh.traderCustom.load(mmh.customFile);
+                    } catch (IOException | InvalidConfigurationException e) {
+                        mmh.stacktraceInfo();
+                        e.printStackTrace();
+                    }
+                    if (debug) {
+                        logDebug("CMD CT ADD End -----");
+                    }
+                    sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.WHITE + " trade_" + (tradeNumber + 1) + " " + mmh.get("mmh.message.ct.successadd"));
+                    return true;
+                } else if (args[1].equalsIgnoreCase("remove")) {
+                    if (debug) {
+                        logDebug("CMD CT Remove Start -----");
+                    }
+                    if (!(args.length >= 3)) {
+                        sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.argument"));
+                        return false;
+                    } else {
+                        if (Utils.isInteger(args[2])) {
+                            mmh.traderCustom.set("custom_trades.trade_" + args[2] + ".price_1", "");
+                            mmh.traderCustom.set("custom_trades.trade_" + args[2] + ".price_2", "");
+                            mmh.traderCustom.set("custom_trades.trade_" + args[2] + ".itemstack", "");
+                            mmh.traderCustom.set("custom_trades.trade_" + args[2] + ".quantity", "");
+                            mmh.traderCustom.set("custom_trades.trade_" + args[2] + ".chance", "");
+                            if (debug) {
+                                logDebug("customFile=" + mmh.customFile);
+                            }
+                            try {
+                                mmh.traderCustom.save(mmh.customFile);
+                                mmh.traderCustom.load(mmh.customFile);
+                            } catch (IOException | InvalidConfigurationException e) {
+                                if (debug) {
+                                    logDebug("CMD CT Remove End Exception -----");
+                                }
+                                sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.error"));
+                                return false;
+                                //e.printStackTrace();
+                            }
+                            if (debug) {
+                                logDebug("CMD CT Remove End -----");
+                            }
+                            sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.WHITE + " trade_" + args[2] + " " + mmh.get("mmh.message.ct.successrem"));
+                            return true;
+                        } else {
+                            if (debug) {
+                                logDebug("CMD CT Remove End 2 -----");
+                            }
+                            sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.numberreq"));
+                            return false;
+                        }
+                    }
+                } else if (args[1].equalsIgnoreCase("replace")) {
+                    if (debug) {
+                        logDebug("CMD CT Replace Start -----");
+                    }
+                    if (args.length != 3) {
+                        sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.argument"));
+                        return false;
+                    } else {
+                        if (Utils.isInteger(args[2])) {
+                            ItemStack itemstack = player.getInventory().getItemInOffHand();
+                            ItemStack price1 = player.getInventory().getItem(0);
+                            ItemStack price2 = player.getInventory().getItem(1);
+                            if (price1 == null) {
+                                price1 = new ItemStack(Material.AIR);
+                            }
+                            if (price2 == null) {
+                                price2 = new ItemStack(Material.AIR);
+                            }
+                            if (itemstack.getType() == Material.AIR || price1 == null || price1.getType() == Material.AIR) {
+                                sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
                                 sender.sendMessage(ChatColor.WHITE + " ");
-                            }
-                            sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line1") + "player_heads.yml");
-                            sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line2"));
-                            sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line3"));
-                            sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line4") + "/mmh ph add");
-                            sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line5") + "player head.");
-                            sender.sendMessage(ChatColor.WHITE + " ");
-                            sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
-                            if (debug) {
-                                logDebug("CMD PH ADD End Error -----");
-                            }
-                            return false;
-                        }
-                        int tradeNumber = (int) mmh.playerHeads.get("players.number", 1);
-                        mmh.playerHeads.set("players.player_" + (tradeNumber + 1) + ".price_1", price1);
-                        mmh.playerHeads.set("players.player_" + (tradeNumber + 1) + ".price_2", price2);
-                        mmh.playerHeads.set("players.player_" + (tradeNumber + 1) + ".itemstack", itemstack);
-                        mmh.playerHeads.set("players.player_" + (tradeNumber + 1) + ".quantity", itemstack.getAmount());
-                        if (debug) {
-                            logDebug("CMD PH ADD price1=" + price1.getType());
-                        }
-                        if (debug) {
-                            logDebug("CMD PH ADD price2=" + price2.getType());
-                        }
-                        if (debug) {
-                            logDebug("CMD PH ADD itemstack=" + itemstack.getType());
-                        }
-                        if (debug) {
-                            if (itemstack.getType() == Material.PLAYER_HEAD) {
-                                ItemMeta skullMeta = itemstack.getItemMeta();
-                                logDebug("CMD PH ADD IS DisplayName=" + skullMeta.getDisplayName());
-                                if (skullMeta.hasLore()) {
-                                    logDebug("CMD PH ADD IS lore=" + String.join(",", skullMeta.getLore()));
-                                }
-                            }
-                        }
-                        if (debug) {
-                            logDebug("CMD PH ADD quantity=" + itemstack.getAmount());
-                        }
-                        //playerHeads.set("players.player_" + (tradeNumber + 1) + ".chance", 0.002);
-                        mmh.playerHeads.set("players.number", (tradeNumber + 1));
-                        //log("customFile=" + customFile);
-                        try {
-                            mmh.playerHeads.save(mmh.playerFile);
-                            mmh.playerHeads.load(mmh.playerFile);
-                        } catch (IOException | InvalidConfigurationException e) {
-                            if (debug) {
-                                logDebug("CMD PH ADD End Exception -----");
-                            }
-                            mmh.stacktraceInfo();
-                            e.printStackTrace();
-                        }
-                        if (debug) {
-                            logDebug("CMD PH ADD End -----");
-                        }
-                        sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.WHITE + " player_" + (tradeNumber + 1) + " " + mmh.get("mmh.message.ct.successadd"));
-                        return true;
-                    } else if (args[1].equalsIgnoreCase("remove")) {
-                        if (debug) {
-                            logDebug("CMD PH Remove Start -----");
-                        }
-                        if (!(args.length >= 3)) {
-                            sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.argument"));
-                            return false;
-                        } else {
-                            if (Utils.isInteger(args[2])) {
-                                mmh.playerHeads.set("players.player_" + args[2] + ".price_1", "");
-                                mmh.playerHeads.set("players.player_" + args[2] + ".price_2", "");
-                                mmh.playerHeads.set("players.player_" + args[2] + ".itemstack", "");
-                                mmh.playerHeads.set("players.player_" + args[2] + ".quantity", "");
-                                //playerHeads.set("custom_trades.trade_" + args[2] + ".chance", "");
+                                sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line1") + "custom_trades.yml");
+                                sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line2"));
+                                sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line3"));
+                                sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line4") + "/mmh ct add");
+                                sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line5") + "custom trade.");
+                                sender.sendMessage(ChatColor.WHITE + " ");
+                                sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
                                 if (debug) {
-                                    logDebug("playerFile=" + mmh.playerFile);
+                                    logDebug("CMD CT Replace End Error -----");
                                 }
-                                try {
-                                    mmh.playerHeads.save(mmh.playerFile);
-                                    mmh.playerHeads.load(mmh.playerFile);
-                                } catch (IOException | InvalidConfigurationException e) {
-                                    if (debug) {
-                                        logDebug("CMD PH Remove End Exception -----");
-                                    }
-                                    sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.error") + "custom_trades.yml!");
-                                    return false;
-                                    //e.printStackTrace();
-                                }
-                                if (debug) {
-                                    logDebug("CMD PH Remove End -----");
-                                }
-                                sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.WHITE + " player_" + args[2] + " " + mmh.get("mmh.message.ct.successrem"));
-                                return true;
-                            } else {
-                                if (debug) {
-                                    logDebug("CMD PH Remove End 2 -----");
-                                }
-                                sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.numberreq"));
                                 return false;
                             }
-                        }
-                    } else if (args[1].equalsIgnoreCase("replace")) {
-                        if (debug) {
-                            logDebug("CMD PH Replace Start -----");
-                        }
-                        if (args.length != 3) {
-                            sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.argument"));
-                            return false;
-                        } else {
-                            if (Utils.isInteger(args[2])) {
-                                ItemStack itemstack = player.getInventory().getItemInOffHand();
-                                ItemStack price1 = player.getInventory().getItem(0);
-                                ItemStack price2 = player.getInventory().getItem(1);
-                                if (price1 == null) {
-                                    price1 = new ItemStack(Material.AIR);
-                                }
-                                if (price2 == null) {
-                                    price2 = new ItemStack(Material.AIR);
-                                }
-                                if (itemstack.getType() == Material.AIR || price1 == null || price1.getType() == Material.AIR || itemstack.getType() != Material.PLAYER_HEAD) {
-                                    sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
-                                    sender.sendMessage(ChatColor.WHITE + " ");
-                                    if (itemstack.getType() != Material.PLAYER_HEAD) {
-                                        sender.sendMessage(ChatColor.RED + " MUST BE PLAYERHEAD");
-                                        sender.sendMessage(ChatColor.WHITE + " ");
-                                    }
-                                    sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line1") + "player_heads.yml");
-                                    sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line2"));
-                                    sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line3"));
-                                    sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line4") + "/mmh ph add");
-                                    sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line5") + "player head.");
-                                    sender.sendMessage(ChatColor.WHITE + " ");
-                                    sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
-                                    if (debug) {
-                                        logDebug("CMD PH Replace End Error -----");
-                                    }
-                                    return false;
-                                }
-                                int tradeNumber = Integer.parseInt(args[2]);
-                                mmh.playerHeads.set("players.player_" + (tradeNumber) + ".price_1", price1);
-                                mmh.playerHeads.set("players.player_" + (tradeNumber) + ".price_2", price2);
-                                mmh.playerHeads.set("players.player_" + (tradeNumber) + ".itemstack", itemstack);
-                                mmh.playerHeads.set("players.player_" + (tradeNumber) + ".quantity", itemstack.getAmount());
-                                if (debug) {
-                                    logDebug("CMD PH Replace price1=" + price1.getType());
-                                }
-                                if (debug) {
-                                    logDebug("CMD PH Replace price2=" + price2.getType());
-                                }
-                                if (debug) {
-                                    logDebug("CMD PH Replace itemstack=" + itemstack.getType());
-                                }
-                                if (debug) {
-                                    if (itemstack.getType() == Material.PLAYER_HEAD) {
-                                        ItemMeta skullMeta = itemstack.getItemMeta();
-                                        logDebug("CMD PH Replace IS DisplayName=" + skullMeta.getDisplayName());
-                                        if (skullMeta.hasLore()) {
-                                            logDebug("CMD PH Replace IS lore=" + String.join(",", skullMeta.getLore()));
-                                        }
-                                    }
-                                }
-                                if (debug) {
-                                    logDebug("CMD PH Replace quantity=" + itemstack.getAmount());
-                                }
-                                //playerHeads.set("players.player_" + (tradeNumber + 1) + ".chance", 0.002);
-                                //log("customFile=" + customFile);
-                                try {
-                                    mmh.playerHeads.save(mmh.playerFile);
-                                    mmh.playerHeads.load(mmh.playerFile);
-                                } catch (IOException | InvalidConfigurationException e) {
-                                    if (debug) {
-                                        logDebug("CMD PH Replace End Exception -----");
-                                    }
-                                    sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.error") + "player_heads.yml!");
-                                    return false;
-                                    //e.printStackTrace();
-                                }
-                                if (debug) {
-                                    logDebug("CMD PH Replace End -----");
-                                }
-                                sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.WHITE + " player_" + args[2] + " " + mmh.get("mmh.message.ct.successrep"));
-                                return true;
-                            } else {
-                                if (debug) {
-                                    logDebug("CMD PH Replace End 2 -----");
-                                }
-                                sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.numberreq"));
-                                return false;
+                            int tradeNumber = Integer.parseInt(args[2]);
+                            mmh.traderCustom.set("custom_trades.trade_" + (tradeNumber) + ".price_1", price1);
+                            mmh.traderCustom.set("custom_trades.trade_" + (tradeNumber) + ".price_2", price2);
+                            mmh.traderCustom.set("custom_trades.trade_" + (tradeNumber) + ".itemstack", itemstack);
+                            mmh.traderCustom.set("custom_trades.trade_" + (tradeNumber) + ".quantity", itemstack.getAmount());
+                            mmh.traderCustom.set("custom_trades.trade_" + (tradeNumber) + ".chance", 0.002);
+                            if (debug) {
+                                logDebug("CMD CT Replace price1=" + price1.getType());
                             }
-                        }
-                    }
-                } else if (!(sender instanceof Player)) {
-                    if (debug) {
-                        logDebug("CMD PH Replace End Console -----");
-                    }
-                    sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.noconsole"));
-                    return false;
-                } else if (!hasPerm) {
-                    if (debug) {
-                        logDebug("CMD PH Replace End !Perm -----");
-                    }
-                    sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.nopermordisabled").replace("<perm>", perm));
-                    return false;
-                }
-            }
-            if (args[0].equalsIgnoreCase("fixhead") || args[0].equalsIgnoreCase("fh")) {
-                String perm = "moremobheads.fixhead";
-                boolean hasPerm = sender.hasPermission(perm);
-                if (debug) {
-                    logDebug(sender.getName() + " has the permission " + perm + "=" + hasPerm);
-                }
-                if (sender instanceof Player) {
-                    Player player = (Player) sender;
-                    if (hasPerm) {
-                        if (!args[1].isEmpty()) {
-                            if (args[1].equalsIgnoreCase("name")) {
-                                if (debug) {
-                                    logDebug("CMD FH Name Start -----");
+                            if (debug) {
+                                logDebug("CMD CT Replace price2=" + price2.getType());
+                            }
+                            if (debug) {
+                                logDebug("CMD CT Replace itemstack=" + itemstack.getType());
+                            }
+                            if (debug) {
+                                if (itemstack.getType() == Material.PLAYER_HEAD) {
+                                    ItemMeta skullMeta = itemstack.getItemMeta();
+                                    logDebug("CMD CT Replace IS DisplayName=" + skullMeta.getDisplayName());
+                                    if (skullMeta.hasLore()) {
+                                        logDebug("CMD CT Replace IS lore=" + String.join(",", skullMeta.getLore()));
+                                    }
                                 }
-                                // FixHead NBT
-                                ItemStack mainHand = player.getInventory().getItemInMainHand();
-                                if (mainHand != null) {
-                                    if (mainHand.getType().equals(Material.PLAYER_HEAD)) {
-                                        String texture = mainHand.getItemMeta().getDisplayName();
+                            }
+                            if (debug) {
+                                logDebug("CMD CT Replace quantity=" + itemstack.getAmount());
+                            }
+                            if (debug) {
+                                logDebug("CMD CT Replace chance=0.002");
+                            }
 
-                                        SkullMeta skullname = (SkullMeta) mainHand.getItemMeta();
-                                        if (skullname.getOwner() != null) {
-                                            String name = skullname.getOwner();
+                            //log("customFile=" + customFile);
+                            try {
+                                mmh.traderCustom.save(mmh.customFile);
+                                mmh.traderCustom.load(mmh.customFile);
+                            } catch (IOException | InvalidConfigurationException e) {
+                                if (debug) {
+                                    logDebug("CMD CT Replace End Exception -----");
+                                }
+                                sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.error"));
+                                return false;
+                                //e.printStackTrace();
+                            }
+                            if (debug) {
+                                logDebug("CMD CT Replace End -----");
+                            }
+                            sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.WHITE + " trade_" + args[2] + " " + mmh.get("mmh.message.ct.successrep"));
+                            return true;
+                        } else {
+                            if (debug) {
+                                logDebug("CMD CT Replace End 2 -----");
+                            }
+                            sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.numberreq"));
+                            return false;
+                        }
+                    }
+                }
+            } else if (!(sender instanceof Player)) {
+                if (debug) {
+                    logDebug("CMD CT Replace End Console -----");
+                }
+                sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.noconsole"));
+                return false;
+            } else if (!hasPerm) {
+                if (debug) {
+                    logDebug("CMD CT Replace End !Perm -----");
+                }
+                sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.nopermordisabled").replace("<perm>", perm));
+                return false;
+            }
+        }
+        if (args[0].equalsIgnoreCase("playerheads") || args[0].equalsIgnoreCase("ph")) {
+            String perm = "moremobheads.playerheads";
+            boolean hasPerm = sender.hasPermission(perm);
+            if (debug) {
+                logDebug(sender.getName() + " has the permission " + perm + "=" + hasPerm);
+            }
+            if (hasPerm && sender instanceof Player
+                    && mmh.getConfig().getBoolean("wandering_trades.custom_wandering_trader", true)) {
+                Player player = (Player) sender;
+                if (!(args.length >= 2)) {
+                    sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
+                    sender.sendMessage(ChatColor.WHITE + " ");
+                    sender.sendMessage(ChatColor.WHITE + " /mmh ph - " + mmh.get("mmh.command.ct.help"));
+                    sender.sendMessage(ChatColor.WHITE + " /mmh ph add - " + mmh.get("mmh.command.ct.add") + "player_heads.yml");
+                    sender.sendMessage(ChatColor.WHITE + " /mmh ph remove # - " + mmh.get("mmh.command.ct.remove").replace("custom_trades", "playerheads"));
+                    sender.sendMessage(ChatColor.WHITE + " /mmh ph replace # - " + mmh.get("mmh.command.ct.replace").replace("<num>", "#").replace("custom trade", "pleayerhead"));
+                    //sender.sendMessage(ChatColor.WHITE + " ");
+                    sender.sendMessage(ChatColor.WHITE + " ");
+                    sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
+                    return true;
+                } else if (args[1].equalsIgnoreCase("add")) {
+                    if (debug) {
+                        logDebug("CMD PH ADD Start -----");
+                    }
+                    ItemStack itemstack = player.getInventory().getItemInOffHand();
+                    ItemStack price1 = player.getInventory().getItem(0);
+                    ItemStack price2 = player.getInventory().getItem(1);
+                    if (price1 == null) {
+                        price1 = new ItemStack(Material.AIR);
+                    }
+                    if (price2 == null) {
+                        price2 = new ItemStack(Material.AIR);
+                    }
+                    //Material price1 = item1.getType();
+                    //Material price2 = item2.getType();
+
+                    if (itemstack.getType() == Material.AIR || price1 == null || price1.getType() == Material.AIR || itemstack.getType() != Material.PLAYER_HEAD) {
+                        sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
+                        sender.sendMessage(ChatColor.WHITE + " ");
+                        if (itemstack.getType() != Material.PLAYER_HEAD) {
+                            sender.sendMessage(ChatColor.RED + " " + mmh.get("mmh.command.playerhead.msg"));
+                            sender.sendMessage(ChatColor.WHITE + " ");
+                        }
+                        sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line1") + "player_heads.yml");
+                        sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line2"));
+                        sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line3"));
+                        sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line4") + "/mmh ph add");
+                        sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line5") + "player head.");
+                        sender.sendMessage(ChatColor.WHITE + " ");
+                        sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
+                        if (debug) {
+                            logDebug("CMD PH ADD End Error -----");
+                        }
+                        return false;
+                    }
+                    int tradeNumber = (int) mmh.playerHeads.get("players.number", 1);
+                    mmh.playerHeads.set("players.player_" + (tradeNumber + 1) + ".price_1", price1);
+                    mmh.playerHeads.set("players.player_" + (tradeNumber + 1) + ".price_2", price2);
+                    mmh.playerHeads.set("players.player_" + (tradeNumber + 1) + ".itemstack", itemstack);
+                    mmh.playerHeads.set("players.player_" + (tradeNumber + 1) + ".quantity", itemstack.getAmount());
+                    if (debug) {
+                        logDebug("CMD PH ADD price1=" + price1.getType());
+                    }
+                    if (debug) {
+                        logDebug("CMD PH ADD price2=" + price2.getType());
+                    }
+                    if (debug) {
+                        logDebug("CMD PH ADD itemstack=" + itemstack.getType());
+                    }
+                    if (debug) {
+                        if (itemstack.getType() == Material.PLAYER_HEAD) {
+                            ItemMeta skullMeta = itemstack.getItemMeta();
+                            logDebug("CMD PH ADD IS DisplayName=" + skullMeta.getDisplayName());
+                            if (skullMeta.hasLore()) {
+                                logDebug("CMD PH ADD IS lore=" + String.join(",", skullMeta.getLore()));
+                            }
+                        }
+                    }
+                    if (debug) {
+                        logDebug("CMD PH ADD quantity=" + itemstack.getAmount());
+                    }
+                    //playerHeads.set("players.player_" + (tradeNumber + 1) + ".chance", 0.002);
+                    mmh.playerHeads.set("players.number", (tradeNumber + 1));
+                    //log("customFile=" + customFile);
+                    try {
+                        mmh.playerHeads.save(mmh.playerFile);
+                        mmh.playerHeads.load(mmh.playerFile);
+                    } catch (IOException | InvalidConfigurationException e) {
+                        if (debug) {
+                            logDebug("CMD PH ADD End Exception -----");
+                        }
+                        mmh.stacktraceInfo();
+                        e.printStackTrace();
+                    }
+                    if (debug) {
+                        logDebug("CMD PH ADD End -----");
+                    }
+                    sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.WHITE + " player_" + (tradeNumber + 1) + " " + mmh.get("mmh.message.ct.successadd"));
+                    return true;
+                } else if (args[1].equalsIgnoreCase("remove")) {
+                    if (debug) {
+                        logDebug("CMD PH Remove Start -----");
+                    }
+                    if (!(args.length >= 3)) {
+                        sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.argument"));
+                        return false;
+                    } else {
+                        if (Utils.isInteger(args[2])) {
+                            mmh.playerHeads.set("players.player_" + args[2] + ".price_1", "");
+                            mmh.playerHeads.set("players.player_" + args[2] + ".price_2", "");
+                            mmh.playerHeads.set("players.player_" + args[2] + ".itemstack", "");
+                            mmh.playerHeads.set("players.player_" + args[2] + ".quantity", "");
+                            //playerHeads.set("custom_trades.trade_" + args[2] + ".chance", "");
+                            if (debug) {
+                                logDebug("playerFile=" + mmh.playerFile);
+                            }
+                            try {
+                                mmh.playerHeads.save(mmh.playerFile);
+                                mmh.playerHeads.load(mmh.playerFile);
+                            } catch (IOException | InvalidConfigurationException e) {
+                                if (debug) {
+                                    logDebug("CMD PH Remove End Exception -----");
+                                }
+                                sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.error") + "custom_trades.yml!");
+                                return false;
+                                //e.printStackTrace();
+                            }
+                            if (debug) {
+                                logDebug("CMD PH Remove End -----");
+                            }
+                            sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.WHITE + " player_" + args[2] + " " + mmh.get("mmh.message.ct.successrem"));
+                            return true;
+                        } else {
+                            if (debug) {
+                                logDebug("CMD PH Remove End 2 -----");
+                            }
+                            sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.numberreq"));
+                            return false;
+                        }
+                    }
+                } else if (args[1].equalsIgnoreCase("replace")) {
+                    if (debug) {
+                        logDebug("CMD PH Replace Start -----");
+                    }
+                    if (args.length != 3) {
+                        sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.argument"));
+                        return false;
+                    } else {
+                        if (Utils.isInteger(args[2])) {
+                            ItemStack itemstack = player.getInventory().getItemInOffHand();
+                            ItemStack price1 = player.getInventory().getItem(0);
+                            ItemStack price2 = player.getInventory().getItem(1);
+                            if (price1 == null) {
+                                price1 = new ItemStack(Material.AIR);
+                            }
+                            if (price2 == null) {
+                                price2 = new ItemStack(Material.AIR);
+                            }
+                            if (itemstack.getType() == Material.AIR || price1 == null || price1.getType() == Material.AIR || itemstack.getType() != Material.PLAYER_HEAD) {
+                                sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
+                                sender.sendMessage(ChatColor.WHITE + " ");
+                                if (itemstack.getType() != Material.PLAYER_HEAD) {
+                                    sender.sendMessage(ChatColor.RED + " MUST BE PLAYERHEAD");
+                                    sender.sendMessage(ChatColor.WHITE + " ");
+                                }
+                                sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line1") + "player_heads.yml");
+                                sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line2"));
+                                sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line3"));
+                                sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line4") + "/mmh ph add");
+                                sender.sendMessage(ChatColor.WHITE + " " + mmh.get("mmh.command.ct.line5") + "player head.");
+                                sender.sendMessage(ChatColor.WHITE + " ");
+                                sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName() + ChatColor.GREEN + "]===============[]");
+                                if (debug) {
+                                    logDebug("CMD PH Replace End Error -----");
+                                }
+                                return false;
+                            }
+                            int tradeNumber = Integer.parseInt(args[2]);
+                            mmh.playerHeads.set("players.player_" + (tradeNumber) + ".price_1", price1);
+                            mmh.playerHeads.set("players.player_" + (tradeNumber) + ".price_2", price2);
+                            mmh.playerHeads.set("players.player_" + (tradeNumber) + ".itemstack", itemstack);
+                            mmh.playerHeads.set("players.player_" + (tradeNumber) + ".quantity", itemstack.getAmount());
+                            if (debug) {
+                                logDebug("CMD PH Replace price1=" + price1.getType());
+                            }
+                            if (debug) {
+                                logDebug("CMD PH Replace price2=" + price2.getType());
+                            }
+                            if (debug) {
+                                logDebug("CMD PH Replace itemstack=" + itemstack.getType());
+                            }
+                            if (debug) {
+                                if (itemstack.getType() == Material.PLAYER_HEAD) {
+                                    ItemMeta skullMeta = itemstack.getItemMeta();
+                                    logDebug("CMD PH Replace IS DisplayName=" + skullMeta.getDisplayName());
+                                    if (skullMeta.hasLore()) {
+                                        logDebug("CMD PH Replace IS lore=" + String.join(",", skullMeta.getLore()));
+                                    }
+                                }
+                            }
+                            if (debug) {
+                                logDebug("CMD PH Replace quantity=" + itemstack.getAmount());
+                            }
+                            //playerHeads.set("players.player_" + (tradeNumber + 1) + ".chance", 0.002);
+                            //log("customFile=" + customFile);
+                            try {
+                                mmh.playerHeads.save(mmh.playerFile);
+                                mmh.playerHeads.load(mmh.playerFile);
+                            } catch (IOException | InvalidConfigurationException e) {
+                                if (debug) {
+                                    logDebug("CMD PH Replace End Exception -----");
+                                }
+                                sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.error") + "player_heads.yml!");
+                                return false;
+                                //e.printStackTrace();
+                            }
+                            if (debug) {
+                                logDebug("CMD PH Replace End -----");
+                            }
+                            sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.WHITE + " player_" + args[2] + " " + mmh.get("mmh.message.ct.successrep"));
+                            return true;
+                        } else {
+                            if (debug) {
+                                logDebug("CMD PH Replace End 2 -----");
+                            }
+                            sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.numberreq"));
+                            return false;
+                        }
+                    }
+                }
+            } else if (!(sender instanceof Player)) {
+                if (debug) {
+                    logDebug("CMD PH Replace End Console -----");
+                }
+                sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.noconsole"));
+                return false;
+            } else if (!hasPerm) {
+                if (debug) {
+                    logDebug("CMD PH Replace End !Perm -----");
+                }
+                sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.nopermordisabled").replace("<perm>", perm));
+                return false;
+            }
+        }
+        if (args[0].equalsIgnoreCase("fixhead") || args[0].equalsIgnoreCase("fh")) {
+            String perm = "moremobheads.fixhead";
+            boolean hasPerm = sender.hasPermission(perm);
+            if (debug) {
+                logDebug(sender.getName() + " has the permission " + perm + "=" + hasPerm);
+            }
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
+                if (hasPerm) {
+                    if (!args[1].isEmpty()) {
+                        if (args[1].equalsIgnoreCase("name")) {
+                            if (debug) {
+                                logDebug("CMD FH Name Start -----");
+                            }
+                            // FixHead NBT
+                            ItemStack mainHand = player.getInventory().getItemInMainHand();
+                            if (mainHand != null) {
+                                if (mainHand.getType().equals(Material.PLAYER_HEAD)) {
+                                    String texture = mainHand.getItemMeta().getDisplayName();
+
+                                    SkullMeta skullname = (SkullMeta) mainHand.getItemMeta();
+                                    if (skullname.getOwner() != null) {
+                                        String name = skullname.getOwner();
+                                        if (debug) {
+                                            logDebug("EPIE name=" + name);
+                                        }
+                                        if (debug) {
+                                            logDebug("EPIE lore=" + skullname.getLore());
+                                        }
+                                        if (skullname.getOwner().length() >= 40) {
                                             if (debug) {
-                                                logDebug("EPIE name=" + name);
+                                                logDebug("EPIE ownerName.lngth >= 40");
                                             }
-                                            if (debug) {
-                                                logDebug("EPIE lore=" + skullname.getLore());
-                                            }
-                                            if (skullname.getOwner().length() >= 40) {
+                                            ItemStack itmStack = mainHand;
+                                            //SkullMeta skullname = (SkullMeta) e.getItem().getItemStack().getItemMeta();
+                                            String daMobName = "null";
+                                            if (skullname != null) {
+                                                String isCat = CatHeads.getNameFromTexture(skullname.getOwner());
+                                                String isHorse = HorseHeads.getNameFromTexture(skullname.getOwner());
+                                                String isLlama = LlamaHeads.getNameFromTexture(skullname.getOwner());
+                                                String isMobHead = MobHeads.getNameFromTexture(skullname.getOwner());
+                                                String isRabbit = RabbitHeads.getNameFromTexture(skullname.getOwner());
+                                                String isSheep = SheepHeads.getNameFromTexture(skullname.getOwner());
+                                                String isVillager = VillagerHeads.getNameFromTexture(skullname.getOwner());
+                                                String isZombieVillager = ZombieVillagerHeads.getNameFromTexture(skullname.getOwner());
+                                                String isplayerhead = Heads.isPlayerHead(skullname.getOwner());
+                                                String isblockhead = Heads.isBlockHead(skullname.getOwner());
+                                                String isblockhead2 = Heads.isBlockHead2(skullname.getOwner());
+                                                String isblockhead3 = Heads.isBlockHead3(skullname.getOwner());
+                                                if (isCat != null) {
+                                                    daMobName = isCat;
+                                                }
+                                                if (isHorse != null) {
+                                                    daMobName = isHorse;
+                                                }
+                                                if (isLlama != null) {
+                                                    daMobName = isLlama;
+                                                }
+                                                if (isMobHead != null) {
+                                                    daMobName = isMobHead;
+                                                }
+                                                if (isRabbit != null) {
+                                                    daMobName = isRabbit;
+                                                }
+                                                if (isSheep != null) {
+                                                    daMobName = isSheep;
+                                                }
+                                                if (isVillager != null) {
+                                                    daMobName = isVillager;
+                                                }
+                                                if (isZombieVillager != null) {
+                                                    daMobName = isZombieVillager;
+                                                }
+                                                if (daMobName == null) {
+                                                    if (blockHeads != null) {
+                                                        if (isblockhead != null) {
+                                                            daMobName = isblockhead;
+                                                        }
+                                                    }
+                                                    if (blockHeads2 != null) {
+                                                        if (isblockhead2 != null) {
+                                                            daMobName = isblockhead2;
+                                                        }
+                                                    }
+                                                    if (blockHeads3 != null) {
+                                                        if (isblockhead3 != null) {
+                                                            daMobName = isblockhead3;
+                                                        }
+                                                    }
+                                                    if (mmh.playerHeads != null) {
+                                                        if (isplayerhead != null) {
+                                                            daMobName = isplayerhead;
+                                                        }
+                                                    }
+                                                }
+                                                ArrayList<String> lore = new ArrayList();
+                                                //log("" + meta.getOwner().toString());
+                                                //String name = LlamaHeads.getNameFromTexture(meta.getOwner().toString());
                                                 if (debug) {
-                                                    logDebug("EPIE ownerName.lngth >= 40");
+                                                    logDebug("EPIE mobname from texture=" + daMobName);
                                                 }
-                                                ItemStack itmStack = mainHand;
-                                                //SkullMeta skullname = (SkullMeta) e.getItem().getItemStack().getItemMeta();
-                                                String daMobName = "null";
-                                                if (skullname != null) {
-                                                    String isCat = CatHeads.getNameFromTexture(skullname.getOwner());
-                                                    String isHorse = HorseHeads.getNameFromTexture(skullname.getOwner());
-                                                    String isLlama = LlamaHeads.getNameFromTexture(skullname.getOwner());
-                                                    String isMobHead = MobHeads.getNameFromTexture(skullname.getOwner());
-                                                    String isRabbit = RabbitHeads.getNameFromTexture(skullname.getOwner());
-                                                    String isSheep = SheepHeads.getNameFromTexture(skullname.getOwner());
-                                                    String isVillager = VillagerHeads.getNameFromTexture(skullname.getOwner());
-                                                    String isZombieVillager = ZombieVillagerHeads.getNameFromTexture(skullname.getOwner());
-                                                    String isplayerhead = Heads.isPlayerHead(skullname.getOwner());
-                                                    String isblockhead = Heads.isBlockHead(skullname.getOwner());
-                                                    String isblockhead2 = Heads.isBlockHead2(skullname.getOwner());
-                                                    String isblockhead3 = Heads.isBlockHead3(skullname.getOwner());
-                                                    if (isCat != null) {
-                                                        daMobName = isCat;
+                                                List<String> skullLore = skullname.getLore();
+                                                if (skullLore != null) {
+                                                    if (skullLore.toString().contains(mmh.get("mmh.message.lore_killed_by").replace("<player>", ""))) {
+                                                        lore.addAll(skullname.getLore());
                                                     }
-                                                    if (isHorse != null) {
-                                                        daMobName = isHorse;
+                                                }
+                                                if (skullLore == null || !skullname.getLore().toString().contains(mmh.getName())) {
+                                                    if (mmh.getConfig().getBoolean("lore.show_plugin_name", true)) {
+                                                        lore.add(ChatColor.AQUA + "" + mmh.getName());
                                                     }
-                                                    if (isLlama != null) {
-                                                        daMobName = isLlama;
-                                                    }
-                                                    if (isMobHead != null) {
-                                                        daMobName = isMobHead;
-                                                    }
-                                                    if (isRabbit != null) {
-                                                        daMobName = isRabbit;
-                                                    }
-                                                    if (isSheep != null) {
-                                                        daMobName = isSheep;
-                                                    }
-                                                    if (isVillager != null) {
-                                                        daMobName = isVillager;
-                                                    }
-                                                    if (isZombieVillager != null) {
-                                                        daMobName = isZombieVillager;
-                                                    }
-                                                    if (daMobName == null) {
-                                                        if (blockHeads != null) {
-                                                            if (isblockhead != null) {
-                                                                daMobName = isblockhead;
-                                                            }
-                                                        }
-                                                        if (blockHeads2 != null) {
-                                                            if (isblockhead2 != null) {
-                                                                daMobName = isblockhead2;
-                                                            }
-                                                        }
-                                                        if (blockHeads3 != null) {
-                                                            if (isblockhead3 != null) {
-                                                                daMobName = isblockhead3;
-                                                            }
-                                                        }
-                                                        if (mmh.playerHeads != null) {
-                                                            if (isplayerhead != null) {
-                                                                daMobName = isplayerhead;
-                                                            }
-                                                        }
-                                                    }
-                                                    ArrayList<String> lore = new ArrayList();
-                                                    //log("" + meta.getOwner().toString());
-                                                    //String name = LlamaHeads.getNameFromTexture(meta.getOwner().toString());
-                                                    if (debug) {
-                                                        logDebug("EPIE mobname from texture=" + daMobName);
-                                                    }
-                                                    List<String> skullLore = skullname.getLore();
-                                                    if (skullLore != null) {
-                                                        if (skullLore.toString().contains(mmh.get("mmh.message.lore_killed_by").replace("<player>", ""))) {
-                                                            lore.addAll(skullname.getLore());
-                                                        }
-                                                    }
-                                                    if (skullLore == null || !skullname.getLore().toString().contains(mmh.getName())) {
-                                                        if (mmh.getConfig().getBoolean("lore.show_plugin_name", true)) {
-                                                            lore.add(ChatColor.AQUA + "" + mmh.getName());
-                                                        }
-                                                    }
-                                                    if (!daMobName.equals("null")) {
-                                                        daMobName = mmh.mobNames.getString(daMobName.toLowerCase().replace(" ", "."), daMobName);
-                                                    } else {
-                                                        daMobName = mmh.mobNames.getString(daMobName.toLowerCase().replace(" ", "."), "404 Name Not Found");
-                                                    }
-                                                    skullname.setLore(lore);
-                                                    skullname.setDisplayName(daMobName);
-                                                    itmStack.setItemMeta(skullname);
-                                                    //fixHeadNBT(skullname.getOwner(), daMobName, lore);
-                                                    if (debug) {
-                                                        logDebug("CMD FH Name End -----");
-                                                    }
-                                                    sender.sendMessage("" + mmh.get("mmh.command.fixhead.name"));
-                                                    //if(debug){logDebug("test3a");}
-                                                    return true;
+                                                }
+                                                if (!daMobName.equals("null")) {
+                                                    daMobName = mmh.mobNames.getString(daMobName.toLowerCase().replace(" ", "."), daMobName);
                                                 } else {
-                                                    if (debug) {
-                                                        logDebug("CMD FH Name End Meta Null -----");
-                                                    }
-                                                    return false;
+                                                    daMobName = mmh.mobNames.getString(daMobName.toLowerCase().replace(" ", "."), "404 Name Not Found");
                                                 }
+                                                skullname.setLore(lore);
+                                                skullname.setDisplayName(daMobName);
+                                                itmStack.setItemMeta(skullname);
+                                                //fixHeadNBT(skullname.getOwner(), daMobName, lore);
+                                                if (debug) {
+                                                    logDebug("CMD FH Name End -----");
+                                                }
+                                                sender.sendMessage("" + mmh.get("mmh.command.fixhead.name"));
+                                                //if(debug){logDebug("test3a");}
+                                                return true;
+                                            } else {
+                                                if (debug) {
+                                                    logDebug("CMD FH Name End Meta Null -----");
+                                                }
+                                                return false;
                                             }
                                         }
+                                    }
+                                } else {
+                                    if (debug) {
+                                        logDebug("CMD FH Name End Error -----");
+                                    }
+                                    sender.sendMessage("An Error occured.");
+                                    return false;
+                                }
+                            }
+                        }
+
+                        if (args[1].equalsIgnoreCase("stack")) {
+                            if (debug) {
+                                logDebug("CMD FH Stack Start -----");
+                            }
+                            // FixHead Stack
+                            ItemStack mainHand = player.getInventory().getItemInMainHand();
+                            ItemStack offHand = player.getInventory().getItemInOffHand();
+                            if (mainHand != null && offHand != null) {
+                                if (mainHand.getType().equals(Material.PLAYER_HEAD) && offHand.getType().equals(Material.PLAYER_HEAD)) {
+                                    ItemStack is = mmh.fixHeadStack(offHand, mainHand);
+                                    //is.setAmount(mainHand.getAmount());
+                                    if (is != mainHand) {
+                                        player.getInventory().setItemInMainHand(is);
+                                        if (debug) {
+                                            logDebug("is=" + is.getType());
+                                        }
+                                        if (debug) {
+                                            logDebug("CMD FH Stack End -----");
+                                        }
+                                        sender.sendMessage("" + mmh.get("mmh.command.fixhead.stack.success"));
+                                        return true;
                                     } else {
                                         if (debug) {
-                                            logDebug("CMD FH Name End Error -----");
+                                            logDebug("CMD FH Stack End Error -----");
                                         }
-                                        sender.sendMessage("An Error occured.");
+                                        sender.sendMessage("" + mmh.get("mmh.command.fixhead.stack.error"));
                                         return false;
                                     }
-                                }
-                            }
-
-                            if (args[1].equalsIgnoreCase("stack")) {
-                                if (debug) {
-                                    logDebug("CMD FH Stack Start -----");
-                                }
-                                // FixHead Stack
-                                ItemStack mainHand = player.getInventory().getItemInMainHand();
-                                ItemStack offHand = player.getInventory().getItemInOffHand();
-                                if (mainHand != null && offHand != null) {
-                                    if (mainHand.getType().equals(Material.PLAYER_HEAD) && offHand.getType().equals(Material.PLAYER_HEAD)) {
-                                        ItemStack is = mmh.fixHeadStack(offHand, mainHand);
-                                        //is.setAmount(mainHand.getAmount());
-                                        if (is != mainHand) {
-                                            player.getInventory().setItemInMainHand(is);
-                                            if (debug) {
-                                                logDebug("is=" + is.getType());
-                                            }
-                                            if (debug) {
-                                                logDebug("CMD FH Stack End -----");
-                                            }
-                                            sender.sendMessage("" + mmh.get("mmh.command.fixhead.stack.success"));
-                                            return true;
-                                        } else {
-                                            if (debug) {
-                                                logDebug("CMD FH Stack End Error -----");
-                                            }
-                                            sender.sendMessage("" + mmh.get("mmh.command.fixhead.stack.error"));
-                                            return false;
-                                        }
-                                    } else if (!mainHand.getType().equals(Material.PLAYER_HEAD) && !offHand.getType().equals(Material.PLAYER_HEAD)) {
-                                        if (debug) {
-                                            logDebug("CMD FH Stack End Error Main Off -----");
-                                        }
-                                        sender.sendMessage("" + mmh.get("mmh.command.fixhead.stack.notph"));
-                                        return false;
-                                    } else if (!mainHand.getType().equals(Material.PLAYER_HEAD) && offHand.getType().equals(Material.PLAYER_HEAD)) {
-                                        if (debug) {
-                                            logDebug("CMD FH Stack End Error Main -----");
-                                        }
-                                        sender.sendMessage("" + mmh.get("mmh.command.fixhead.stack.main"));
-                                        return false;
-                                    } else if (mainHand.getType().equals(Material.PLAYER_HEAD) && !offHand.getType().equals(Material.PLAYER_HEAD)) {
-                                        if (debug) {
-                                            logDebug("CMD FH Stack End Error Off -----");
-                                        }
-                                        sender.sendMessage("" + mmh.get("mmh.command.fixhead.stack.off"));
-                                        return false;
+                                } else if (!mainHand.getType().equals(Material.PLAYER_HEAD) && !offHand.getType().equals(Material.PLAYER_HEAD)) {
+                                    if (debug) {
+                                        logDebug("CMD FH Stack End Error Main Off -----");
                                     }
+                                    sender.sendMessage("" + mmh.get("mmh.command.fixhead.stack.notph"));
+                                    return false;
+                                } else if (!mainHand.getType().equals(Material.PLAYER_HEAD) && offHand.getType().equals(Material.PLAYER_HEAD)) {
+                                    if (debug) {
+                                        logDebug("CMD FH Stack End Error Main -----");
+                                    }
+                                    sender.sendMessage("" + mmh.get("mmh.command.fixhead.stack.main"));
+                                    return false;
+                                } else if (mainHand.getType().equals(Material.PLAYER_HEAD) && !offHand.getType().equals(Material.PLAYER_HEAD)) {
+                                    if (debug) {
+                                        logDebug("CMD FH Stack End Error Off -----");
+                                    }
+                                    sender.sendMessage("" + mmh.get("mmh.command.fixhead.stack.off"));
+                                    return false;
                                 }
                             }
                         }
-
-                    } else if (!hasPerm) {
-                        if (debug) {
-                            logDebug("CMD FH Stack End !Perm -----");
-                        }
-                        sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.noperm").replace("<perm>", perm));
-                        return false;
                     }
+
+                } else if (!hasPerm) {
+                    if (debug) {
+                        logDebug("CMD FH Stack End !Perm -----");
+                    }
+                    sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.noperm").replace("<perm>", perm));
+                    return false;
                 }
             }
-            if (args[0].equalsIgnoreCase("giveMH")) {
-                // /mmh giveMH player mob qty
-                // cmd  0      1      2   3
-                if (args.length == 4) {
-                    String perm = "moremobheads.give";
-                    boolean hasPerm = sender.hasPermission(perm);
-                    if (debug) {
-                        logDebug(sender.getName() + " has the permission " + perm + "=" + hasPerm);
-                    }
-                    if (hasPerm) {
-                        Player player = Bukkit.getPlayer(args[1]);
-                        if (!args[2].isEmpty()) {
-                            String mob = args[2].toLowerCase();
-                            log(Level.INFO, "mob=" + mob);
-                            if (!args[3].isEmpty()) {
-                                int number = Integer.parseInt(args[3]);
-                                String[] splitmob = mob.split("\\.");
-                                switch (splitmob[0]) {
-                                    case "creeper":
-                                        if (mmh.getConfig().getBoolean("vanilla_heads.creeper", false)) {
-                                            player.getWorld().dropItemNaturally(player.getLocation(), new ItemStack(Material.CREEPER_HEAD));
-                                        } else { // mmh.langName
-                                            player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(),
-                                                    mmh.mobNames.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number));
-                                        } // MobHeads.valueOf(name).getName() + " Head"
-                                        break;
-                                    case "zombie":
-                                        if (mmh.getConfig().getBoolean("vanilla_heads.zombie", false)) {
-                                            player.getWorld().dropItemNaturally(player.getLocation(), new ItemStack(Material.ZOMBIE_HEAD));
-                                        } else { // mmh.langName
-                                            player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(),
-                                                    mmh.mobNames.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number));
-                                        } // MobHeads.valueOf(name).getName() + " Head"
-                                        break;
-                                    case "skeleton":
-                                        if (mmh.getConfig().getBoolean("vanilla_heads.skeleton", false)) {
-                                            player.getWorld().dropItemNaturally(player.getLocation(), new ItemStack(Material.SKELETON_SKULL));
-                                        } else { // mmh.langName
-                                            player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(),
-                                                    mmh.mobNames.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number));
-                                        } // MobHeads.valueOf(name).getName() + " Head"
-                                        break;
-                                    case "wither_skeleton":
-                                        if (mmh.getConfig().getBoolean("vanilla_heads.wither_skeleton", false)) {
-                                            player.getWorld().dropItemNaturally(player.getLocation(), new ItemStack(Material.WITHER_SKELETON_SKULL));
-                                        } else { // mmh.langName
-                                            player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(),
-                                                    mmh.mobNames.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number));
-                                        } // MobHeads.valueOf(name).getName() + " Head"
-                                        break;
-                                    case "ender_dragon":
-                                        if (mmh.getConfig().getBoolean("vanilla_heads.ender_dragon", false)) {
-                                            player.getWorld().dropItemNaturally(player.getLocation(), new ItemStack(Material.DRAGON_HEAD));
-                                        } else { // mmh.langName
-                                            player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(),
-                                                    mmh.mobNames.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number));
-                                        } // MobHeads.valueOf(name).getName() + " Head"
-                                        break;
-                                    case "cat":
-                                        player.getWorld().dropItemNaturally(player.getLocation(),
-                                                mmh.makeSkulls(CatHeads.valueOf(splitmob[1].toUpperCase()).getTexture(),
-                                                        mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), CatHeads.valueOf(splitmob[1].toUpperCase()).getName() + " Head"), number));
-                                        break;
-                                    case "bee":
-                                        log(Level.INFO, "splitmob.length=" + splitmob.length);
-                                        if (splitmob.length == 1) {
-                                            player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(),
-                                                    mmh.mobNames.getString(splitmob[0].toLowerCase() + ".none", MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number));
-                                        } else {
-                                            player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(MobHeads.valueOf(mob.toUpperCase().replace(".", "_")).getTexture(),
-                                                    mmh.mobNames.getString(mob.toLowerCase().replace(".", "_"), MobHeads.valueOf(mob.toUpperCase().replace(".", "_")).getName() + " Head"), number));
-                                        }
-                                        break;
-                                    case "villager": // villager type profession, villager profession type
-                                        // name = splitmob[0], type =  splitmob[1], profession = splitmob[2]
-                                        player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(VillagerHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[2].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(),
-                                                mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase() + "." + splitmob[2].toLowerCase()
-                                                        , VillagerHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[2].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName() + " Head"), number));
-                                        break;
-                                    case "zombie_villager":
-                                        player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(ZombieVillagerHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[2].toUpperCase()).getTexture(),
-                                                mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[2].toLowerCase(), ZombieVillagerHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[2].toUpperCase()).getName()), number));
-                                        break;
-                                    case "llama":
-                                    case "trader_llama":
-                                        player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(LlamaHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(),
-                                                mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), LlamaHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName()), number));
-                                        break;
-                                    case "horse":
-                                        player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(HorseHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(),
-                                                mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), HorseHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName()), number));
-                                        break;
-                                    case "rabbit":
-                                        player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(RabbitHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(),
-                                                mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), RabbitHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName()), number));
-                                        break;
-                                    case "sheep":
-                                        String sheeptype;
-                                        if (splitmob[1].equalsIgnoreCase("jeb_")) {
-                                            sheeptype = "jeb_";
-                                        } else {
-                                            sheeptype = splitmob[1].toUpperCase();
-                                        }
-                                        player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(SheepHeads.valueOf(splitmob[0].toUpperCase() + "_" + sheeptype).getTexture(),
-                                                mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), SheepHeads.valueOf(splitmob[0].toUpperCase() + "_" + sheeptype).getName()), number));
-                                        break;
-                                    case "goat":
-                                    case "axolotl":
-                                        player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(MobHeads117.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(),
-                                                mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), MobHeads117.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName()), number));
-                                        break;
-                                    default:
+        }
+        if (args[0].equalsIgnoreCase("giveMH")) {
+            // /mmh giveMH player mob qty
+            // cmd  0      1      2   3
+            if (args.length == 4) {
+                String perm = "moremobheads.give";
+                boolean hasPerm = sender.hasPermission(perm);
+                if (debug) {
+                    logDebug(sender.getName() + " has the permission " + perm + "=" + hasPerm);
+                }
+                if (hasPerm) {
+                    Player player = Bukkit.getPlayer(args[1]);
+                    if (!args[2].isEmpty()) {
+                        String mob = args[2].toLowerCase();
+                        log(Level.INFO, "mob=" + mob);
+                        if (!args[3].isEmpty()) {
+                            int number = Integer.parseInt(args[3]);
+                            String[] splitmob = mob.split("\\.");
+                            switch (splitmob[0]) {
+                                case "creeper":
+                                    if (mmh.getConfig().getBoolean("vanilla_heads.creeper", false)) {
+                                        player.getWorld().dropItemNaturally(player.getLocation(), new ItemStack(Material.CREEPER_HEAD));
+                                    } else { // mmh.langName
+                                        player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(),
+                                                mmh.mobNames.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number));
+                                    } // MobHeads.valueOf(name).getName() + " Head"
+                                    break;
+                                case "zombie":
+                                    if (mmh.getConfig().getBoolean("vanilla_heads.zombie", false)) {
+                                        player.getWorld().dropItemNaturally(player.getLocation(), new ItemStack(Material.ZOMBIE_HEAD));
+                                    } else { // mmh.langName
+                                        player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(),
+                                                mmh.mobNames.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number));
+                                    } // MobHeads.valueOf(name).getName() + " Head"
+                                    break;
+                                case "skeleton":
+                                    if (mmh.getConfig().getBoolean("vanilla_heads.skeleton", false)) {
+                                        player.getWorld().dropItemNaturally(player.getLocation(), new ItemStack(Material.SKELETON_SKULL));
+                                    } else { // mmh.langName
+                                        player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(),
+                                                mmh.mobNames.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number));
+                                    } // MobHeads.valueOf(name).getName() + " Head"
+                                    break;
+                                case "wither_skeleton":
+                                    if (mmh.getConfig().getBoolean("vanilla_heads.wither_skeleton", false)) {
+                                        player.getWorld().dropItemNaturally(player.getLocation(), new ItemStack(Material.WITHER_SKELETON_SKULL));
+                                    } else { // mmh.langName
+                                        player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(),
+                                                mmh.mobNames.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number));
+                                    } // MobHeads.valueOf(name).getName() + " Head"
+                                    break;
+                                case "ender_dragon":
+                                    if (mmh.getConfig().getBoolean("vanilla_heads.ender_dragon", false)) {
+                                        player.getWorld().dropItemNaturally(player.getLocation(), new ItemStack(Material.DRAGON_HEAD));
+                                    } else { // mmh.langName
+                                        player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(),
+                                                mmh.mobNames.getString(splitmob[0].toLowerCase(), MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number));
+                                    } // MobHeads.valueOf(name).getName() + " Head"
+                                    break;
+                                case "cat":
+                                    player.getWorld().dropItemNaturally(player.getLocation(),
+                                            mmh.makeSkulls(CatHeads.valueOf(splitmob[1].toUpperCase()).getTexture(),
+                                                    mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), CatHeads.valueOf(splitmob[1].toUpperCase()).getName() + " Head"), number));
+                                    break;
+                                case "bee":
+                                    log(Level.INFO, "splitmob.length=" + splitmob.length);
+                                    if (splitmob.length == 1) {
+                                        player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(MobHeads.valueOf(splitmob[0].toUpperCase()).getTexture(),
+                                                mmh.mobNames.getString(splitmob[0].toLowerCase() + ".none", MobHeads.valueOf(splitmob[0].toUpperCase()).getName() + " Head"), number));
+                                    } else {
                                         player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(MobHeads.valueOf(mob.toUpperCase().replace(".", "_")).getTexture(),
-                                                mmh.mobNames.getString(mob.toLowerCase(), MobHeads.valueOf(mob.toUpperCase().replace(".", "_")).getName() + " Head"), number));
-                                        break;
-                                }
+                                                mmh.mobNames.getString(mob.toLowerCase().replace(".", "_"), MobHeads.valueOf(mob.toUpperCase().replace(".", "_")).getName() + " Head"), number));
+                                    }
+                                    break;
+                                case "villager": // villager type profession, villager profession type
+                                    // name = splitmob[0], type =  splitmob[1], profession = splitmob[2]
+                                    player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(VillagerHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[2].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(),
+                                            mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase() + "." + splitmob[2].toLowerCase()
+                                                    , VillagerHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[2].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName() + " Head"), number));
+                                    break;
+                                case "zombie_villager":
+                                    player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(ZombieVillagerHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[2].toUpperCase()).getTexture(),
+                                            mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[2].toLowerCase(), ZombieVillagerHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[2].toUpperCase()).getName()), number));
+                                    break;
+                                case "llama":
+                                case "trader_llama":
+                                    player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(LlamaHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(),
+                                            mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), LlamaHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName()), number));
+                                    break;
+                                case "horse":
+                                    player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(HorseHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(),
+                                            mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), HorseHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName()), number));
+                                    break;
+                                case "rabbit":
+                                    player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(RabbitHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(),
+                                            mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), RabbitHeads.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName()), number));
+                                    break;
+                                case "sheep":
+                                    String sheeptype;
+                                    if (splitmob[1].equalsIgnoreCase("jeb_")) {
+                                        sheeptype = "jeb_";
+                                    } else {
+                                        sheeptype = splitmob[1].toUpperCase();
+                                    }
+                                    player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(SheepHeads.valueOf(splitmob[0].toUpperCase() + "_" + sheeptype).getTexture(),
+                                            mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), SheepHeads.valueOf(splitmob[0].toUpperCase() + "_" + sheeptype).getName()), number));
+                                    break;
+                                case "goat":
+                                case "axolotl":
+                                    player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(MobHeads117.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getTexture(),
+                                            mmh.mobNames.getString(splitmob[0].toLowerCase() + "." + splitmob[1].toLowerCase(), MobHeads117.valueOf(splitmob[0].toUpperCase() + "_" + splitmob[1].toUpperCase()).getName()), number));
+                                    break;
+                                default:
+                                    player.getWorld().dropItemNaturally(player.getLocation(), mmh.makeSkulls(MobHeads.valueOf(mob.toUpperCase().replace(".", "_")).getTexture(),
+                                            mmh.mobNames.getString(mob.toLowerCase(), MobHeads.valueOf(mob.toUpperCase().replace(".", "_")).getName() + " Head"), number));
+                                    break;
                             }
                         }
-                    } else if (!hasPerm) {
-                        sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.noperm").replace("<perm>", perm));
-                        return false;
                     }
-                } else {
-                    sender.sendMessage("Command usage, /mmh givemh playername mobname 1");
+                } else if (!hasPerm) {
+                    sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.noperm").replace("<perm>", perm));
                     return false;
                 }
+            } else {
+                sender.sendMessage("Command usage, /mmh givemh playername mobname 1");
+                return false;
+            }
 
-            }
-            // /mmh giveph player
-            // /mmh giveph player player
-            //  0   1      2      3
-            if (args[0].equalsIgnoreCase("givePH")) {
-                if (args.length >= 2) {
-                    String perm = "moremobheads.give";
-                    boolean hasPerm = sender.hasPermission(perm);
+        }
+        // /mmh giveph player
+        // /mmh giveph player player
+        //  0   1      2      3
+        if (args[0].equalsIgnoreCase("givePH")) {
+            if (args.length >= 2) {
+                String perm = "moremobheads.give";
+                boolean hasPerm = sender.hasPermission(perm);
+                if (debug) {
+                    logDebug(sender.getName() + " has the permission " + perm + "=" + hasPerm);
+                }
+                if (hasPerm) {
                     if (debug) {
-                        logDebug(sender.getName() + " has the permission " + perm + "=" + hasPerm);
+                        logDebug("CMD GPH args.length=" + args.length);
                     }
-                    if (hasPerm) {
+                    if (args.length == 2 && sender instanceof Player) {
+                        Heads.givePlayerHead((Player) sender, args[1]);
                         if (debug) {
-                            logDebug("CMD GPH args.length=" + args.length);
+                            logDebug("CMD GPH args1=" + args[1]);
                         }
-                        if (args.length == 2 && sender instanceof Player) {
-                            Heads.givePlayerHead((Player) sender, args[1]);
-                            if (debug) {
-                                logDebug("CMD GPH args1=" + args[1]);
-                            }
-                            return true;
-                        } else if (args.length == 3) {
-                            Player player = Bukkit.getPlayer(args[1]);
-                            Heads.givePlayerHead(player, args[2]);
-                            if (debug) {
-                                logDebug("CMD GPH args1=" + args[1] + ", args2=" + args[2]);
-                            }
-                            return true;
-                        } else if (args.length == 2 && !(sender instanceof Player)) {
-                            sender.sendMessage("" + mmh.get("mmh.command.give.console") + "" + mmh.get("mmh.command.usage") + ":");
-                            sender.sendMessage("\"/mmh giveph playername 1\" - " + mmh.get("mmh.command.give.playerhead.you"));
-                            sender.sendMessage("\"/mmh giveph playername playername 1\" - " + mmh.get("mmh.command.give.playerhead.them"));
-                            return false;
+                        return true;
+                    } else if (args.length == 3) {
+                        Player player = Bukkit.getPlayer(args[1]);
+                        Heads.givePlayerHead(player, args[2]);
+                        if (debug) {
+                            logDebug("CMD GPH args1=" + args[1] + ", args2=" + args[2]);
                         }
-                    } else if (!hasPerm) {
-                        sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.noperm").replace("<perm>", perm));
+                        return true;
+                    } else if (args.length == 2 && !(sender instanceof Player)) {
+                        sender.sendMessage("" + mmh.get("mmh.command.give.console") + "" + mmh.get("mmh.command.usage") + ":");
+                        sender.sendMessage("\"/mmh giveph playername 1\" - " + mmh.get("mmh.command.give.playerhead.you"));
+                        sender.sendMessage("\"/mmh giveph playername playername 1\" - " + mmh.get("mmh.command.give.playerhead.them"));
                         return false;
                     }
-                } else {
-                    sender.sendMessage("" + mmh.get("mmh.command.usage") + ":");
-                    sender.sendMessage("\"/mmh giveph playername 1\" - " + mmh.get("mmh.command.give.playerhead.you"));
-                    sender.sendMessage("\"/mmh giveph playername playername 1\" - " + mmh.get("mmh.command.give.playerhead.them"));
+                } else if (!hasPerm) {
+                    sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.noperm").replace("<perm>", perm));
                     return false;
                 }
+            } else {
+                sender.sendMessage("" + mmh.get("mmh.command.usage") + ":");
+                sender.sendMessage("\"/mmh giveph playername 1\" - " + mmh.get("mmh.command.give.playerhead.you"));
+                sender.sendMessage("\"/mmh giveph playername playername 1\" - " + mmh.get("mmh.command.give.playerhead.them"));
                 return false;
             }
-            // /mmh givebh block
-            // /mmh givebh player block
-            //  0   1      2      3
-            if (args[0].equalsIgnoreCase("giveBH")) {
+            return false;
+        }
+        // /mmh givebh block
+        // /mmh givebh player block
+        //  0   1      2      3
+        if (args[0].equalsIgnoreCase("giveBH")) {
+            if (debug) {
+                logDebug("Start GiveBH");
+            }
+            if (debug) {
+                logDebug("Command=" + cmd.getName() + ", arguments=" + Arrays.toString(args));
+            }
+            if (args.length >= 2) {
+                String perm = "moremobheads.give";
+                boolean hasPerm = sender.hasPermission(perm);
                 if (debug) {
-                    logDebug("Start GiveBH");
+                    logDebug(sender.getName() + " has the permission " + perm + "=" + hasPerm);
                 }
-                if (debug) {
-                    logDebug("Command=" + cmd.getName() + ", arguments=" + Arrays.toString(args));
-                }
-                if (args.length >= 2) {
-                    String perm = "moremobheads.give";
-                    boolean hasPerm = sender.hasPermission(perm);
+                if (hasPerm) {
                     if (debug) {
-                        logDebug(sender.getName() + " has the permission " + perm + "=" + hasPerm);
+                        logDebug("CMD GBH args.length=" + args.length);
                     }
-                    if (hasPerm) {
+                    if (args.length == 2 && sender instanceof Player) {
+                        Heads.giveBlockHead((Player) sender, args[1].replace("_", " "));
                         if (debug) {
-                            logDebug("CMD GBH args.length=" + args.length);
+                            logDebug("CMD GBH args1=" + args[1]);
                         }
-                        if (args.length == 2 && sender instanceof Player) {
-                            Heads.giveBlockHead((Player) sender, args[1].replace("_", " "));
-                            if (debug) {
-                                logDebug("CMD GBH args1=" + args[1]);
-                            }
-                            if (debug) {
-                                logDebug("End GiveBH True 1");
-                            }
-                            return true;
-                        } else if (args.length == 3) {
-                            Player player = Bukkit.getPlayer(args[1]);
-                            Heads.giveBlockHead(player, args[2].replace("_", " "));
-                            if (debug) {
-                                logDebug("CMD GBH args1=" + args[1] + ", args2=" + args[2]);
-                            }
-                            if (debug) {
-                                logDebug("End GiveBH True 2");
-                            }
-                            return true;
-                        } else if (args.length == 2 && !(sender instanceof Player)) {
-                            sender.sendMessage("" + mmh.get("mmh.command.give.console") + " mmh giveBh <player> <block>");
-                            if (debug) {
-                                logDebug("End GiveBH False 1");
-                            }
-                            return false;
-                        }
-                    } else if (!hasPerm) {
-                        sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.noperm").replace("<perm>", perm));
                         if (debug) {
-                            logDebug("End GiveBH False 2");
+                            logDebug("End GiveBH True 1");
+                        }
+                        return true;
+                    } else if (args.length == 3) {
+                        Player player = Bukkit.getPlayer(args[1]);
+                        Heads.giveBlockHead(player, args[2].replace("_", " "));
+                        if (debug) {
+                            logDebug("CMD GBH args1=" + args[1] + ", args2=" + args[2]);
+                        }
+                        if (debug) {
+                            logDebug("End GiveBH True 2");
+                        }
+                        return true;
+                    } else if (args.length == 2 && !(sender instanceof Player)) {
+                        sender.sendMessage("" + mmh.get("mmh.command.give.console") + " mmh giveBh <player> <block>");
+                        if (debug) {
+                            logDebug("End GiveBH False 1");
                         }
                         return false;
                     }
-                } else {
-                    sender.sendMessage("" + mmh.get("mmh.command.usage") + ":");
-                    sender.sendMessage("\"/mmh givebh <block>\" - " + mmh.get("mmh.command.give.blockhead.you"));
-                    sender.sendMessage("\"/mmh giveph playername <block>\" - " + mmh.get("mmh.command.give.blockhead.them"));
+                } else if (!hasPerm) {
+                    sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.noperm").replace("<perm>", perm));
                     if (debug) {
-                        logDebug("End GiveBH False 3");
+                        logDebug("End GiveBH False 2");
                     }
                     return false;
                 }
+            } else {
+                sender.sendMessage("" + mmh.get("mmh.command.usage") + ":");
+                sender.sendMessage("\"/mmh givebh <block>\" - " + mmh.get("mmh.command.give.blockhead.you"));
+                sender.sendMessage("\"/mmh giveph playername <block>\" - " + mmh.get("mmh.command.give.blockhead.them"));
                 if (debug) {
-                    logDebug("End GiveBH False 4");
+                    logDebug("End GiveBH False 3");
                 }
                 return false;
             }
+            if (debug) {
+                logDebug("End GiveBH False 4");
+            }
+            return false;
         }
         return false;
     }
