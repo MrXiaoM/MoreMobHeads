@@ -93,10 +93,10 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
         world_blacklist = mmh.getConfig().getString("world.blacklist", "");
         mob_whitelist = mmh.getConfig().getString("mob.whitelist", "");
         mob_blacklist = mmh.getConfig().getString("mob.blacklist", "");
-        blockFile117 = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_17.yml");
-        blockFile1172 = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_17_2.yml");
-        blockFile1173 = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_17_3.yml");
-        blockFile119 = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_19.yml");
+        blockFile117 = new File(mmh.getDataFolder(), "block_heads_1_17.yml");
+        blockFile1172 = new File(mmh.getDataFolder(), "block_heads_1_17_2.yml");
+        blockFile1173 = new File(mmh.getDataFolder(), "block_heads_1_17_3.yml");
+        blockFile119 = new File(mmh.getDataFolder(), "block_heads_1_19.yml");
         if (mmh.getConfig().getBoolean("wandering_trades.custom_wandering_trader", true)) {
             if (!blockFile117.exists()) {
                 mmh.saveResource("block_heads_1_17.yml", true);
@@ -363,7 +363,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                 mmh.logDebug("EDE Entity is Player line:877");
             }
 
-            //if(entity.getKiller() instanceof Player){//
+            //if(entity.getKiller() instanceof Player){
             if (entity.getKiller().hasPermission("moremobheads.players")) {
                 boolean dropit = mmh.DropIt(event, mmh.chanceConfig.getDouble("chance_percent.player", 0.50));
                 if (debug) {
@@ -453,7 +453,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                 String isNametag = null;
                 @Nonnull
                 PersistentDataContainer pdc = entity.getPersistentDataContainer();
-                isNametag = entity.getPersistentDataContainer().get(mmh.NAMETAG_KEY, PersistentDataType.STRING);//.getScoreboardTags();//
+                isNametag = entity.getPersistentDataContainer().get(mmh.NAMETAG_KEY, PersistentDataType.STRING);//.getScoreboardTags();
                 if (debug && (isNametag != null)) {
                     mmh.logDebug("EDE isNametag=" + isNametag);
                 }
@@ -1661,7 +1661,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                         }
 
                         if (!daSet.isEmpty()) {
-                            File chanceFile = new File(mmh.getDataFolder() + "" + File.separatorChar + "logs" + File.separatorChar, "chance_dump" + ".log");
+                            File chanceFile = new File(mmh.getDataFolder(), "logs/chance_dump.log");
 							try (PrintWriter pw = new PrintWriter(
 									new OutputStreamWriter(new FileOutputStream(chanceFile), StandardCharsets.UTF_8))) {
 								for (String s : daSet) {
@@ -1684,7 +1684,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                             }
                         }
                         if (!daSet.isEmpty()) {
-                            File chanceFile = new File(mmh.getDataFolder() + "" + File.separatorChar + "logs" + File.separatorChar, "chance_dump" + ".log");
+                            File chanceFile = new File(mmh.getDataFolder(), "logs/chance_dump.log");
 							try (PrintWriter pw = new PrintWriter(
 									new OutputStreamWriter(new FileOutputStream(chanceFile), StandardCharsets.UTF_8))) {
 								for (String s : daSet) {
@@ -1713,10 +1713,10 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                 }
                 if (hasPerm || !(sender instanceof Player)) {
                     Config.reload(mmh);
-                    blockFile117 = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_17.yml");
-                    blockFile1172 = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_17_2.yml");
-                    blockFile1173 = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_17_3.yml");
-                    blockFile119 = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_19.yml");
+                    blockFile117 = new File(mmh.getDataFolder(), "block_heads_1_17.yml");
+                    blockFile1172 = new File(mmh.getDataFolder(), "block_heads_1_17_2.yml");
+                    blockFile1173 = new File(mmh.getDataFolder(), "block_heads_1_17_3.yml");
+                    blockFile119 = new File(mmh.getDataFolder(), "block_heads_1_19.yml");
                     if (mmh.getConfig().getBoolean("wandering_trades.custom_wandering_trader", true)) {
                         if (!blockFile117.exists()) {
                             mmh.saveResource("block_heads_1_17.yml", true);

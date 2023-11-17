@@ -92,11 +92,11 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
         world_blacklist = mmh.mob_blacklist;
         mob_whitelist = mmh.mob_whitelist;
         mob_blacklist = mmh.mob_blacklist;
-        blockFile116 = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_16.yml");
-        blockFile1162 = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_16_2.yml");
+        blockFile116 = new File(mmh.getDataFolder(), "block_heads_1_16.yml");
+        blockFile1162 = new File(mmh.getDataFolder(), "block_heads_1_16_2.yml");
         if (mmh.getConfig().getBoolean("wandering_trades.custom_wandering_trader", true)) {
             if (!mmh.getMCVersion().startsWith("1.16") && !mmh.getMCVersion().startsWith("1.17")) {
-                blockFile = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads.yml");//\
+                blockFile = new File(mmh.getDataFolder(), "block_heads.yml");
                 if (debug) {
                     logDebug("block_heads=" + blockFile.getPath());
                 }
@@ -121,7 +121,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                     mmh.saveResource("block_heads_1_16_2.yml", true);
                     log(Level.INFO, "block_heads_1_16_2.yml not found! Creating in " + mmh.getDataFolder() + "");
                 }
-                blockFile = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_16.yml");
+                blockFile = new File(mmh.getDataFolder(), "block_heads_1_16.yml");
                 log(Level.INFO, "Loading block_heads_1_16 files...");
 
             } else {
@@ -355,7 +355,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                 String isNametag = null;
                 @Nonnull
                 PersistentDataContainer pdc = entity.getPersistentDataContainer();
-                isNametag = entity.getPersistentDataContainer().get(mmh.NAMETAG_KEY, PersistentDataType.STRING);//.getScoreboardTags();//
+                isNametag = entity.getPersistentDataContainer().get(mmh.NAMETAG_KEY, PersistentDataType.STRING);//.getScoreboardTags();
                 if (debug && isNametag != null) {
                     mmh.logDebug("EDE isNametag=" + isNametag);
                 }
@@ -1296,7 +1296,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
      cached_recipes.addAll(recipes);
      }});//*/
     /**
-     * }//
+     * }
      */
 
     @SuppressWarnings({"unused", "static-access", "deprecation", "rawtypes", "unchecked"})
@@ -1408,11 +1408,11 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                 }
                 if (hasPerm || !(sender instanceof Player)) {
                     Config.reload(mmh);
-                    blockFile116 = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_16.yml");
-                    blockFile1162 = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_16_2.yml");
+                    blockFile116 = new File(mmh.getDataFolder(), "block_heads_1_16.yml");
+                    blockFile1162 = new File(mmh.getDataFolder(), "block_heads_1_16_2.yml");
                     if (mmh.getConfig().getBoolean("wandering_trades.custom_wandering_trader", true)) {
                         if (!mmh.getMCVersion().startsWith("1.16") && !mmh.getMCVersion().startsWith("1.17")) {
-                            blockFile = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads.yml");//\
+                            blockFile = new File(mmh.getDataFolder(), "block_heads.yml");
                             if (debug) {
                                 logDebug("block_heads=" + blockFile.getPath());
                             }
@@ -1437,7 +1437,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                                 mmh.saveResource("block_heads_1_16_2.yml", true);
                                 log(Level.INFO, "block_heads_1_16_2.yml not found! Creating in " + mmh.getDataFolder() + "");
                             }
-                            blockFile = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_16.yml");
+                            blockFile = new File(mmh.getDataFolder(), "block_heads_1_16.yml");
                             log(Level.INFO, "Loading block_heads_1_16 files...");
 
                         } else {

@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.concurrent.TimeUnit;
@@ -28,9 +29,9 @@ public class Utils {
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "tellraw \"" + player.getName() + "\" " + string);
     }
 
-    public static void copyFile_Java7(String origin, String destination) throws IOException {
-        Path FROM = Paths.get(origin);
-        Path TO = Paths.get(destination);
+    public static void copyFile_Java7(File origin, File destination) throws IOException {
+        Path FROM = origin.toPath();
+        Path TO = destination.toPath();
         //overwrite the destination file if it exists, and copy
         // the file attributes, including the rwx permissions
         CopyOption[] options = new CopyOption[]{

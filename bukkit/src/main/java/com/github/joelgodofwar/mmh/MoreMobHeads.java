@@ -135,7 +135,7 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
         loading(Ansi.GREEN + "**************************************" + Ansi.RESET);
         loading(Ansi.YELLOW + THIS_NAME + " v" + THIS_VERSION + Ansi.RESET + " Loading...");
 
-        debugFile = new File(this.getDataFolder() + File.separator + "logs" + File.separator + "mmh_debug.log");
+        debugFile = new File(getDataFolder(), "logs/mmh_debug.log");
         if (!debugFile.exists()) try {
             debugFile.createNewFile();
         } catch (IOException e) {
@@ -680,7 +680,7 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
 
     public String isPlayerHead(String string) {
         try {
-            playerFile = new File(getDataFolder() + "" + File.separatorChar + "player_heads.yml");//\
+            playerFile = new File(getDataFolder() + "" + File.separatorChar + "player_heads.yml");
             if (!playerFile.exists()) {                                                                    // checks if the yaml does not exist
                 return null;
             }
@@ -709,7 +709,7 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
     public String isBlockHead(String string) { // TODO: isBlockHead
         try {
             if (!(Double.parseDouble(StrUtils.Left(getMCVersion(), 4)) >= 1.16)) {
-                blockFile = new File(getDataFolder() + "" + File.separatorChar + "block_heads.yml");//\
+                blockFile = new File(getDataFolder() + "" + File.separatorChar + "block_heads.yml");
                 if (!blockFile.exists()) {                                                                    // checks if the yaml does not exist
                     return null;
                 }
@@ -816,7 +816,7 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
         try {
             double mcVer = Double.parseDouble(StrUtils.Left(getMCVersion(), 4));
             if (!(mcVer >= 1.16)) {
-                blockFile = new File(getDataFolder() + "" + File.separatorChar + "block_heads.yml");//\
+                blockFile = new File(getDataFolder() + "" + File.separatorChar + "block_heads.yml");
                 if (!blockFile.exists()) {                                                                    // checks if the yaml does not exist
                     return -1;
                 }
