@@ -90,11 +90,8 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
     public FileConfiguration traderCustom;
     File chanceFile;
     public YmlConfiguration chanceConfig;
-    public YmlConfiguration oldChanceConfig;
     public YmlConfiguration beheadingMessages = new YmlConfiguration();
-    public YamlConfiguration oldMessages;
     public YmlConfiguration config = new YmlConfiguration();
-    YamlConfiguration oldConfig = new YamlConfiguration();
     public String world_whitelist;
     public String world_blacklist;
     public String mob_whitelist;
@@ -116,13 +113,10 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
     public void onEnable() {
         long startTime = System.currentTimeMillis();
         Heads.onEnable(this);
-        Networks.checkUpdate = getConfig().getBoolean("auto_update_check");
-        debug = getConfig().getBoolean("debug", false);
-        languageName = getConfig().getString("lang", "zh_CN");
-        oldConfig = new YamlConfiguration();
-        oldMessages = new YamlConfiguration();
+
         THIS_NAME = this.getDescription().getName();
         THIS_VERSION = this.getDescription().getVersion();
+
         if (!getConfig().getBoolean("console.longpluginname", true)) {
             pluginName = "MMH";
         } else {
@@ -147,7 +141,6 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
         if (jarfile.toString().contains("-DEV")) {
             debug = true;
             logDebug("Jar file contains -DEV, debug set to true");
-            //log("jarfile contains dev, debug set to true.");
         }
 
         /* Version Check */
@@ -171,9 +164,6 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
                 }
             }
             File file = new File(getDataFolder(), "config.yml");
-            if (debug) {
-                logDebug("" + file);
-            }
             if (!file.exists()) {
                 log(Level.INFO, "config.yml not found, creating!");
                 saveResource("config.yml", true);
@@ -258,8 +248,8 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
 
         Networks.checkUpdate(this);
 
-        consoleInfo("Enabled - Loading took " + Utils.LoadTime(startTime));
-        if (getConfig().getBoolean("metrics", false)) Networks.checkUpdate(this);
+        consoleInfo("Enabled - Loading took " + Utils.timeToString(startTime));
+        if (getConfig().getBoolean("metrics", false)) Networks.startMetrics(this);
     }
 
     @Override

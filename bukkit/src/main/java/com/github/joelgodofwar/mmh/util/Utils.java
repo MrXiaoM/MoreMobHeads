@@ -56,7 +56,7 @@ public class Utils {
         return true;
     }
 
-    public static String LoadTime(long startTime) {
+    public static String timeToString(long startTime) {
         long elapsedTime = System.currentTimeMillis() - startTime;
         long minutes = TimeUnit.MILLISECONDS.toMinutes(elapsedTime);
         long seconds = TimeUnit.MILLISECONDS.toSeconds(elapsedTime) % 60;
