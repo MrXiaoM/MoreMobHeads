@@ -1,6 +1,7 @@
 package com.github.joelgodofwar.mmh.handlers;
 
 import com.github.joelgodofwar.mmh.Config;
+import com.github.joelgodofwar.mmh.Heads;
 import com.github.joelgodofwar.mmh.MoreMobHeads;
 import com.github.joelgodofwar.mmh.MoreMobHeadsLib;
 import com.github.joelgodofwar.mmh.enums.*;
@@ -1307,7 +1308,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                     int numOfplayerheads = (playerhead_recipes.size() - 1) >= 0 ? playerhead_recipes.size() - 1 : 0;
                     int phMaxDef = (3 >= numOfplayerheads) ? 3 : numOfplayerheads;
 
-                    int playerRandom = mmh.randomBetween(mmh.getConfig().getInt("wandering_trades.player_heads.min", 0), mmh.getConfig().getInt("wandering_trades.player_heads.max", phMaxDef));
+                    int playerRandom = Utils.randomBetween(mmh.getConfig().getInt("wandering_trades.player_heads.min", 0), mmh.getConfig().getInt("wandering_trades.player_heads.max", phMaxDef));
                     if (debug) {
                         mmh.logDebug("CSE.PH playerRandom=" + playerRandom);
                     }
@@ -1322,9 +1323,9 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                         HashSet<Integer> used = new HashSet<>();
                         outerLoop:
                         for (int i = 0; i < playerRandom; i++) {
-                            int randomPlayerHead = mmh.randomBetween(0, numOfplayerheads);
+                            int randomPlayerHead = Utils.randomBetween(0, numOfplayerheads);
                             while (used.contains(randomPlayerHead) || (randomPlayerHead > numOfplayerheads)) { //while we have already used the number
-                                randomPlayerHead = mmh.randomBetween(0, numOfplayerheads); //generate a new one because it's already used
+                                randomPlayerHead = Utils.randomBetween(0, numOfplayerheads); //generate a new one because it's already used
                                 // infinite loop catch
                                 if (i >= 500) {
                                     if (debug) {
@@ -1358,7 +1359,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                     if (debug) {
                         mmh.logDebug("CSE BH1 min=" + min + " max=" + max);
                     }
-                    int blockRandom = mmh.randomBetween(min, max);
+                    int blockRandom = Utils.randomBetween(min, max);
                     if (debug) {
                         mmh.logDebug("CSE blockRandom=" + blockRandom);
                     }
@@ -1376,9 +1377,9 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                             if (debug) {
                                 mmh.logDebug("CSE i=" + i);
                             }
-                            int randomBlockHead = mmh.randomBetween(0, numOfblockheads);
+                            int randomBlockHead = Utils.randomBetween(0, numOfblockheads);
                             while (used.contains(randomBlockHead)) { //while we have already used the number
-                                randomBlockHead = mmh.randomBetween(0, numOfblockheads); //generate a new one because it's already used
+                                randomBlockHead = Utils.randomBetween(0, numOfblockheads); //generate a new one because it's already used
                                 if (i >= 500) {
                                     if (debug) {
                                         mmh.logDebug("CSE.BH1 timed out");
@@ -1410,7 +1411,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                         if (debug) {
                             mmh.logDebug("CSE BH2 min=" + min + " max=" + max);
                         }
-                        int blockRandom = mmh.randomBetween(min, max);
+                        int blockRandom = Utils.randomBetween(min, max);
                         if (debug) {
                             mmh.logDebug("CSE blockRandom=" + blockRandom);
                         }
@@ -1428,9 +1429,9 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                                 if (debug) {
                                     mmh.logDebug("CSE i=" + i);
                                 }
-                                int randomBlockHead = mmh.randomBetween(BHNum - 1, numOfblockheads);
+                                int randomBlockHead = Utils.randomBetween(BHNum - 1, numOfblockheads);
                                 while (used.contains(randomBlockHead)) { //while we have already used the number
-                                    randomBlockHead = mmh.randomBetween(BHNum - 1, numOfblockheads); //generate a new one because it's already used
+                                    randomBlockHead = Utils.randomBetween(BHNum - 1, numOfblockheads); //generate a new one because it's already used
                                     if (i >= 500) {
                                         if (debug) {
                                             mmh.logDebug("CSE.BH2 timed out");
@@ -1457,7 +1458,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                         if (debug) {
                             mmh.logDebug("CSE BH2 min=" + min1 + " max=" + max1);
                         }
-                        int blockRandom1 = mmh.randomBetween(min1, max1);
+                        int blockRandom1 = Utils.randomBetween(min1, max1);
                         if (debug) {
                             mmh.logDebug("CSE blockRandom=" + blockRandom1);
                         }
@@ -1475,9 +1476,9 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                                 if (debug) {
                                     mmh.logDebug("CSE i=" + i);
                                 }
-                                int randomBlockHead = mmh.randomBetween((BHNum + BHNum2) - 1, numOfblockheads);
+                                int randomBlockHead = Utils.randomBetween((BHNum + BHNum2) - 1, numOfblockheads);
                                 while (used.contains(randomBlockHead) || (randomBlockHead > numOfblockheads)) { //while we have already used the number
-                                    randomBlockHead = mmh.randomBetween((BHNum + BHNum2) - 1, numOfblockheads); //generate a new one because it's already used
+                                    randomBlockHead = Utils.randomBetween((BHNum + BHNum2) - 1, numOfblockheads); //generate a new one because it's already used
                                     if (i >= 500) {
                                         if (debug) {
                                             mmh.logDebug("CSE.BH3 timed out");
@@ -1505,7 +1506,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                     numOfCustomTrades = numOfCustomTrades - 1;
                     int ctMaxDef = (5 >= numOfCustomTrades) ? 5 : numOfCustomTrades;
 
-                    int customRandom = mmh.randomBetween(mmh.getConfig().getInt("wandering_trades.custom_trades.min", 0), mmh.getConfig().getInt("wandering_trades.custom_trades.max", ctMaxDef));
+                    int customRandom = Utils.randomBetween(mmh.getConfig().getInt("wandering_trades.custom_trades.min", 0), mmh.getConfig().getInt("wandering_trades.custom_trades.max", ctMaxDef));
 
                     //if(debug){logDebug("CSE numOfCustomTrades=" + numOfCustomTrades);}
                     //int customRandom = randomBetween(getConfig().getInt("wandering_trades.min_custom_trades", 0), mmh.getConfig().getInt("wandering_trades.max_custom_trades", 3));
@@ -1978,7 +1979,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                         if (!(args.length >= 3)) {
                             sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.argument"));
                             return false;
-                        } else if (mmh.isInteger(args[2])) {
+                        } else if (Utils.isInteger(args[2])) {
                             mmh.traderCustom.set("custom_trades.trade_" + args[2] + ".price_1", "");
                             mmh.traderCustom.set("custom_trades.trade_" + args[2] + ".price_2", "");
                             mmh.traderCustom.set("custom_trades.trade_" + args[2] + ".itemstack", "");
@@ -2017,7 +2018,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                         if (args.length != 3) {
                             sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.argument"));
                             return false;
-                        } else if (mmh.isInteger(args[2])) {
+                        } else if (Utils.isInteger(args[2])) {
                             ItemStack itemstack = player.getInventory().getItemInOffHand();
                             ItemStack price1 = player.getInventory().getItem(0);
                             ItemStack price2 = player.getInventory().getItem(1);
@@ -2218,7 +2219,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                         if (!(args.length >= 3)) {
                             sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.argument"));
                             return false;
-                        } else if (mmh.isInteger(args[2])) {
+                        } else if (Utils.isInteger(args[2])) {
                             mmh.playerHeads.set("players.player_" + args[2] + ".price_1", "");
                             mmh.playerHeads.set("players.player_" + args[2] + ".price_2", "");
                             mmh.playerHeads.set("players.player_" + args[2] + ".itemstack", "");
@@ -2257,7 +2258,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                         if (args.length != 3) {
                             sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.argument"));
                             return false;
-                        } else if (mmh.isInteger(args[2])) {
+                        } else if (Utils.isInteger(args[2])) {
                             ItemStack itemstack = player.getInventory().getItemInOffHand();
                             ItemStack price1 = player.getInventory().getItem(0);
                             ItemStack price2 = player.getInventory().getItem(1);
@@ -2397,10 +2398,10 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                                                     String isSheep = SheepHeads.getNameFromTexture(skullname.getOwner());
                                                     String isVillager = VillagerHeads.getNameFromTexture(skullname.getOwner());
                                                     String isZombieVillager = ZombieVillagerHeads.getNameFromTexture(skullname.getOwner());
-                                                    String isplayerhead = mmh.isPlayerHead(skullname.getOwner());
-                                                    String isblockhead = mmh.isBlockHead(skullname.getOwner());
-                                                    String isblockhead2 = mmh.isBlockHead2(skullname.getOwner());
-                                                    String isblockhead3 = mmh.isBlockHead3(skullname.getOwner());
+                                                    String isplayerhead = Heads.isPlayerHead(skullname.getOwner());
+                                                    String isblockhead = Heads.isBlockHead(skullname.getOwner());
+                                                    String isblockhead2 = Heads.isBlockHead2(skullname.getOwner());
+                                                    String isblockhead3 = Heads.isBlockHead3(skullname.getOwner());
                                                     if (isCat != null) {
                                                         daMobName = isCat;
                                                     }
@@ -2733,14 +2734,14 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                             logDebug("CMD GPH args.length=" + args.length);
                         }
                         if ((args.length == 2) && (sender instanceof Player)) {
-                            mmh.givePlayerHead((Player) sender, args[1]);
+                            Heads.givePlayerHead((Player) sender, args[1]);
                             if (debug) {
                                 logDebug("CMD GPH args1=" + args[1]);
                             }
                             return true;
                         } else if (args.length == 3) {
                             Player player = Bukkit.getPlayer(args[1]);
-                            mmh.givePlayerHead(player, args[2]);
+                            Heads.givePlayerHead(player, args[2]);
                             if (debug) {
                                 logDebug("CMD GPH args1=" + args[1] + ", args2=" + args[2]);
                             }
@@ -2784,7 +2785,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                             logDebug("CMD GBH args.length=" + args.length);
                         }
                         if ((args.length == 2) && (sender instanceof Player)) {
-                            mmh.giveBlockHead((Player) sender, args[1].replace("_", " "));
+                            Heads.giveBlockHead((Player) sender, args[1].replace("_", " "));
                             if (debug) {
                                 logDebug("CMD GBH args1=" + args[1]);
                             }
@@ -2794,7 +2795,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                             return true;
                         } else if (args.length == 3) {
                             Player player = Bukkit.getPlayer(args[1]);
-                            mmh.giveBlockHead(player, args[2].replace("_", " "));
+                            Heads.giveBlockHead(player, args[2].replace("_", " "));
                             if (debug) {
                                 logDebug("CMD GBH args1=" + args[1] + ", args2=" + args[2]);
                             }

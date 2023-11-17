@@ -1,5 +1,7 @@
 package com.github.joelgodofwar.mmh.util;
 
+import com.github.joelgodofwar.mmh.MoreMobHeads;
+import com.mojang.authlib.GameProfile;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -7,10 +9,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.file.*;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class Utils {
@@ -63,6 +68,35 @@ public class Utils {
             return String.format("%d s %d ms.", seconds, milliseconds);
         } else {
             return String.format("%d ms.", elapsedTime);
+        }
+    }
+
+    public static int randomBetween(int min, int max) {
+        Random r = new Random();
+        return r.nextInt((max - min) + 1) + min;
+    }
+
+    private static Field fieldProfileItem;
+
+    public static void setGameProfile(SkullMeta meta, GameProfile profile) {
+        try {
+            if (fieldProfileItem == null) {
+                fieldProfileItem = meta.getClass().getDeclaredField("profile");
+            }
+            fieldProfileItem.setAccessible(true);
+            fieldProfileItem.set(meta, profile);
+        } catch (NoSuchFieldException | IllegalAccessException | IllegalArgumentException | SecurityException e) {
+            MoreMobHeads.stacktraceInfoStatic();
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean isInteger(String s) {
+        try {
+            Integer.parseInt(s);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
         }
     }
 

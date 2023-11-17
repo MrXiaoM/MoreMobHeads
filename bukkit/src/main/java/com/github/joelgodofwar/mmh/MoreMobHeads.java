@@ -48,7 +48,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -116,6 +115,7 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
     @Override // TODO: onEnable
     public void onEnable() {
         long startTime = System.currentTimeMillis();
+        Heads.onEnable(this);
         Networks.checkUpdate = getConfig().getBoolean("auto_update_check");
         debug = getConfig().getBoolean("debug", false);
         languageName = getConfig().getString("lang", "zh_CN");
@@ -333,89 +333,6 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
         return strVersion;
     }
 
-    public void giveMobHead(LivingEntity mob, String name) {
-        ItemStack helmet = new ItemStack(Material.PLAYER_HEAD, 1);
-        SkullMeta meta = Utils.getItemMeta(helmet);
-        meta.setDisplayName(name + "'s Head");
-        meta.setOwner(name);
-        helmet.setItemMeta(meta);
-        if (mob.getEquipment() != null) mob.getEquipment().setHelmet(helmet);
-
-        if (getServer().getPluginManager().getPlugin("WildStacker") != null) {
-            @Nonnull
-            PersistentDataContainer pdc = mob.getPersistentDataContainer();
-            pdc.set(NAMETAG_KEY, PersistentDataType.STRING, "nametag");
-        }
-    }
-
-    public void givePlayerHead(Player player, String playerName) {
-        ItemStack playerHead = new ItemStack(Material.PLAYER_HEAD, 1);
-        SkullMeta meta = Utils.getItemMeta(playerHead);
-        meta.setDisplayName(playerName + "'s Head");
-        meta.setOwner(playerName); //.setOwner(name);
-        ArrayList<String> lore = new ArrayList<>();
-        if (getConfig().getBoolean("lore.show_plugin_name", true)) {
-            lore.add(ChatColor.AQUA + "" + THIS_NAME);
-        }
-        meta.setLore(lore);
-        playerHead.setItemMeta(meta);
-
-        playerHead.setItemMeta(meta);
-
-        player.getWorld().dropItemNaturally(player.getLocation(), MoreMobHeadsLib.addSound(playerHead, EntityType.PLAYER));
-    }
-
-    public void giveBlockHead(Player player, String blockName) {
-        if (debug) {
-            logDebug("giveBlockHead START");
-        }
-        ItemStack blockStack = null;
-        int isBlock = isBlockHeadName(blockName);
-        int isBlock2 = isBlockHeadName2(blockName);
-        int isBlock3 = isBlockHeadName3(blockName);
-        int isBlock4 = isBlockHeadName4(blockName);
-        int isBlock5 = isBlockHeadName5(blockName);
-        if (isBlock != -1) {
-            if (debug) {
-                logDebug("GBH isBlock=" + isBlock);
-            }
-            blockStack = blockHeads.getItemStack("blocks.block_" + isBlock + ".itemstack", new ItemStack(Material.AIR));
-        } else if (isBlock2 != -1) {
-            if (debug) {
-                logDebug("GBH isBlock2=" + isBlock2);
-            }
-            blockStack = blockHeads2.getItemStack("blocks.block_" + isBlock2 + ".itemstack", new ItemStack(Material.AIR));
-        } else if (isBlock3 != -1) {
-            if (debug) {
-                logDebug("GBH isBlock3=" + isBlock3);
-            }
-            blockStack = blockHeads3.getItemStack("blocks.block_" + isBlock3 + ".itemstack", new ItemStack(Material.AIR));
-        } else if (isBlock4 != -1) {
-            if (debug) {
-                logDebug("GBH isBlock4=" + isBlock4);
-            }
-            blockStack = blockHeads4.getItemStack("blocks.block_" + isBlock4 + ".itemstack", new ItemStack(Material.AIR));
-        } else if (isBlock5 != -1) {
-            if (debug) {
-                logDebug("GBH isBlock5=" + isBlock5);
-            }
-            blockStack = blockHeads5.getItemStack("blocks.block_" + isBlock5 + ".itemstack", new ItemStack(Material.AIR));
-        } else {
-            player.sendMessage(get("mmh.command.give.blockhead.notfound")
-                    .replace("<plugin>", THIS_NAME).replace("<version>", THIS_VERSION)
-                    .replace("<block>", blockName));
-        }
-        if ((blockStack != null) && (blockStack.getType() != Material.AIR)) {
-            player.getWorld().dropItemNaturally(player.getLocation(), blockStack);
-            if (debug) {
-                logDebug("GBH BlockHead given to " + player.getName());
-            }
-        }
-        if (debug) {
-            logDebug("giveBlockHead END");
-        }
-    }
-
     @EventHandler
     public void onPlayerInteractEvent(PlayerInteractEntityEvent event) {// TODO: PlayerInteractEntityEvent
         try {
@@ -462,7 +379,7 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
                             boolean onblacklist = getConfig().getString("blacklist.player_head_blacklist", "").toLowerCase().contains(name.toLowerCase());
                             if (enforcewhitelist && enforceblacklist) {
                                 if (onwhitelist && !(onblacklist)) {
-                                    giveMobHead(mob, name);
+                                    Heads.giveMobHead(mob, name);
                                 } else {
                                     event.setCancelled(true); // return;
                                     if (debug) {
@@ -471,7 +388,7 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
                                 }
                             } else if (enforcewhitelist) {
                                 if (onwhitelist) {
-                                    giveMobHead(mob, name);
+                                    Heads.giveMobHead(mob, name);
                                 } else {
                                     event.setCancelled(true); // return;
                                     if (debug) {
@@ -480,7 +397,7 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
                                 }
                             } else if (enforceblacklist) {
                                 if (!onblacklist) {
-                                    giveMobHead(mob, name);
+                                    Heads.giveMobHead(mob, name);
                                 } else {
                                     event.setCancelled(true); // return;
                                     if (debug) {
@@ -488,7 +405,7 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
                                     }
                                 }
                             } else {
-                                giveMobHead(mob, name);
+                                Heads.giveMobHead(mob, name);
                             }
                         }
                     }
@@ -563,11 +480,6 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
         return (chancepercent >= chance) || isDev;
     }
 
-    public int randomBetween(int min, int max) {
-        Random r = new Random();
-        return r.nextInt((max - min) + 1) + min;
-    }
-
     @EventHandler
     public void onPlayerJoinEvent(PlayerJoinEvent event) // TODO: OnPlayerJoin
     {
@@ -613,7 +525,7 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
         profile.getProperties().put("textures", new Property("textures", textureCode));
         profile.getProperties().put("display", new Property("Name", headName));
 
-        setGameProfile(meta, profile);
+        Utils.setGameProfile(meta, profile);
         ArrayList<String> lore = new ArrayList<>();
 
         if (getConfig().getBoolean("lore.show_killer", true)) {
@@ -639,7 +551,7 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
         GameProfile profile = new GameProfile(UUID.nameUUIDFromBytes(textureCode.getBytes()), textureCode);
         profile.getProperties().put("textures", new Property("textures", textureCode));
         profile.getProperties().put("display", new Property("Name", headName));
-        setGameProfile(meta, profile);
+        Utils.setGameProfile(meta, profile);
         ArrayList<String> lore = new ArrayList<>();
 
         if (getConfig().getBoolean("lore.show_plugin_name", true)) {
@@ -652,479 +564,6 @@ public class MoreMobHeads extends JavaPlugin implements Listener {
         return item;
     }
 
-    private static Field fieldProfileItem;
-
-    public static void setGameProfile(SkullMeta meta, GameProfile profile) {
-        try {
-
-            if (fieldProfileItem == null) {
-                fieldProfileItem = meta.getClass().getDeclaredField("profile");
-            }
-            fieldProfileItem.setAccessible(true);
-            fieldProfileItem.set(meta, profile);
-        } catch (NoSuchFieldException | IllegalAccessException | IllegalArgumentException | SecurityException e) {
-            stacktraceInfoStatic();
-            e.printStackTrace();
-        }
-    }
-
-
-    public boolean isInteger(String s) {
-        try {
-            Integer.parseInt(s);
-            return true;
-        } catch (NumberFormatException ex) {
-            return false;
-        }
-    }
-
-    public String isPlayerHead(String string) {
-        try {
-            playerFile = new File(getDataFolder() + "" + File.separatorChar + "player_heads.yml");
-            if (!playerFile.exists()) {                                                                    // checks if the yaml does not exist
-                return null;
-            }
-            int numOfCustomTrades = playerHeads.getInt("players.number", 0) + 1;
-            if (debug) {
-                logDebug("iPH string=" + string);
-            }
-            for (int randomPlayerHead = 1; randomPlayerHead < numOfCustomTrades; randomPlayerHead++) {
-                ItemStack itemstack = playerHeads.getItemStack("players.player_" + randomPlayerHead + ".itemstack", new ItemStack(Material.AIR));
-                SkullMeta skullmeta = Utils.getItemMeta(itemstack);
-                if (skullmeta != null) {
-                    if (skullmeta.getOwner() != null) {
-                        if (skullmeta.getOwner().contains(string)) {
-                            return skullmeta.getDisplayName();
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            return null;
-        }
-        //playerHeads
-        return null;
-    }
-
-    public String isBlockHead(String string) { // TODO: isBlockHead
-        try {
-            if (!(Double.parseDouble(StrUtils.Left(getMCVersion(), 4)) >= 1.16)) {
-                blockFile = new File(getDataFolder() + "" + File.separatorChar + "block_heads.yml");
-                if (!blockFile.exists()) {                                                                    // checks if the yaml does not exist
-                    return null;
-                }
-            }
-            blockFile116 = new File(getDataFolder() + "" + File.separatorChar + "block_heads_1_16.yml");
-            if (Double.parseDouble(StrUtils.Left(getMCVersion(), 4)) >= 1.16) {
-                if (!blockFile116.exists()) {
-                    return null;
-                }
-            }
-            int numOfCustomTrades = blockHeads.getInt("blocks.number", 0) + 1;
-            if (debug) {
-                logDebug("iBH string=" + string);
-            }
-            for (int randomBlockHead = 1; randomBlockHead < numOfCustomTrades; randomBlockHead++) {
-                ItemStack itemstack = blockHeads.getItemStack("blocks.block_" + randomBlockHead + ".itemstack", new ItemStack(Material.AIR));
-                SkullMeta skullmeta = (SkullMeta) itemstack.getItemMeta();
-                if (skullmeta != null) {
-                    if (ChatColor.stripColor(skullmeta.getDisplayName()).equals(string)) {
-                        return itemstack.getItemMeta().getDisplayName();
-                    }
-                }
-            }
-        } catch (Exception e) {
-            return null;
-        }
-        //blockHeads
-        return null;
-    }
-
-    public String isBlockHead2(String string) {
-        try {
-            if (!(Double.parseDouble(StrUtils.Left(getMCVersion(), 4)) >= 1.16)) {                                                                // checks if the yaml does not exist
-                return null;
-            }
-            blockFile1162 = new File(getDataFolder() + "" + File.separatorChar + "block_heads_1_16_2.yml");
-            if (getMCVersion().startsWith("1.16") || getMCVersion().startsWith("1.17")) {
-                if (!blockFile1162.exists()) {
-                    return null;
-                }
-
-            }
-            int numOfCustomTrades = blockHeads2.getInt("blocks.number", 0) + 1;
-            if (debug) {
-                logDebug("iBH2 string=" + string);
-            }
-            for (int randomBlockHead = 1; randomBlockHead < numOfCustomTrades; randomBlockHead++) {
-                ItemStack itemstack = blockHeads2.getItemStack("blocks.block_" + randomBlockHead + ".itemstack", new ItemStack(Material.AIR));
-                SkullMeta skullmeta = Utils.getItemMeta(itemstack);
-                if (skullmeta != null) {
-                    if (skullmeta.getOwner() != null) {
-                        if (skullmeta.getOwner().contains(string)) {
-                            return skullmeta.getDisplayName();
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            return null;
-        }
-        //blockHeads
-        return null;
-    }
-
-    public String isBlockHead3(String string) {
-        try {
-            if (!(Double.parseDouble(StrUtils.Left(getMCVersion(), 4)) >= 1.16)) {                                                                // checks if the yaml does not exist
-                return null;
-            }
-            blockFile117 = new File(getDataFolder() + "" + File.separatorChar + "block_heads_1_17.yml");
-            if (getMCVersion().startsWith("1.16") || getMCVersion().startsWith("1.17")) {
-                if (!blockFile117.exists()) {
-                    return null;
-                }
-
-            }
-            int numOfCustomTrades = blockHeads3.getInt("blocks.number", 0) + 1;
-            if (debug) {
-                logDebug("iBH3 string=" + string);
-            }
-            for (int randomBlockHead = 1; randomBlockHead < numOfCustomTrades; randomBlockHead++) {
-                ItemStack itemstack = blockHeads3.getItemStack("blocks.block_" + randomBlockHead + ".itemstack", new ItemStack(Material.AIR));
-                SkullMeta skullmeta = Utils.getItemMeta(itemstack);
-                if (skullmeta != null) {
-                    if (skullmeta.getOwner() != null) {
-                        if (skullmeta.getOwner().contains(string)) {
-                            return skullmeta.getDisplayName();
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            return null;
-        }
-        //blockHeads
-        return null;
-    }
-
-
-    public int isBlockHeadName(String string) { // TODO: isBlockHeadName
-        if (debug) {
-            logDebug("iBHN START");
-        }
-        try {
-            double mcVer = Double.parseDouble(StrUtils.Left(getMCVersion(), 4));
-            if (!(mcVer >= 1.16)) {
-                blockFile = new File(getDataFolder() + "" + File.separatorChar + "block_heads.yml");
-                if (!blockFile.exists()) {                                                                    // checks if the yaml does not exist
-                    return -1;
-                }
-            } else if (mcVer == 1.16) {
-                blockFile = new File(getDataFolder() + "" + File.separatorChar + "block_heads_1_16.yml");
-            } else if (mcVer >= 1.17) {
-                blockFile = new File(getDataFolder() + "" + File.separatorChar + "block_heads_1_17.yml");
-            }
-
-            if (debug) {
-                logDebug("iBH blockFile=" + blockFile.toString());
-            }
-            if (blockHeads.getInt("blocks.number", 0) == 0) {
-                try {
-                    blockHeads.load(blockFile);
-                } catch (IOException | InvalidConfigurationException e1) {
-                    stacktraceInfo();
-                    e1.printStackTrace();
-                }
-            }
-            int numOfCustomTrades = blockHeads.getInt("blocks.number", 0) + 1;
-            if (debug) {
-                logDebug("iBH number=" + numOfCustomTrades);
-            }
-            if (debug) {
-                logDebug("iBH string=" + string);
-            }
-            for (int randomBlockHead = 1; randomBlockHead < numOfCustomTrades; randomBlockHead++) {
-                ItemStack itemstack = blockHeads.getItemStack("blocks.block_" + randomBlockHead + ".itemstack", new ItemStack(Material.AIR));
-                SkullMeta skullmeta = (SkullMeta) itemstack.getItemMeta();
-                if (skullmeta != null) {
-                    if (ChatColor.stripColor(skullmeta.getDisplayName()).equalsIgnoreCase(string)) {
-                        if (debug) {
-                            logDebug("iBHN END Sucess!");
-                        }
-                        return randomBlockHead; //itemstack.getItemMeta().getDisplayName();
-                    }
-                }
-            }
-        } catch (Exception e) {
-            //stacktraceInfo();
-            e.printStackTrace();
-            if (debug) {
-                logDebug("iBHN END Failure=Exception");
-            }
-            return -1;
-        }
-        //blockHeads
-        if (debug) {
-            logDebug("iBHN END Failure!");
-        }
-        return -1;
-    }
-
-    public int isBlockHeadName2(String string) {
-        if (debug) {
-            logDebug("iBHN2 START");
-        }
-        try {
-            double mcVer = Double.parseDouble(StrUtils.Left(getMCVersion(), 4));
-            if (!(mcVer >= 1.16)) {                                                                // checks if the yaml does not exist
-                return -1;
-            } else if (mcVer == 1.16) {
-                blockFile1162 = new File(getDataFolder() + "" + File.separatorChar + "block_heads_1_16_2.yml");
-            } else if (mcVer >= 1.17) {
-                blockFile1162 = new File(getDataFolder() + "" + File.separatorChar + "block_heads_1_17_2.yml");
-            }
-
-            if (getMCVersion().startsWith("1.16") || getMCVersion().startsWith("1.17")) {
-                if (!blockFile1162.exists()) {
-                    return -1;
-                }
-
-            }
-            if (debug) {
-                logDebug("iBH blockFile1162=" + blockFile1162.toString());
-            }
-            if (blockHeads2.getInt("blocks.number", 0) == 0) {
-                try {
-                    blockHeads2.load(blockFile1162);
-                } catch (IOException | InvalidConfigurationException e1) {
-                    stacktraceInfo();
-                    e1.printStackTrace();
-                }
-            }
-            int numOfCustomTrades = blockHeads2.getInt("blocks.number", 0) + 1;
-            if (debug) {
-                logDebug("iBH2 number=" + numOfCustomTrades);
-            }
-            if (debug) {
-                logDebug("iBH2 string=" + string);
-            }
-            for (int randomBlockHead = 1; randomBlockHead < numOfCustomTrades; randomBlockHead++) {
-                ItemStack itemstack = blockHeads2.getItemStack("blocks.block_" + randomBlockHead + ".itemstack", new ItemStack(Material.AIR));
-                SkullMeta skullmeta = (SkullMeta) itemstack.getItemMeta();
-                if (skullmeta != null) {
-                    if (ChatColor.stripColor(skullmeta.getDisplayName()).equalsIgnoreCase(string)) {
-                        if (debug) {
-                            logDebug("iBHN END Sucess!");
-                        }
-                        return randomBlockHead; //itemstack.getItemMeta().getDisplayName();
-                    }
-                }
-            }
-        } catch (Exception e) {
-            if (debug) {
-                logDebug("iBHN END Failure=Exception");
-            }
-            return -1;
-        }
-        //blockHeads
-        if (debug) {
-            logDebug("iBHN2 END Failure!");
-        }
-        return -1;
-    }
-
-    public int isBlockHeadName3(String string) {
-        if (debug) {
-            logDebug("iBHN3 START");
-        }
-        try {
-            double mcVer = Double.parseDouble(StrUtils.Left(getMCVersion(), 4));
-            if (!(mcVer >= 1.16)) {                                                                // checks if the yaml does not exist
-                return -1;
-            } else if (mcVer == 1.16) {
-                return -1;
-            } else if (mcVer >= 1.17) {
-                blockFile117 = new File(getDataFolder() + "" + File.separatorChar + "block_heads_1_17_3.yml");
-            }
-
-            if (getMCVersion().startsWith("1.16") || getMCVersion().startsWith("1.17")) {
-                if (!blockFile117.exists()) {
-                    return -1;
-                }
-
-            }
-            if (debug) {
-                logDebug("iBHN3 blockFile117=" + blockFile117.toString());
-            }
-            if (blockHeads3.getInt("blocks.number", 0) == 0) {
-                try {
-                    blockHeads3.load(blockFile117);
-                } catch (IOException | InvalidConfigurationException e1) {
-                    stacktraceInfo();
-                    e1.printStackTrace();
-                }
-            }
-            int numOfCustomTrades = blockHeads3.getInt("blocks.number", 0) + 1;
-            if (debug) {
-                logDebug("iBH3 number=" + numOfCustomTrades);
-            }
-            if (debug) {
-                logDebug("iBH3 string=" + string);
-            }
-            for (int randomBlockHead = 1; randomBlockHead < numOfCustomTrades; randomBlockHead++) {
-                ItemStack itemstack = blockHeads3.getItemStack("blocks.block_" + randomBlockHead + ".itemstack", new ItemStack(Material.AIR));
-                SkullMeta skullmeta = (SkullMeta) itemstack.getItemMeta();
-                if (skullmeta != null) {
-                    if (ChatColor.stripColor(skullmeta.getDisplayName()).equalsIgnoreCase(string)) {
-                        if (debug) {
-                            logDebug("iBHN END Sucess!");
-                        }
-                        return randomBlockHead; //itemstack.getItemMeta().getDisplayName();
-
-                    }
-                }
-            }
-        } catch (Exception e) {
-            if (debug) {
-                logDebug("iBHN3 END Failure=Exception");
-            }
-            return -1;
-        }
-        //blockHeads
-        if (debug) {
-            logDebug("iBHN3 END Failure!");
-        }
-        return -1;
-    }
-
-    public int isBlockHeadName4(String string) {
-        if (debug) {
-            logDebug("iBHN4 START");
-        }
-        try {
-            double mcVer = Double.parseDouble(StrUtils.Left(getMCVersion(), 4));
-            if (!(mcVer >= 1.16)) {                                                                // checks if the yaml does not exist
-                return -1;
-            } else if (mcVer == 1.16) {
-                return -1;
-            } else if (mcVer == 1.19) {
-                blockFile119 = new File(getDataFolder() + "" + File.separatorChar + "block_heads_1_19.yml");
-            }
-
-            if (getMCVersion().startsWith("1.19")) {
-                if (!blockFile119.exists()) {
-                    return -1;
-                }
-
-            }
-            if (debug) {
-                logDebug("iBHN4 blockFile119=" + blockFile119.toString());
-            }
-            if (blockHeads4.getInt("blocks.number", 0) == 0) {
-                try {
-                    blockHeads4.load(blockFile119);
-                } catch (IOException | InvalidConfigurationException e1) {
-                    stacktraceInfo();
-                    e1.printStackTrace();
-                }
-            }
-            int numOfCustomTrades = blockHeads4.getInt("blocks.number", 0) + 1;
-            if (debug) {
-                logDebug("iBH4 number=" + numOfCustomTrades);
-            }
-            if (debug) {
-                logDebug("iBH4 string=" + string);
-            }
-            for (int randomBlockHead = 1; randomBlockHead < numOfCustomTrades; randomBlockHead++) {
-                ItemStack itemstack = blockHeads4.getItemStack("blocks.block_" + randomBlockHead + ".itemstack", new ItemStack(Material.AIR));
-                SkullMeta skullmeta = (SkullMeta) itemstack.getItemMeta();
-                if (skullmeta != null) {
-                    if (ChatColor.stripColor(skullmeta.getDisplayName()).equalsIgnoreCase(string)) {
-                        if (debug) {
-                            logDebug("iBHN4 END Sucess!");
-                        }
-                        return randomBlockHead; //itemstack.getItemMeta().getDisplayName();
-                    }
-                }
-            }
-        } catch (Exception e) {
-            if (debug) {
-                logDebug("iBHN4 END Failure=Exception");
-            }
-            return -1;
-        }
-        //blockHeads
-        if (debug) {
-            logDebug("iBHN4 END Failure!");
-        }
-        return -1;
-    }
-
-    public int isBlockHeadName5(String string) {
-        if (debug) {
-            logDebug("iBHN5 START");
-        }
-        try {
-            double mcVer = Double.parseDouble(StrUtils.Left(getMCVersion(), 4));
-            if (!(mcVer >= 1.16)) {                                                                // checks if the yaml does not exist
-                return -1;
-            } else if (mcVer == 1.16) {
-                return -1;
-            } else if (mcVer == 1.19) {
-                return -1;
-            } else if (mcVer == 1.20) {
-                blockFile120 = new File(getDataFolder() + "" + File.separatorChar + "block_heads_1_20.yml");
-            }
-
-            if (getMCVersion().startsWith("1.20")) {
-                if (!blockFile120.exists()) {
-                    return -1;
-                }
-
-            }
-            if (debug) {
-                logDebug("iBHN5 blockFile120=" + blockFile120.toString());
-            }
-            if (blockHeads5.getInt("blocks.number", 0) == 0) {
-                try {
-                    blockHeads5.load(blockFile120);
-                } catch (IOException | InvalidConfigurationException e1) {
-                    stacktraceInfo();
-                    e1.printStackTrace();
-                }
-            }
-            int numOfCustomTrades = blockHeads5.getInt("blocks.number", 0) + 1;
-            if (debug) {
-                logDebug("iBH5 number=" + numOfCustomTrades);
-            }
-            if (debug) {
-                logDebug("iBH5 string=" + string);
-            }
-            for (int randomBlockHead = 1; randomBlockHead < numOfCustomTrades; randomBlockHead++) {
-                ItemStack itemstack = blockHeads5.getItemStack("blocks.block_" + randomBlockHead + ".itemstack", new ItemStack(Material.AIR));
-                SkullMeta skullmeta = (SkullMeta) itemstack.getItemMeta();
-                if (skullmeta != null) {
-                    if (ChatColor.stripColor(skullmeta.getDisplayName()).equalsIgnoreCase(string)) {
-                        if (debug) {
-                            logDebug("iBHN5 END Sucess!");
-                        }
-                        return randomBlockHead; //itemstack.getItemMeta().getDisplayName();
-                    }
-                }
-            }
-        } catch (Exception e) {
-            if (debug) {
-                logDebug("iBHN5 END Failure=Exception");
-            }
-            return -1;
-        }
-        //blockHeads
-        if (debug) {
-            logDebug("iBHN5 END Failure!");
-        }
-        return -1;
-    }
 
     public void stacktraceInfo() {
         logger.info(THIS_NAME + " v" + THIS_VERSION + " Include this with the stacktrace when reporting issues.");
