@@ -1376,7 +1376,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                 return true;
             } else if (!hasPerm) {
                 sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.noperm").replace("<perm>", perm));
-                return false;
+                return true;
             }
         }
         if (args[0].equalsIgnoreCase("toggledebug") || args[0].equalsIgnoreCase("td")) {
@@ -1391,7 +1391,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                 return true;
             } else if (!hasPerm) {
                 sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.noperm").replace("<perm>", perm));
-                return false;
+                return true;
             }
         }
         if (args[0].equalsIgnoreCase("customtrader") || args[0].equalsIgnoreCase("ct")) {
@@ -1445,7 +1445,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                         if (debug) {
                             logDebug("CMD CT ADD End Error -----");
                         }
-                        return false;
+                        return true;
                     }
                     int tradeNumber = (int) mmh.traderCustom.get("custom_trades.number", 1);
                     mmh.traderCustom.set("custom_trades.trade_" + (tradeNumber + 1) + ".price_1", price1);
@@ -1497,7 +1497,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                     }
                     if (!(args.length >= 3)) {
                         sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.argument"));
-                        return false;
+                        return true;
                     } else {
                         if (Utils.isInteger(args[2])) {
                             mmh.traderCustom.set("custom_trades.trade_" + args[2] + ".price_1", "");
@@ -1516,7 +1516,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                                     logDebug("CMD CT Remove End Exception -----");
                                 }
                                 sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.error"));
-                                return false;
+                                return true;
                                 //e.printStackTrace();
                             }
                             if (debug) {
@@ -1529,7 +1529,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                                 logDebug("CMD CT Remove End 2 -----");
                             }
                             sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.numberreq"));
-                            return false;
+                            return true;
                         }
                     }
                 } else if (args[1].equalsIgnoreCase("replace")) {
@@ -1538,7 +1538,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                     }
                     if (args.length != 3) {
                         sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.argument"));
-                        return false;
+                        return true;
                     } else {
                         if (Utils.isInteger(args[2])) {
                             ItemStack itemstack = player.getInventory().getItemInOffHand();
@@ -1563,7 +1563,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                                 if (debug) {
                                     logDebug("CMD CT Replace End Error -----");
                                 }
-                                return false;
+                                return true;
                             }
                             int tradeNumber = Integer.parseInt(args[2]);
                             mmh.traderCustom.set("custom_trades.trade_" + (tradeNumber) + ".price_1", price1);
@@ -1605,7 +1605,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                                     logDebug("CMD CT Replace End Exception -----");
                                 }
                                 sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.error"));
-                                return false;
+                                return true;
                                 //e.printStackTrace();
                             }
                             if (debug) {
@@ -1618,7 +1618,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                                 logDebug("CMD CT Replace End 2 -----");
                             }
                             sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.numberreq"));
-                            return false;
+                            return true;
                         }
                     }
                 }
@@ -1627,13 +1627,13 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                     logDebug("CMD CT Replace End Console -----");
                 }
                 sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.noconsole"));
-                return false;
+                return true;
             } else if (!hasPerm) {
                 if (debug) {
                     logDebug("CMD CT Replace End !Perm -----");
                 }
                 sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.nopermordisabled").replace("<perm>", perm));
-                return false;
+                return true;
             }
         }
         if (args[0].equalsIgnoreCase("playerheads") || args[0].equalsIgnoreCase("ph")) {
@@ -1689,7 +1689,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                         if (debug) {
                             logDebug("CMD PH ADD End Error -----");
                         }
-                        return false;
+                        return true;
                     }
                     int tradeNumber = (int) mmh.playerHeads.get("players.number", 1);
                     mmh.playerHeads.set("players.player_" + (tradeNumber + 1) + ".price_1", price1);
@@ -1741,7 +1741,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                     }
                     if (!(args.length >= 3)) {
                         sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.argument"));
-                        return false;
+                        return true;
                     } else {
                         if (Utils.isInteger(args[2])) {
                             mmh.playerHeads.set("players.player_" + args[2] + ".price_1", "");
@@ -1760,7 +1760,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                                     logDebug("CMD PH Remove End Exception -----");
                                 }
                                 sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.error") + "custom_trades.yml!");
-                                return false;
+                                return true;
                                 //e.printStackTrace();
                             }
                             if (debug) {
@@ -1773,7 +1773,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                                 logDebug("CMD PH Remove End 2 -----");
                             }
                             sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.numberreq"));
-                            return false;
+                            return true;
                         }
                     }
                 } else if (args[1].equalsIgnoreCase("replace")) {
@@ -1782,7 +1782,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                     }
                     if (args.length != 3) {
                         sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.argument"));
-                        return false;
+                        return true;
                     } else {
                         if (Utils.isInteger(args[2])) {
                             ItemStack itemstack = player.getInventory().getItemInOffHand();
@@ -1811,7 +1811,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                                 if (debug) {
                                     logDebug("CMD PH Replace End Error -----");
                                 }
-                                return false;
+                                return true;
                             }
                             int tradeNumber = Integer.parseInt(args[2]);
                             mmh.playerHeads.set("players.player_" + (tradeNumber) + ".price_1", price1);
@@ -1849,7 +1849,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                                     logDebug("CMD PH Replace End Exception -----");
                                 }
                                 sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.error") + "player_heads.yml!");
-                                return false;
+                                return true;
                                 //e.printStackTrace();
                             }
                             if (debug) {
@@ -1862,7 +1862,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                                 logDebug("CMD PH Replace End 2 -----");
                             }
                             sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.command.ct.numberreq"));
-                            return false;
+                            return true;
                         }
                     }
                 }
@@ -1871,13 +1871,13 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                     logDebug("CMD PH Replace End Console -----");
                 }
 //						sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.noconsole"));
-                return false;
+                return true;
             } else if (!hasPerm) {
                 if (debug) {
                     logDebug("CMD PH Replace End !Perm -----");
                 }
                 sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.nopermordisabled").replace("<perm>", perm));
-                return false;
+                return true;
             }
         }
         if (args[0].equalsIgnoreCase("fixhead") || args[0].equalsIgnoreCase("fh")) {
@@ -2011,7 +2011,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                                                 if (debug) {
                                                     logDebug("CMD FH Name End Meta Null -----");
                                                 }
-                                                return false;
+                                                return true;
                                             }
                                         }
                                     }
@@ -2020,7 +2020,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                                         logDebug("CMD FH Name End Error -----");
                                     }
                                     sender.sendMessage("An Error occured.");
-                                    return false;
+                                    return true;
                                 }
                             }
                         }
@@ -2048,26 +2048,26 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                                             logDebug("CMD FH Stack End Error -----");
                                         }
                                         sender.sendMessage("" + mmh.get("mmh.command.fixhead.stack.error"));
-                                        return false;
+                                        return true;
                                     }
                                 } else if (!mainHand.getType().equals(Material.PLAYER_HEAD) && !offHand.getType().equals(Material.PLAYER_HEAD)) {
                                     if (debug) {
                                         logDebug("CMD FH Stack End Error Main Off -----");
                                     }
                                     sender.sendMessage("" + mmh.get("mmh.command.fixhead.stack.notph"));
-                                    return false;
+                                    return true;
                                 } else if (!mainHand.getType().equals(Material.PLAYER_HEAD) && offHand.getType().equals(Material.PLAYER_HEAD)) {
                                     if (debug) {
                                         logDebug("CMD FH Stack End Error Main -----");
                                     }
                                     sender.sendMessage("" + mmh.get("mmh.command.fixhead.stack.main"));
-                                    return false;
+                                    return true;
                                 } else if (mainHand.getType().equals(Material.PLAYER_HEAD) && !offHand.getType().equals(Material.PLAYER_HEAD)) {
                                     if (debug) {
                                         logDebug("CMD FH Stack End Error Off -----");
                                     }
                                     sender.sendMessage("" + mmh.get("mmh.command.fixhead.stack.off"));
-                                    return false;
+                                    return true;
                                 }
                             }
                         }
@@ -2078,7 +2078,7 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                         logDebug("CMD FH Stack End !Perm -----");
                     }
                     sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.noperm").replace("<perm>", perm));
-                    return false;
+                    return true;
                 }
             }
         }
@@ -2203,11 +2203,11 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                     }
                 } else if (!hasPerm) {
                     sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.noperm").replace("<perm>", perm));
-                    return false;
+                    return true;
                 }
             } else {
                 sender.sendMessage("Command usage, /mmh givemh playername mobname 1");
-                return false;
+                return true;
             }
 
         }
@@ -2242,19 +2242,19 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                         sender.sendMessage("" + mmh.get("mmh.command.give.console") + "" + mmh.get("mmh.command.usage") + ":");
                         sender.sendMessage("\"/mmh giveph playername 1\" - " + mmh.get("mmh.command.give.playerhead.you"));
                         sender.sendMessage("\"/mmh giveph playername playername 1\" - " + mmh.get("mmh.command.give.playerhead.them"));
-                        return false;
+                        return true;
                     }
                 } else if (!hasPerm) {
                     sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.noperm").replace("<perm>", perm));
-                    return false;
+                    return true;
                 }
             } else {
                 sender.sendMessage("" + mmh.get("mmh.command.usage") + ":");
                 sender.sendMessage("\"/mmh giveph playername 1\" - " + mmh.get("mmh.command.give.playerhead.you"));
                 sender.sendMessage("\"/mmh giveph playername playername 1\" - " + mmh.get("mmh.command.give.playerhead.them"));
-                return false;
+                return true;
             }
-            return false;
+            return true;
         }
         // /mmh givebh block
         // /mmh givebh player block
@@ -2300,14 +2300,14 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                         if (debug) {
                             logDebug("End GiveBH False 1");
                         }
-                        return false;
+                        return true;
                     }
                 } else if (!hasPerm) {
                     sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + " " + mmh.get("mmh.message.noperm").replace("<perm>", perm));
                     if (debug) {
                         logDebug("End GiveBH False 2");
                     }
-                    return false;
+                    return true;
                 }
             } else {
                 sender.sendMessage("" + mmh.get("mmh.command.usage") + ":");
@@ -2316,192 +2316,190 @@ public class EventHandler_1_16 implements CommandExecutor, TabCompleter, Listene
                 if (debug) {
                     logDebug("End GiveBH False 3");
                 }
-                return false;
+                return true;
             }
             if (debug) {
                 logDebug("End GiveBH False 4");
             }
-            return false;
+            return true;
         }
-        return false;
+        return true;
     }
 
     @SuppressWarnings("static-access")
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) { // TODO: Tab Complete
-        if (command.getName().equalsIgnoreCase("mmh")) {
-            List<String> autoCompletes = new ArrayList<>(); //create a new string list for tab completion
-            if (args.length == 1) { // reload, toggledebug, playerheads, customtrader, headfix
-                autoCompletes.add("reload");
-                autoCompletes.add("toggledebug");
-                autoCompletes.add("playerheads");
-                autoCompletes.add("customtrader");
-                autoCompletes.add("fixhead");
-                autoCompletes.add("givemh");
-                autoCompletes.add("giveph");
-                autoCompletes.add("givebh");
-                autoCompletes.add("display");
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        List<String> autoCompletes = new ArrayList<>(); //create a new string list for tab completion
+        if (args.length == 1) { // reload, toggledebug, playerheads, customtrader, headfix
+            autoCompletes.add("reload");
+            autoCompletes.add("toggledebug");
+            autoCompletes.add("playerheads");
+            autoCompletes.add("customtrader");
+            autoCompletes.add("fixhead");
+            autoCompletes.add("givemh");
+            autoCompletes.add("giveph");
+            autoCompletes.add("givebh");
+            autoCompletes.add("display");
+            return autoCompletes; // then return the list
+        }
+        if (args.length > 1) {
+            if (args[0].equalsIgnoreCase("display") && args[1].isEmpty()) {
+                autoCompletes.add("permissions");
+                autoCompletes.add("variables");
+                return autoCompletes; // then return the list
+            } else if (args[0].equalsIgnoreCase("display") && args[1].equalsIgnoreCase("permissions")) {
+                if (args[1].equalsIgnoreCase("permissions")) {
+                    return null;
+                }
+            }
+            if (args[0].equalsIgnoreCase("fixhead") || args[0].equalsIgnoreCase("fh") && args[1].isEmpty()) {
+                autoCompletes.add("name");
+                autoCompletes.add("stack");
                 return autoCompletes; // then return the list
             }
-            if (args.length > 1) {
-                if (args[0].equalsIgnoreCase("display") && args[1].isEmpty()) {
-                    autoCompletes.add("permissions");
-                    autoCompletes.add("variables");
-                    return autoCompletes; // then return the list
-                } else if (args[0].equalsIgnoreCase("display") && args[1].equalsIgnoreCase("permissions")) {
-                    if (args[1].equalsIgnoreCase("permissions")) {
-                        return null;
-                    }
-                }
-                if (args[0].equalsIgnoreCase("fixhead") || args[0].equalsIgnoreCase("fh") && args[1].isEmpty()) {
-                    autoCompletes.add("name");
-                    autoCompletes.add("stack");
+            if (args[0].equalsIgnoreCase("playerheads") || args[0].equalsIgnoreCase("ph") && args[1].isEmpty()) {
+                autoCompletes.add("add");
+                autoCompletes.add("remove");
+                autoCompletes.add("replace");
+                return autoCompletes; // then return the list
+            } else if ((args[0].equalsIgnoreCase("playerheads") || args[0].equalsIgnoreCase("ph")) && (args[1].equalsIgnoreCase("remove") || args[1].equalsIgnoreCase("replace"))) {
+                if (args[1].equalsIgnoreCase("remove")) {
+                    autoCompletes.add("0");
                     return autoCompletes; // then return the list
                 }
-                if (args[0].equalsIgnoreCase("playerheads") || args[0].equalsIgnoreCase("ph") && args[1].isEmpty()) {
-                    autoCompletes.add("add");
-                    autoCompletes.add("remove");
-                    autoCompletes.add("replace");
+                if (args[1].equalsIgnoreCase("replace")) {
+                    autoCompletes.add("0");
                     return autoCompletes; // then return the list
-                } else if ((args[0].equalsIgnoreCase("playerheads") || args[0].equalsIgnoreCase("ph")) && (args[1].equalsIgnoreCase("remove") || args[1].equalsIgnoreCase("replace"))) {
-                    if (args[1].equalsIgnoreCase("remove")) {
-                        autoCompletes.add("0");
-                        return autoCompletes; // then return the list
-                    }
-                    if (args[1].equalsIgnoreCase("replace")) {
-                        autoCompletes.add("0");
-                        return autoCompletes; // then return the list
-                    }
                 }
-                if (args[0].equalsIgnoreCase("customtrader") || args[0].equalsIgnoreCase("ct") && args[1].isEmpty()) {
-                    autoCompletes.add("add");
-                    autoCompletes.add("remove");
-                    autoCompletes.add("replace");
+            }
+            if (args[0].equalsIgnoreCase("customtrader") || args[0].equalsIgnoreCase("ct") && args[1].isEmpty()) {
+                autoCompletes.add("add");
+                autoCompletes.add("remove");
+                autoCompletes.add("replace");
+                return autoCompletes; // then return the list
+            } else if ((args[0].equalsIgnoreCase("customtrader") || args[0].equalsIgnoreCase("ct")) && (args[1].equalsIgnoreCase("remove") || args[1].equalsIgnoreCase("replace"))) {
+                if (args[1].equalsIgnoreCase("remove")) {
+                    autoCompletes.add("0");
                     return autoCompletes; // then return the list
-                } else if ((args[0].equalsIgnoreCase("customtrader") || args[0].equalsIgnoreCase("ct")) && (args[1].equalsIgnoreCase("remove") || args[1].equalsIgnoreCase("replace"))) {
-                    if (args[1].equalsIgnoreCase("remove")) {
-                        autoCompletes.add("0");
-                        return autoCompletes; // then return the list
-                    }
-                    if (args[1].equalsIgnoreCase("replace")) {
-                        autoCompletes.add("0");
-                        return autoCompletes; // then return the list
-                    }
                 }
-                if (args[0].equalsIgnoreCase("givebh")) {
-                    if (args.length < 2) {
-                        // /mmh giveph block
-                        // /mmh giveph @p block
-                        // /cmd 0      1  2
-                        // return null to list all players.
-                        return null;
+                if (args[1].equalsIgnoreCase("replace")) {
+                    autoCompletes.add("0");
+                    return autoCompletes; // then return the list
+                }
+            }
+            if (args[0].equalsIgnoreCase("givebh")) {
+                if (args.length < 2) {
+                    // /mmh giveph block
+                    // /mmh giveph @p block
+                    // /cmd 0      1  2
+                    // return null to list all players.
+                    return null;
+                }
+                if (args.length > 2) {
+                    for (int i = 1; i < blockHeads.getInt("blocks.number"); ++i) {
+                        ItemStack stack = blockHeads.getItemStack("blocks.block_" + i + ".itemstack");
+                        String name = stack.getItemMeta().getDisplayName().replace(" ", "_");
+                        autoCompletes.add(ChatColor.stripColor(name));
                     }
-                    if (args.length > 2) {
-                        for (int i = 1; i < blockHeads.getInt("blocks.number"); ++i) {
-                            ItemStack stack = blockHeads.getItemStack("blocks.block_" + i + ".itemstack");
+                    if (Double.parseDouble(StrUtils.Left(mmh.getMCVersion(), 4)) >= 1.16) {
+                        for (int i = 1; i < blockHeads2.getInt("blocks.number"); ++i) {
+                            ItemStack stack = blockHeads2.getItemStack("blocks.block_" + i + ".itemstack");
                             String name = stack.getItemMeta().getDisplayName().replace(" ", "_");
                             autoCompletes.add(ChatColor.stripColor(name));
                         }
-                        if (Double.parseDouble(StrUtils.Left(mmh.getMCVersion(), 4)) >= 1.16) {
-                            for (int i = 1; i < blockHeads2.getInt("blocks.number"); ++i) {
-                                ItemStack stack = blockHeads2.getItemStack("blocks.block_" + i + ".itemstack");
-                                String name = stack.getItemMeta().getDisplayName().replace(" ", "_");
-                                autoCompletes.add(ChatColor.stripColor(name));
+                    }
+                    return autoCompletes;
+                }
+            }
+            if (args[0].equalsIgnoreCase("giveph")) {
+                //return null;
+                if (args.length < 2) {
+                    // /mmh giveph @p @P
+                    // /cmd 0      1  2
+                    // return null to list all players.
+                    return null;
+                }
+                if (args.length == 2) {
+                    // /mmh giveph @p @P
+                    // /cmd 0      1  2
+                    // return null to list all players.
+                    return null;
+                }
+
+            }
+            if (args[0].equalsIgnoreCase("givemh")) {
+                if (args.length < 2) {
+                    // /mmh give @p
+                    // /cmd 0    1
+                    // return null to list all players.
+                    return null;
+                } else if (args.length > 2) {
+                    if (debug) {
+                        mmh.logDebug("TC arg1!null args.length=" + args.length);
+                    }
+                    if (args.length == 3) {
+
+                        // /mmh give @p moblist #
+                        // /cmd 0    1  2       3
+                        for (String key : mmh.chanceConfig.getConfigurationSection("chance_percent").getKeys(true)) {
+                            //System.out.println(key);
+                            if (key.contains("axolotl") || key.contains("goat") || key.contains("glow")) {
+                                continue;
+                            }
+                            autoCompletes.add(key);
+                            //System.out.println(key);
+                            if (key.equalsIgnoreCase("wolf")) {
+                                autoCompletes.add("wolf.angry");
+                            } else if (key.equalsIgnoreCase("wither")) {
+                                autoCompletes.add("wither.1");
+                                autoCompletes.add("wither.2");
+                                autoCompletes.add("wither.3");
+                                autoCompletes.add("wither.4");
+                                autoCompletes.remove(autoCompletes.indexOf("wither"));
+                            } else if (key.equalsIgnoreCase("zombie_villager")) {
+                                autoCompletes.add("zombie_villager.armorer");
+                                autoCompletes.add("zombie_villager.butcher");
+                                autoCompletes.add("zombie_villager.cartographer");
+                                autoCompletes.add("zombie_villager.cleric");
+                                autoCompletes.add("zombie_villager.farmer");
+                                autoCompletes.add("zombie_villager.fisherman");
+                                autoCompletes.add("zombie_villager.fletcher");
+                                autoCompletes.add("zombie_villager.leatherworker");
+                                autoCompletes.add("zombie_villager.librarian");
+                                autoCompletes.add("zombie_villager.mason");
+                                autoCompletes.add("zombie_villager.nitwit");
+                                autoCompletes.add("zombie_villager.none");
+                                autoCompletes.add("zombie_villager.shepherd");
+                                autoCompletes.add("zombie_villager.toolsmith");
+                                autoCompletes.add("zombie_villager.weaponsmith");
+                                autoCompletes.remove(autoCompletes.indexOf("zombie_villager"));
                             }
                         }
+                        //autoCompletes.remove(autoCompletes.indexOf("axolotl"));
+                        autoCompletes.remove(autoCompletes.indexOf("bee.chance_percent"));
+                        autoCompletes.remove(autoCompletes.indexOf("cat"));
+                        autoCompletes.remove(autoCompletes.indexOf("fox"));
+                        //autoCompletes.remove(autoCompletes.indexOf("goat"));
+                        autoCompletes.remove(autoCompletes.indexOf("horse"));
+                        autoCompletes.remove(autoCompletes.indexOf("llama"));
+                        autoCompletes.remove(autoCompletes.indexOf("panda"));
+                        autoCompletes.remove(autoCompletes.indexOf("parrot"));
+                        autoCompletes.remove(autoCompletes.indexOf("rabbit"));
+                        autoCompletes.remove(autoCompletes.indexOf("sheep"));
+                        autoCompletes.remove(autoCompletes.indexOf("trader_llama"));
+                        autoCompletes.remove(autoCompletes.indexOf("mushroom_cow"));
+                        autoCompletes.remove(autoCompletes.indexOf("villager"));
+                        autoCompletes.remove(autoCompletes.indexOf("villager.desert"));
+                        autoCompletes.remove(autoCompletes.indexOf("villager.jungle"));
+                        autoCompletes.remove(autoCompletes.indexOf("villager.plains"));
+                        autoCompletes.remove(autoCompletes.indexOf("villager.savanna"));
+                        autoCompletes.remove(autoCompletes.indexOf("villager.snow"));
+                        autoCompletes.remove(autoCompletes.indexOf("villager.swamp"));
+                        autoCompletes.remove(autoCompletes.indexOf("villager.taiga"));
+
                         return autoCompletes;
-                    }
-                }
-                if (args[0].equalsIgnoreCase("giveph")) {
-                    //return null;
-                    if (args.length < 2) {
-                        // /mmh giveph @p @P
-                        // /cmd 0      1  2
-                        // return null to list all players.
-                        return null;
-                    }
-                    if (args.length == 2) {
-                        // /mmh giveph @p @P
-                        // /cmd 0      1  2
-                        // return null to list all players.
-                        return null;
-                    }
-
-                }
-                if (args[0].equalsIgnoreCase("givemh")) {
-                    if (args.length < 2) {
-                        // /mmh give @p
-                        // /cmd 0    1
-                        // return null to list all players.
-                        return null;
-                    } else if (args.length > 2) {
-                        if (debug) {
-                            mmh.logDebug("TC arg1!null args.length=" + args.length);
-                        }
-                        if (args.length == 3) {
-
-                            // /mmh give @p moblist #
-                            // /cmd 0    1  2       3
-                            for (String key : mmh.chanceConfig.getConfigurationSection("chance_percent").getKeys(true)) {
-                                //System.out.println(key);
-                                if (key.contains("axolotl") || key.contains("goat") || key.contains("glow")) {
-                                    continue;
-                                }
-                                autoCompletes.add(key);
-                                //System.out.println(key);
-                                if (key.equalsIgnoreCase("wolf")) {
-                                    autoCompletes.add("wolf.angry");
-                                } else if (key.equalsIgnoreCase("wither")) {
-                                    autoCompletes.add("wither.1");
-                                    autoCompletes.add("wither.2");
-                                    autoCompletes.add("wither.3");
-                                    autoCompletes.add("wither.4");
-                                    autoCompletes.remove(autoCompletes.indexOf("wither"));
-                                } else if (key.equalsIgnoreCase("zombie_villager")) {
-                                    autoCompletes.add("zombie_villager.armorer");
-                                    autoCompletes.add("zombie_villager.butcher");
-                                    autoCompletes.add("zombie_villager.cartographer");
-                                    autoCompletes.add("zombie_villager.cleric");
-                                    autoCompletes.add("zombie_villager.farmer");
-                                    autoCompletes.add("zombie_villager.fisherman");
-                                    autoCompletes.add("zombie_villager.fletcher");
-                                    autoCompletes.add("zombie_villager.leatherworker");
-                                    autoCompletes.add("zombie_villager.librarian");
-                                    autoCompletes.add("zombie_villager.mason");
-                                    autoCompletes.add("zombie_villager.nitwit");
-                                    autoCompletes.add("zombie_villager.none");
-                                    autoCompletes.add("zombie_villager.shepherd");
-                                    autoCompletes.add("zombie_villager.toolsmith");
-                                    autoCompletes.add("zombie_villager.weaponsmith");
-                                    autoCompletes.remove(autoCompletes.indexOf("zombie_villager"));
-                                }
-                            }
-                            //autoCompletes.remove(autoCompletes.indexOf("axolotl"));
-                            autoCompletes.remove(autoCompletes.indexOf("bee.chance_percent"));
-                            autoCompletes.remove(autoCompletes.indexOf("cat"));
-                            autoCompletes.remove(autoCompletes.indexOf("fox"));
-                            //autoCompletes.remove(autoCompletes.indexOf("goat"));
-                            autoCompletes.remove(autoCompletes.indexOf("horse"));
-                            autoCompletes.remove(autoCompletes.indexOf("llama"));
-                            autoCompletes.remove(autoCompletes.indexOf("panda"));
-                            autoCompletes.remove(autoCompletes.indexOf("parrot"));
-                            autoCompletes.remove(autoCompletes.indexOf("rabbit"));
-                            autoCompletes.remove(autoCompletes.indexOf("sheep"));
-                            autoCompletes.remove(autoCompletes.indexOf("trader_llama"));
-                            autoCompletes.remove(autoCompletes.indexOf("mushroom_cow"));
-                            autoCompletes.remove(autoCompletes.indexOf("villager"));
-                            autoCompletes.remove(autoCompletes.indexOf("villager.desert"));
-                            autoCompletes.remove(autoCompletes.indexOf("villager.jungle"));
-                            autoCompletes.remove(autoCompletes.indexOf("villager.plains"));
-                            autoCompletes.remove(autoCompletes.indexOf("villager.savanna"));
-                            autoCompletes.remove(autoCompletes.indexOf("villager.snow"));
-                            autoCompletes.remove(autoCompletes.indexOf("villager.swamp"));
-                            autoCompletes.remove(autoCompletes.indexOf("villager.taiga"));
-
-                            return autoCompletes;
-                        } else if (args.length == 4) {
-                            autoCompletes.add("1");
-                            return autoCompletes;
-                        }
+                    } else if (args.length == 4) {
+                        autoCompletes.add("1");
+                        return autoCompletes;
                     }
                 }
             }

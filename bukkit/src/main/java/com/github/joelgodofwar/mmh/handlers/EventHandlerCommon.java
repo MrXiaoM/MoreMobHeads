@@ -171,40 +171,38 @@ public class EventHandlerCommon implements Listener {
         return helmet;
     }
 
-    public boolean DropIt(EntityDeathEvent event, double chancepercent) {
+    public boolean DropIt(EntityDeathEvent event, double chance) {
+        if (chance == 0) {
+            return false;
+        }
         Player player = event.getEntity().getKiller();
         if (player == null) return false;
         ItemStack itemstack = player.getInventory().getItemInMainHand();
+
+        int enchLevel = 0;
+        if (mmh.config.getBoolean("apply_looting", true)) {
+            enchLevel = itemstack.getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS);
+        }
+
         if (debug) {
             mmh.logDebug("DI itemstack=" + itemstack.getType());
+            mmh.logDebug("DI enchantmentlevel=" + enchLevel);
         }
-        int enchantmentlevel = 0;
-        if (mmh.config.getBoolean("apply_looting", true)) {
-            enchantmentlevel = itemstack.getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS);
-        }
-        if (chancepercent == 0) {
-            enchantmentlevel = 0;
-        }
+
+        int rand = new Random().nextInt(10000);
+
         if (debug) {
-            mmh.logDebug("DI enchantmentlevel=" + enchantmentlevel);
-        }
-        double enchantmentlevelpercent = enchantmentlevel;
-        if (debug) {
-            mmh.logDebug("DI enchantmentlevelpercent=" + enchantmentlevelpercent);
-        }
-        Random chanceRandom = mmh.chanceRandoms.computeIfAbsent(player, p -> new Random(p.getUniqueId().hashCode()));
-        double chance = chanceRandom.nextDouble() * 100;
-        if (debug) {
+            mmh.logDebug("DI rand=" + rand);
             mmh.logDebug("DI chance=" + chance);
         }
+
+        chance = (1.0d - (chance / 100.0d + enchLevel * 0.005f)) * 10000;
         if (debug) {
-            mmh.logDebug("DI chancepercent=" + chancepercent);
+            mmh.logDebug("DI fail chance=" + chance);
         }
-        chancepercent = chancepercent + enchantmentlevelpercent;
-        if (debug) {
-            mmh.logDebug("DI chancepercent2=" + chancepercent);
-        }
-        return (chancepercent >= chance) || mmh.isDev;
+
+
+        return (rand >= chance) || mmh.isDev;
     }
 
     @EventHandler
