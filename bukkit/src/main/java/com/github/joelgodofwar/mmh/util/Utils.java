@@ -1,6 +1,7 @@
 package com.github.joelgodofwar.mmh.util;
 
 import com.github.joelgodofwar.mmh.MoreMobHeads;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.mojang.authlib.GameProfile;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
@@ -26,8 +27,15 @@ public class Utils {
         return (T)(meta != null ? meta : Bukkit.getItemFactory().getItemMeta(item.getType()));
     }
 
-    public static void sendJson(CommandSender player, String string) {
-        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "tellraw \"" + player.getName() + "\" " + string);
+    @CanIgnoreReturnValue
+    public static boolean createFileIfNotExists(File file) {
+        if (file.exists()) return false;
+        try {
+            return file.createNewFile();
+        } catch (Throwable t) {
+            t.printStackTrace();
+            return false;
+        }
     }
 
     public static void sendJson(Player player, String string) {
@@ -44,16 +52,6 @@ public class Utils {
                 StandardCopyOption.COPY_ATTRIBUTES
         };
         Files.copy(FROM, TO, options);
-    }
-
-    public static boolean isPluginRequired(String pluginName) {
-        String[] requiredPlugins = {"SinglePlayerSleep", "MoreMobHeads", "NoEndermanGrief", "ShulkerRespawner", "DragonDropElytra", "RotationalWrench", "SilenceMobs", "VillagerWorkstationHighlights"};
-        for (String requiredPlugin : requiredPlugins) {
-            if ((Bukkit.getPluginManager().getPlugin(requiredPlugin) != null) && Bukkit.getPluginManager().isPluginEnabled(requiredPlugin)) {
-                return requiredPlugin.equals(pluginName);
-            }
-        }
-        return true;
     }
 
     public static String timeToString(long startTime) {

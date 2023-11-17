@@ -366,7 +366,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
 
             //if(entity.getKiller() instanceof Player){
             if (entity.getKiller().hasPermission("moremobheads.players")) {
-                boolean dropit = mmh.DropIt(event, mmh.chanceConfig.getDouble("chance_percent.player", 0.50));
+                boolean dropit = mmh.getCommonHandler().DropIt(event, mmh.chanceConfig.getDouble("chance_percent.player", 0.50));
                 if (debug) {
                     mmh.logDebug("EDE DropIt=" + dropit);
                 }
@@ -476,30 +476,30 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                                 boolean enforceblacklist = mmh.getConfig().getBoolean("blacklist.enforce", false);
                                 boolean onwhitelist = mmh.getConfig().getString("whitelist.player_head_whitelist", "").toLowerCase().contains(entity.getCustomName().toLowerCase());
                                 boolean onblacklist = mmh.getConfig().getString("blacklist.player_head_blacklist", "").toLowerCase().contains(entity.getCustomName().toLowerCase());
-                                if (mmh.DropIt(event, mmh.chanceConfig.getDouble("named_mob", 0.10))) {
+                                if (mmh.getCommonHandler().DropIt(event, mmh.chanceConfig.getDouble("named_mob", 0.10))) {
                                     if (enforcewhitelist && enforceblacklist) {
                                         if (onwhitelist && !(onblacklist)) {
-                                            Drops.add(mmh.dropMobHead(entity, entity.getCustomName(), entity.getKiller()));
+                                            Drops.add(mmh.getCommonHandler().dropMobHead(entity, entity.getCustomName(), entity.getKiller()));
                                             if (debug) {
                                                 mmh.logDebug("EDE " + entity.getCustomName() + " Head Dropped");
                                             }
                                         }
                                     } else if (enforcewhitelist && !enforceblacklist) {
                                         if (onwhitelist) {
-                                            Drops.add(mmh.dropMobHead(entity, entity.getCustomName(), entity.getKiller()));
+                                            Drops.add(mmh.getCommonHandler().dropMobHead(entity, entity.getCustomName(), entity.getKiller()));
                                             if (debug) {
                                                 mmh.logDebug("EDE " + entity.getCustomName() + " Head Dropped");
                                             }
                                         }
                                     } else if (!enforcewhitelist && enforceblacklist) {
                                         if (!onblacklist) {
-                                            Drops.add(mmh.dropMobHead(entity, entity.getCustomName(), entity.getKiller()));
+                                            Drops.add(mmh.getCommonHandler().dropMobHead(entity, entity.getCustomName(), entity.getKiller()));
                                             if (debug) {
                                                 mmh.logDebug("EDE " + entity.getCustomName() + " Head Dropped");
                                             }
                                         }
                                     } else {
-                                        Drops.add(mmh.dropMobHead(entity, entity.getCustomName(), entity.getKiller()));
+                                        Drops.add(mmh.getCommonHandler().dropMobHead(entity, entity.getCustomName(), entity.getKiller()));
                                         if (debug) {
                                             mmh.logDebug("EDE " + entity.getCustomName() + " Head Dropped");
                                         }
@@ -536,7 +536,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                                 name = "CREEPER_CHARGED";
                                 cchance = 1.00;
                             }
-                            if (mmh.DropIt(event, cchance)) {
+                            if (mmh.getCommonHandler().DropIt(event, cchance)) {
                                 if (mmh.getConfig().getBoolean("vanilla_heads.creeper", false) && (!name.equals("CREEPER_CHARGED"))) {
                                     Drops.add(new ItemStack(Material.CREEPER_HEAD));
                                 } else { // mmh.langName
@@ -557,7 +557,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                             break;
                         case "ZOMBIE":
                             // ConfigHelper.Double(mmh.chanceConfig, "chance_percent.zombie", defpercent)
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.zombie", defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.zombie", defpercent))) {
                                 if (mmh.getConfig().getBoolean("vanilla_heads.zombie", false)) {
                                     Drops.add(new ItemStack(Material.ZOMBIE_HEAD));
                                 } else {
@@ -581,7 +581,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                             break;
                         case "SKELETON":
                             // ConfigHelper.Double(mmh.chanceConfig, "chance_percent.skeleton", defpercent)
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.skeleton", defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.skeleton", defpercent))) {
                                 if (mmh.getConfig().getBoolean("vanilla_heads.skeleton", false)) {
                                     Drops.add(new ItemStack(Material.SKELETON_SKULL));
                                 } else {
@@ -602,7 +602,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                             break;
                         case "WITHER_SKELETON":
                             // ConfigHelper.Double(mmh.chanceConfig, "chance_percent.wither_skeleton", defpercent)
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.wither_skeleton", defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.wither_skeleton", defpercent))) {
                                 if (mmh.getConfig().getBoolean("vanilla_heads.wither_skeleton", false)) {
                                     Drops.add(new ItemStack(Material.WITHER_SKELETON_SKULL));
                                 } else {
@@ -620,7 +620,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                             break;
                         case "ENDER_DRAGON":
                             // ConfigHelper.Double(mmh.chanceConfig, "chance_percent.ender_dragon", defpercent)
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.ender_dragon", defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.ender_dragon", defpercent))) {
                                 if (mmh.getConfig().getBoolean("vanilla_heads.ender_dragon", false)) {
                                     Drops.add(new ItemStack(Material.DRAGON_HEAD));
                                 } else {
@@ -645,7 +645,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                             //TropicalFishHeads daFishEnum = TropicalFishHeads.getIfPresent(name);
                             String daFishName = mmh.getNamedTropicalFishName(daFishType, daFishBody, daFishPatternColor);
                             log("daFishName: " + daFishName);
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.tropical_fish." + daFishName.toLowerCase(), defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.tropical_fish." + daFishName.toLowerCase(), defpercent))) {
                                 Drops.add(mmh.makeSkull(TropicalFishHeads.valueOf(name + "_" + daFishName).getTexture(),
                                         mmh.mobNames.getString(name.toLowerCase() + "." + daFishName.toLowerCase(), TropicalFishHeads.valueOf(name + "_" + daFishName).getName() + " Head"), entity.getKiller()));
                                 if (debug) {
@@ -658,7 +658,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                             }
                             break;
                         case "WITHER":
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + name.toLowerCase(), defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + name.toLowerCase(), defpercent))) {
                                 String name2 = name + "_NORMAL";
                                 Drops.add(mmh.makeSkull(MobHeads.valueOf(name2).getTexture(), mmh.mobNames.getString(name2.toLowerCase().replace("_", ".")
                                         , MobHeads.valueOf(name2).getName() + " Head"), entity.getKiller()));
@@ -690,7 +690,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                         case "WOLF":
                             Wolf wolf = (Wolf) event.getEntity();
                             // ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + name.toLowerCase(), defpercent)
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + name.toLowerCase(), defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + name.toLowerCase(), defpercent))) {
                                 if (wolf.isAngry()) {
                                     Drops.add(mmh.makeSkull(MobHeads.valueOf(name + "_ANGRY").getTexture(),
                                             mmh.mobNames.getString(name.toLowerCase() + "_angry", MobHeads.valueOf(name + "_ANGRY").getName() + " Head"), entity.getKiller()));
@@ -721,7 +721,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                                 mmh.logDebug("EDE dafoxtype=" + dafoxtype);
                             }
                             // ConfigHelper.Double(mmh.chanceConfig, "chance_percent.fox." + dafoxtype.toLowerCase(), defpercent)
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.fox." + dafoxtype.toLowerCase(), defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.fox." + dafoxtype.toLowerCase(), defpercent))) {
                                 Drops.add(mmh.makeSkull(MobHeads.valueOf(name + "_" + dafoxtype).getTexture(),
                                         mmh.mobNames.getString(name.toLowerCase() + "." + dafoxtype.toLowerCase(), MobHeads.valueOf(name + "_" + dafoxtype).getName() + " Head"), entity.getKiller()));
                                 if (debug) {
@@ -741,7 +741,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                                 mmh.logDebug("entity cat=" + dacat.getCatType());
                             }
                             // ConfigHelper.Double(mmh.chanceConfig, "chance_percent.cat." + dacattype.toLowerCase(), defpercent)
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.cat." + dacattype.toLowerCase(), defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.cat." + dacattype.toLowerCase(), defpercent))) {
                                 Drops.add(mmh.makeSkull(CatHeads.valueOf(dacattype).getTexture(),
                                         mmh.mobNames.getString(name.toLowerCase() + "." + dacattype.toLowerCase(), CatHeads.valueOf(dacattype).getName() + " Head"), entity.getKiller()));
                                 if (debug) {
@@ -755,7 +755,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                             break;
                         case "OCELOT":
                             // ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + name.toLowerCase(), defpercent)
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + name.toLowerCase(), defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + name.toLowerCase(), defpercent))) {
                                 Drops.add(mmh.makeSkull(MobHeads.valueOf(name).getTexture(),
                                         mmh.mobNames.getString(MobHeads.valueOf(name).getNameString(), MobHeads.valueOf(name).getName() + " Head"), entity.getKiller()));
                                 if (debug) {
@@ -783,7 +783,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                             }
                             if ((daAnger >= 1) && (daNectar == true)) {
                                 // ConfigHelper.Double(mmh.chanceConfig, "chance_percent.bee.angry_pollinated", defpercent)
-                                if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.bee.angry_pollinated", defpercent))) {
+                                if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.bee.angry_pollinated", defpercent))) {
                                     Drops.add(mmh.makeSkull(MobHeads.valueOf("BEE_ANGRY_POLLINATED").getTexture(),
                                             mmh.mobNames.getString(name.toLowerCase() + ".angry_pollinated", "Angry Pollinated Bee Head"), entity.getKiller()));
                                     if (debug) {
@@ -796,7 +796,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                                 }
                             } else if ((daAnger >= 1) && (daNectar == false)) {
                                 // ConfigHelper.Double(mmh.chanceConfig, "chance_percent.bee.angry", defpercent)
-                                if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.bee.angry", defpercent))) {
+                                if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.bee.angry", defpercent))) {
                                     Drops.add(mmh.makeSkull(MobHeads.valueOf("BEE_ANGRY").getTexture(),
                                             mmh.mobNames.getString(name.toLowerCase() + ".angry", "Angry Bee Head"), entity.getKiller()));
                                     if (debug) {
@@ -809,7 +809,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                                 }
                             } else if ((daAnger == 0) && (daNectar == true)) {
                                 // ConfigHelper.Double(mmh.chanceConfig, "chance_percent.bee.pollinated", defpercent)
-                                if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.bee.pollinated", defpercent))) {
+                                if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.bee.pollinated", defpercent))) {
                                     Drops.add(mmh.makeSkull(MobHeads.valueOf("BEE_POLLINATED").getTexture(),
                                             mmh.mobNames.getString(name.toLowerCase() + ".pollinated", "Pollinated Bee Head"), entity.getKiller()));
                                     if (debug) {
@@ -822,7 +822,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                                 }
                             } else if ((daAnger == 0) && (daNectar == false)) {
                                 // ConfigHelper.Double(mmh.chanceConfig, "chance_percent.bee.chance_percent", defpercent)
-                                if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.bee.chance_percent", defpercent))) {
+                                if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.bee.chance_percent", defpercent))) {
                                     Drops.add(mmh.makeSkull(MobHeads.valueOf("BEE").getTexture(),
                                             mmh.mobNames.getString(name.toLowerCase() + ".none", "Bee Head"), entity.getKiller()));
                                     if (debug) {
@@ -841,7 +841,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                             String daLlamaName = LlamaHeads.valueOf(name + "_" + daLlamaColor).getName() + " Head";//daLlamaColor.toLowerCase().replace("b", "B").replace("c", "C").replace("g", "G").replace("wh", "Wh") + " Llama Head";
                             //log(name + "_" + daLlamaColor);
                             // ConfigHelper.Double(mmh.chanceConfig, "chance_percent.llama." + daLlamaColor.toLowerCase(), defpercent)
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.llama." + daLlamaColor.toLowerCase(), defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.llama." + daLlamaColor.toLowerCase(), defpercent))) {
                                 Drops.add(mmh.makeSkull(LlamaHeads.valueOf(name + "_" + daLlamaColor).getTexture(),
                                         mmh.mobNames.getString(name.toLowerCase() + "." + daLlamaColor.toLowerCase(), daLlamaName), entity.getKiller()));
                                 if (debug) {
@@ -859,7 +859,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                             String daHorseName = HorseHeads.valueOf(name + "_" + daHorseColor).getName() + " Head";//daHorseColor.toLowerCase().replace("b", "B").replace("ch", "Ch").replace("cr", "Cr").replace("d", "D")
                             //.replace("g", "G").replace("wh", "Wh").replace("_", " ") + " Horse Head";
                             // ConfigHelper.Double(mmh.chanceConfig, "chance_percent.horse." + daHorseColor.toLowerCase(), defpercent)
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.horse." + daHorseColor.toLowerCase(), defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.horse." + daHorseColor.toLowerCase(), defpercent))) {
                                 Drops.add(mmh.makeSkull(HorseHeads.valueOf(name + "_" + daHorseColor).getTexture(),
                                         mmh.mobNames.getString(name.toLowerCase() + "." + daHorseColor.toLowerCase(), daHorseName), entity.getKiller()));
                                 if (debug) {
@@ -881,7 +881,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                                 mmh.logDebug("EDE " + name + "_" + daCowVariant);
                             }
                             // ConfigHelper.Double(mmh.chanceConfig, "chance_percent.mushroom_cow." + daCowVariant.toLowerCase(), defpercent)
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.mushroom_cow." + daCowVariant.toLowerCase(), defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.mushroom_cow." + daCowVariant.toLowerCase(), defpercent))) {
                                 Drops.add(mmh.makeSkull(MobHeads.valueOf(name + "_" + daCowVariant).getTexture(),
                                         mmh.mobNames.getString(name.toLowerCase() + "." + daCowVariant.toLowerCase(), daCowName), entity.getKiller()));
                                 if (debug) {
@@ -905,7 +905,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                                 mmh.logDebug("EDE " + name + "_" + daPandaGene);
                             }
                             // ConfigHelper.Double(mmh.chanceConfig, "chance_percent.panda." + daPandaGene.toLowerCase(), defpercent)
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.panda." + daPandaGene.toLowerCase(), defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.panda." + daPandaGene.toLowerCase(), defpercent))) {
                                 Drops.add(mmh.makeSkull(MobHeads.valueOf(name + "_" + daPandaGene).getTexture(),
                                         mmh.mobNames.getString(name.toLowerCase() + "." + daPandaGene.toLowerCase(), daPandaName), entity.getKiller()));
                                 if (debug) {
@@ -926,7 +926,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                                 mmh.logDebug("EDE " + name + "_" + daParrotVariant);
                             }
                             // ConfigHelper.Double(mmh.chanceConfig, "chance_percent.parrot." + daParrotVariant.toLowerCase(), defpercent)
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.parrot." + daParrotVariant.toLowerCase(), defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.parrot." + daParrotVariant.toLowerCase(), defpercent))) {
                                 Drops.add(mmh.makeSkull(MobHeads.valueOf(name + "_" + daParrotVariant).getTexture(),
                                         mmh.mobNames.getString(name.toLowerCase() + "." + daParrotVariant.toLowerCase(), daParrotName), entity.getKiller()));
                                 if (debug) {
@@ -952,7 +952,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                                 mmh.logDebug("EDE " + name + "_" + daRabbitType);
                             }
                             // ConfigHelper.Double(mmh.chanceConfig, "chance_percent.rabbit." + daRabbitType.toLowerCase(), defpercent)
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.rabbit." + daRabbitType.toLowerCase(), defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.rabbit." + daRabbitType.toLowerCase(), defpercent))) {
                                 Drops.add(mmh.makeSkull(RabbitHeads.valueOf(name + "_" + daRabbitType).getTexture(),
                                         mmh.mobNames.getString(name.toLowerCase() + "." + daRabbitType.toLowerCase(), daRabbitName), entity.getKiller()));
                                 if (debug) {
@@ -983,7 +983,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                             }
                             String daVillagerName = VillagerHeads.valueOf(daName).getName() + " Head";
                             // ConfigHelper.Double(mmh.chanceConfig, "chance_percent.villager." + daVillagerType.toLowerCase() + "." + daVillagerProfession.toLowerCase(), defpercent)
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.villager." + daVillagerType.toLowerCase() + "." + daVillagerProfession.toLowerCase(), defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.villager." + daVillagerType.toLowerCase() + "." + daVillagerProfession.toLowerCase(), defpercent))) {
                                 Drops.add(mmh.makeSkull(VillagerHeads.valueOf(name + "_" + daVillagerProfession + "_" + daVillagerType).getTexture(),
                                         mmh.mobNames.getString(name.toLowerCase() + "." + daVillagerType.toLowerCase() + "." + daVillagerProfession.toLowerCase()
                                                 , daVillagerName), entity.getKiller()));
@@ -1005,7 +1005,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                                 mmh.logDebug("EDE " + name + "_" + daZombieVillagerProfession);
                             }
                             // ConfigHelper.Double(mmh.chanceConfig, "chance_percent.zombie_villager", defpercent)
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.zombie_villager", defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.zombie_villager", defpercent))) {
                                 Drops.add(mmh.makeSkull(ZombieVillagerHeads.valueOf(name + "_" + daZombieVillagerProfession).getTexture(),
                                         mmh.mobNames.getString(name.toLowerCase() + "." + daZombieVillagerProfession.toLowerCase(), daZombieVillagerName), entity.getKiller()));
                                 if (debug) {
@@ -1034,7 +1034,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                                 mmh.logDebug("EDE " + daSheepColor + "_" + name);
                             }
                             // ConfigHelper.Double(mmh.chanceConfig, "chance_percent.sheep." + daSheepColor.toLowerCase(), defpercent)
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.sheep." + daSheepColor.toLowerCase(), defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.sheep." + daSheepColor.toLowerCase(), defpercent))) {
                                 Drops.add(mmh.makeSkull(SheepHeads.valueOf(name + "_" + daSheepColor).getTexture(),
                                         mmh.mobNames.getString(name.toLowerCase() + "." + daSheepColor.toLowerCase(), daSheepName), entity.getKiller()));
                                 if (debug) {
@@ -1054,7 +1054,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                                 mmh.logDebug("EDE " + daTraderLlamaColor + "_" + name);
                             }
                             // ConfigHelper.Double(mmh.chanceConfig, "chance_percent.trader_llama." + daTraderLlamaColor.toLowerCase(), defpercent)
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.trader_llama." + daTraderLlamaColor.toLowerCase(), defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.trader_llama." + daTraderLlamaColor.toLowerCase(), defpercent))) {
                                 Drops.add(mmh.makeSkull(LlamaHeads.valueOf(name + "_" + daTraderLlamaColor).getTexture(),
                                         mmh.mobNames.getString(name.toLowerCase() + "." + daTraderLlamaColor.toLowerCase(), daTraderLlamaName), entity.getKiller()));
                                 if (debug) {
@@ -1074,7 +1074,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                                 mmh.logDebug("EDE " + daAxolotlVariant + "_" + name);
                             }
                             // ConfigHelper.Double(mmh.chanceConfig, "chance_percent.axolotl." + daAxolotlVariant.toLowerCase(), defpercent)
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.axolotl." + daAxolotlVariant.toLowerCase(), defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.axolotl." + daAxolotlVariant.toLowerCase(), defpercent))) {
                                 Drops.add(mmh.makeSkull(MobHeads117.valueOf(name + "_" + daAxolotlVariant).getTexture(),
                                         mmh.mobNames.getString(name.toLowerCase() + "." + daAxolotlVariant.toLowerCase(), daAxolotlName), entity.getKiller()));
                                 if (debug) {
@@ -1103,7 +1103,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                                 mmh.logDebug("EDE " + daGoatVariant + "_" + name);
                             }
                             // ConfigHelper.Double(mmh.chanceConfig, "chance_percent.goat." + daGoatVariant.toLowerCase(), defpercent)
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.goat." + daGoatVariant.toLowerCase(), defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent.goat." + daGoatVariant.toLowerCase(), defpercent))) {
                                 Drops.add(mmh.makeSkull(MobHeads117.valueOf(name + "_" + daGoatVariant).getTexture(),
                                         mmh.mobNames.getString(name.toLowerCase() + "." + daGoatVariant.toLowerCase(), daGoatName), entity.getKiller()));
                                 if (debug) {
@@ -1122,7 +1122,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                             if (mmh.chance25oftrue()) { // chance50oftrue() isShivering
                                 name = name.concat("_SHIVERING");
                                 // ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + name.toLowerCase(), defpercent)
-                                if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + name.toLowerCase(), defpercent))) {
+                                if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + name.toLowerCase(), defpercent))) {
                                     Drops.add(mmh.makeSkull(MobHeads.valueOf(name).getTexture(),
                                             mmh.mobNames.getString(name.toLowerCase() + "_shivering", "Shivering " + event.getEntity().getName() + " Head"), entity.getKiller()));
                                     if (debug) {
@@ -1134,7 +1134,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                                     }
                                 }
                             } else // ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + name.toLowerCase(), defpercent)
-                                if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + name.toLowerCase(), defpercent))) {
+                                if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + name.toLowerCase(), defpercent))) {
                                     Drops.add(mmh.makeSkull(MobHeads.valueOf(name).getTexture(),
                                             mmh.mobNames.getString(name.toLowerCase(), event.getEntity().getName() + " Head"), entity.getKiller()));
                                     if (debug) {
@@ -1155,7 +1155,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                             String daFrogName = MobHeads119.valueOf(frogName).getName() + " Head";
                             // mmh.chanceConfig.getDouble("chance_percent." + frogName.replace("_", ".").toLowerCase(), defpercent)
                             // ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + frogName.replace("_", ".").toLowerCase(), defpercent)
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + frogName.replace("_", ".").toLowerCase(), defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + frogName.replace("_", ".").toLowerCase(), defpercent))) {
                                 Drops.add(mmh.makeSkull(MobHeads119.valueOf(frogName).getTexture(),
                                         mmh.mobNames.getString(frogName.replace("_", ".").toLowerCase(), daFrogName), entity.getKiller()));
                                 if (debug) {
@@ -1188,7 +1188,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                                 mmh.logDebug("EDE killer=" + entity.getKiller().toString() + " line:810");
                             }
                             // ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + name.toLowerCase(), defpercent)
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + name.toLowerCase(), defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + name.toLowerCase(), defpercent))) {
                                 Drops.add(mmh.makeSkull(MobHeads119.valueOf(name).getTexture(),
                                         mmh.mobNames.getString(name.toLowerCase(), event.getEntity().getName() + " Head"), entity.getKiller()));
                                 if (debug) {
@@ -1219,7 +1219,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                             if (debug) {
                                 mmh.logDebug("EDE killer=" + entity.getKiller().toString());
                             }
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + name.toLowerCase(),
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + name.toLowerCase(),
                                     defpercent))) {
                                 Drops.add(mmh.makeSkull(MobHeads.valueOf(name).getTexture(),
                                         mmh.mobNames.getString(name.toLowerCase(), event.getEntity().getName() + " Head"), entity.getKiller()));
@@ -1262,7 +1262,7 @@ public class EventHandler_1_19 implements CommandExecutor, TabCompleter, Listene
                                 mmh.logDebug("EDE killer=" + entity.getKiller().toString() + " line:824");
                             }
                             // ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + name.toLowerCase(), defpercent)
-                            if (mmh.DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + name.toLowerCase(), defpercent))) {
+                            if (mmh.getCommonHandler().DropIt(event, ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + name.toLowerCase(), defpercent))) {
                                 Drops.add(mmh.makeSkull(MobHeads.valueOf(name).getTexture(),
                                         mmh.mobNames.getString(name.toLowerCase(), event.getEntity().getName() + " Head"), entity.getKiller()));
                                 if (debug) {
