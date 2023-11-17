@@ -294,7 +294,7 @@ public enum MobHeads {
             "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzA0OTMxMjAwYWQ0NjBiNjUwYTE5MGU4ZDQxMjI3YzM5OTlmYmViOTMzYjUxY2E0OWZkOWU1OTIwZDFmOGU3ZCJ9fX0="
     ),
     VEX(
-            "Vex", "vex", "fec1a798-abc0-4648-9a4d-fd807af2fab0",
+            "Vex", "vex.vex", "fec1a798-abc0-4648-9a4d-fd807af2fab0",
             "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTQ1MWZjNGYzYWZlMDBlYzBjMDczYzdiMzA4YmNhNDVkZjQ4MGVlYTE5MjBlYjNlMTAzNDEzM2U2YzZjYzJkMCJ9fX0="
     ),
     VEX_ANGRY(

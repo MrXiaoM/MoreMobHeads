@@ -172,8 +172,9 @@ tropical_fish:
   yellow_parrotfish: Yellow Parrotfish Head
   yellow_tang: Yellow Tang Head
 turtle: Turtle Head
-vex: Vex Head
-vex_angry: Angry Vex Head
+vex:
+  vex: Vex Head
+  angry: Angry Vex Head
 villager:
   desert:
     armorer: Desert Armorer Villager Head

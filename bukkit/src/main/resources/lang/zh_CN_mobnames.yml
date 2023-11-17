@@ -172,8 +172,9 @@ tropical_fish:
   yellow_parrotfish: Yellow Parrotfish Head
   yellow_tang: Yellow Tang Head
 turtle: '§e§l乌龟头'
-vex: '§e§l恼鬼头'
-vex_angry: '§e§l愤怒恼鬼头'
+vex:
+  vex: '§e§l恼鬼头'
+  angry: '§e§l愤怒恼鬼头'
 villager:
   desert:
     armorer: '§e§l沙漠军械员村民头'
