@@ -13,21 +13,51 @@ import java.io.IOException;
 import java.util.logging.Level;
 
 public class Config {
+    private static MoreMobHeads mmh;
+    public static void reload(MoreMobHeads mmh) {
+        Config.mmh = mmh;
 
-    public static void reload(MoreMobHeads mmh) { //TODO: configReload
+        reloadMainConfig();
+
+        Networks.checkUpdate = mmh.getConfig().getBoolean("auto_update_check");
+        MoreMobHeads.debug = mmh.getConfig().getBoolean("debug", false);
+        MoreMobHeads.languageName = mmh.getConfig().getString("lang", "zh_CN");
+
+        mmh.world_whitelist = mmh.config.getString("world.whitelist", "");
+        mmh.world_blacklist = mmh.config.getString("world.blacklist", "");
+        mmh.mob_whitelist = mmh.config.getString("mob.whitelist", "");
+        mmh.mob_blacklist = mmh.config.getString("mob.blacklist", "");
+        mmh.colorful_console = mmh.config.getBoolean("console.colorful_console", true);
+
+        reloadMessages();
+        reloadChanceConfig();
+        reloadMobNames();
+        reloadOtherHeads();
+        reloadCustomTrade();
+
+        Translator.load(MoreMobHeads.languageName, mmh.getDataFolder(), mmh::getResource);
+
+        if (mmh.handler != null) {
+            mmh.handler.onReload();
+        }
+    }
+
+    private static void reloadMainConfig() {
+        File configFile = new File(mmh.getDataFolder(), "config.yml");
+        File oldConfigFile = new File(mmh.getDataFolder(), "old_config.yml");
         mmh.oldConfig = new YamlConfiguration();
         mmh.log(Level.INFO, "Checking config file version...");
         try {
-            mmh.oldConfig.load(new File(mmh.getDataFolder() + "" + File.separatorChar + "config.yml"));
+            mmh.oldConfig.load(configFile);
         } catch (Exception e2) {
             mmh.logWarn("Could not load config.yml");
             mmh.stacktraceInfo();
             e2.printStackTrace();
         }
-        String checkconfigversion = mmh.oldConfig.getString("version", "1.0.0");
-        if (!checkconfigversion.equalsIgnoreCase(BuildConstants.CONFIG_VERSION)) {
+        String configVersion = mmh.oldConfig.getString("version", "1.0.0");
+        if (!configVersion.equalsIgnoreCase(BuildConstants.CONFIG_VERSION)) {
             try {
-                Utils.copyFile_Java7(mmh.getDataFolder() + "" + File.separatorChar + "config.yml", mmh.getDataFolder() + "" + File.separatorChar + "old_config.yml");
+                Utils.copyFile_Java7(configFile, oldConfigFile);
             } catch (IOException e) {
                 mmh.stacktraceInfo();
                 e.printStackTrace();
@@ -35,14 +65,14 @@ public class Config {
             mmh.saveResource("config.yml", true);
 
             try {
-                mmh.config.load(new File(mmh.getDataFolder(), "config.yml"));
+                mmh.config.load(configFile);
             } catch (IOException | InvalidConfigurationException e1) {
                 mmh.logWarn("Could not load config.yml");
                 mmh.stacktraceInfo();
                 e1.printStackTrace();
             }
             try {
-                mmh.oldConfig.load(new File(mmh.getDataFolder(), "old_config.yml"));
+                mmh.oldConfig.load(oldConfigFile);
             } catch (IOException | InvalidConfigurationException e1) {
                 mmh.logWarn("Could not load old_config.yml");
                 mmh.stacktraceInfo();
@@ -84,10 +114,9 @@ public class Config {
             mmh.config.set("whitelist.player_head_whitelist", mmh.oldConfig.get("whitelist.player_head_whitelist", "names_go_here"));
             mmh.config.set("blacklist.enforce", mmh.oldConfig.get("enforce_blacklist", true));
             mmh.config.set("blacklist.player_head_blacklist", mmh.oldConfig.get("blacklist.player_head_blacklist", "names_go_here"));
-            //config.set("", oldconfig.get("", true));
 
             try {
-                mmh.config.save(new File(mmh.getDataFolder(), "config.yml"));
+                mmh.config.save(configFile);
             } catch (IOException e) {
                 mmh.logWarn("Could not save old settings to config.yml");
                 mmh.stacktraceInfo();
@@ -100,38 +129,32 @@ public class Config {
         mmh.oldConfig = null;
         mmh.log(Level.INFO, "Loading config file...");
         try {
-            mmh.getConfig().load(new File(mmh.getDataFolder(), "config.yml"));
+            mmh.getConfig().load(configFile);
+            mmh.config.load(configFile);
         } catch (IOException | InvalidConfigurationException e) {
             mmh.logWarn("Could not load config.yml");
             mmh.stacktraceInfo();
             e.printStackTrace();
         }
-        try {
-            mmh.config.load(new File(mmh.getDataFolder(), "config.yml"));
-        } catch (IOException | InvalidConfigurationException e1) {
-            mmh.logWarn("Could not load config.yml");
-            mmh.stacktraceInfo();
-            e1.printStackTrace();
-        }
+    }
 
-        Networks.checkUpdate = mmh.getConfig().getBoolean("auto_update_check");
-        MoreMobHeads.debug = mmh.getConfig().getBoolean("debug", false);
-        MoreMobHeads.languageName = mmh.getConfig().getString("lang", "zh_CN");
-
+    private static void reloadMessages() {
+        File messageFile = new File(mmh.getDataFolder(), "message.yml");
+        File oldMessageFile = new File(mmh.getDataFolder(), "old_message.yml");
         mmh.consoleLog("Loading messages file...");
         try {
-            mmh.oldMessages.load(new File(mmh.getDataFolder() + "" + File.separatorChar + "messages.yml"));
+            mmh.oldMessages.load(messageFile);
         } catch (Exception e) {
             mmh.logWarn("Could not load messages.yml");
             mmh.stacktraceInfo();
             e.printStackTrace();
         }
 
-        String checkmessagesversion = mmh.oldMessages.getString("version", "1.0.0");
-        mmh.log("messages.yml, Expected version:[" + BuildConstants.MESSAGE_VERSION + "], Read version:[" + checkmessagesversion + "]\nThese should be the same.");
-        if (!checkmessagesversion.equalsIgnoreCase(BuildConstants.MESSAGE_VERSION)) {
+        String messageVersion = mmh.oldMessages.getString("version", "1.0.0");
+        mmh.log("messages.yml, Expected version:[" + BuildConstants.MESSAGE_VERSION + "], Read version:[" + messageVersion + "]\nThese should be the same.");
+        if (!messageVersion.equalsIgnoreCase(BuildConstants.MESSAGE_VERSION)) {
             try {
-                Utils.copyFile_Java7(mmh.getDataFolder() + "" + File.separatorChar + "messages.yml", mmh.getDataFolder() + "" + File.separatorChar + "old_messages.yml");
+                Utils.copyFile_Java7(messageFile, oldMessageFile);
             } catch (IOException e) {
                 mmh.stacktraceInfo();
                 e.printStackTrace();
@@ -139,14 +162,14 @@ public class Config {
             mmh.saveResource("messages.yml", true);
 
             try {
-                mmh.beheadingMessages.load(new File(mmh.getDataFolder(), "messages.yml"));
+                mmh.beheadingMessages.load(messageFile);
             } catch (IOException | InvalidConfigurationException e1) {
                 mmh.logWarn("Could not load messages.yml");
                 mmh.stacktraceInfo();
                 e1.printStackTrace();
             }
             try {
-                mmh.oldMessages.load(new File(mmh.getDataFolder(), "old_messages.yml"));
+                mmh.oldMessages.load(oldMessageFile);
             } catch (IOException | InvalidConfigurationException e1) {
                 mmh.stacktraceInfo();
                 e1.printStackTrace();
@@ -164,7 +187,7 @@ public class Config {
             }
 
             try {
-                mmh.beheadingMessages.save(new File(mmh.getDataFolder(), "messages.yml"));
+                mmh.beheadingMessages.save(messageFile);
             } catch (IOException e) {
                 mmh.logWarn("Could not save old messages to messages.yml");
                 mmh.stacktraceInfo();
@@ -173,7 +196,7 @@ public class Config {
             mmh.log(Level.INFO, "messages.yml Updated! Old messages saved as old_messages.yml");
         } else {
             try {
-                mmh.beheadingMessages.load(new File(mmh.getDataFolder(), "messages.yml"));
+                mmh.beheadingMessages.load(messageFile);
             } catch (IOException | InvalidConfigurationException e1) {
                 mmh.logWarn("Could not load messages.yml");
                 mmh.stacktraceInfo();
@@ -182,60 +205,24 @@ public class Config {
         }
         mmh.oldMessages = null;
 
-        if (mmh.getConfig().getBoolean("wandering_trades.custom_wandering_trader", true)) {
-            /* Trader heads load */
-            mmh.playerFile = new File(mmh.getDataFolder() + "" + File.separatorChar + "player_heads.yml");//\
-            if (MoreMobHeads.debug) {
-                mmh.logDebug("player_heads=" + mmh.playerFile.getPath());
-            }
-            if (!mmh.playerFile.exists()) {                                                                    // checks if the yaml does not exist
-                mmh.saveResource("player_heads.yml", true);
-                mmh.log(Level.INFO, "player_heads.yml not found! copied player_heads.yml to " + mmh.getDataFolder() + "");
-                //ConfigAPI.copy(getResource("lang.yml"), langFile); // copies the yaml from your jar to the folder /plugin/<pluginName>
-            }
-            mmh.consoleLog("Loading player_heads file...");
-            mmh.playerHeads = new YamlConfiguration();
-            try {
-                mmh.playerHeads.load(mmh.playerFile);
-            } catch (IOException | InvalidConfigurationException e) {
-                mmh.stacktraceInfo();
-                e.printStackTrace();
-            }
+    }
 
-
-            /* Custom Trades load */
-            mmh.customFile = new File(mmh.getDataFolder() + "" + File.separatorChar + "custom_trades.yml");//\
-            if (MoreMobHeads.debug) {
-                mmh.logDebug("customFile=" + mmh.customFile.getPath());
-            }
-            if (!mmh.customFile.exists()) {                                                                    // checks if the yaml does not exist
-                mmh.saveResource("custom_trades.yml", true);
-                mmh.log(Level.INFO, "custom_trades.yml not found! copied custom_trades.yml to " + mmh.getDataFolder() + "");
-                //ConfigAPI.copy(getResource("lang.yml"), langFile); // copies the yaml from your jar to the folder /plugin/<pluginName>
-            }
-            mmh.consoleLog("Loading custom_trades file...");
-            mmh.traderCustom = new YamlConfiguration();
-            try {
-                mmh.traderCustom.load(mmh.customFile);
-            } catch (IOException | InvalidConfigurationException e) {
-                mmh.stacktraceInfo();
-                e.printStackTrace();
-            }
-        }
-
+    private static void reloadChanceConfig() {
+        File chanceConfigFile = new File(mmh.getDataFolder(), "chance_config.yml");
+        File oldChanceConfigFile = new File(mmh.getDataFolder(), "old_chance_config.yml");
         /* chanceConfig load */
-        mmh.chanceFile = new File(mmh.getDataFolder() + "" + File.separatorChar + "chance_config.yml");//\
+        mmh.chanceFile = new File(mmh.getDataFolder(), "chance_config.yml");
         if (MoreMobHeads.debug) {
             mmh.logDebug("chanceFile=" + mmh.chanceFile.getPath());
         }
-        if (!mmh.chanceFile.exists()) {                                                                    // checks if the yaml does not exist
+        if (!mmh.chanceFile.exists()) {
             mmh.saveResource("chance_config.yml", true);
             mmh.log(Level.INFO, "chance_config.yml not found! copied chance_config.yml to " + mmh.getDataFolder() + "");
-            //ConfigAPI.copy(getResource("lang.yml"), langFile); // copies the yaml from your jar to the folder /plugin/<pluginName>
         }
         mmh.consoleLog("Loading chance_config file...");
         mmh.chanceConfig = new YmlConfiguration();
         mmh.oldChanceConfig = new YmlConfiguration();
+        mmh.chanceFile = new File(mmh.getDataFolder(), "chance_config.yml");
         try {
             mmh.chanceConfig.load(mmh.chanceFile);
         } catch (IOException | InvalidConfigurationException e) {
@@ -243,31 +230,31 @@ public class Config {
             e.printStackTrace();
         }
         /* chanceConfig update check */
-        String checkchanceConfigversion = mmh.chanceConfig.getString("version", "1.0.0");
-        if (!checkchanceConfigversion.equalsIgnoreCase(BuildConstants.CHANCE_CONFIG_VERSION)) {
-            mmh.logDebug("Expected v: " + BuildConstants.CHANCE_CONFIG_VERSION + "got v: " + checkchanceConfigversion);
+        String chanceConfigVersion = mmh.chanceConfig.getString("version", "1.0.0");
+        if (!chanceConfigVersion.equalsIgnoreCase(BuildConstants.CHANCE_CONFIG_VERSION)) {
+            mmh.logDebug("Expected v: " + BuildConstants.CHANCE_CONFIG_VERSION + "got v: " + chanceConfigVersion);
             try {
-                Utils.copyFile_Java7(mmh.getDataFolder() + "" + File.separatorChar + "chance_config.yml", mmh.getDataFolder() + "" + File.separatorChar + "old_chance_config.yml");
+                Utils.copyFile_Java7(chanceConfigFile, oldChanceConfigFile);
             } catch (IOException e) {
                 mmh.stacktraceInfo();
                 e.printStackTrace();
             }
 
             mmh.saveResource("chance_config.yml", true);
-            copyChance(mmh, mmh.getDataFolder() + "" + File.separatorChar + "old_chance_config.yml", mmh.chanceFile.getPath());
+            copyChance(mmh, oldChanceConfigFile, mmh.chanceFile);
             mmh.log(Level.INFO, "chance_config.yml updated.");
         }
+    }
 
-
+    private static void reloadMobNames() {
         /* Mob names translation */
         mmh.mobNamesFile = new File(mmh.getDataFolder(), "lang/" + MoreMobHeads.languageName + "_mobnames.yml");
         if (MoreMobHeads.debug) {
             mmh.logDebug("langFilePath=" + mmh.mobNamesFile.getPath());
         }
-        if (!mmh.mobNamesFile.exists()) { // checks if the yaml does not exist
+        if (!mmh.mobNamesFile.exists()) {
             mmh.saveResource("lang/" + MoreMobHeads.languageName + "_mobnames.yml", true);
-            mmh.log(Level.INFO, "lang_mobnames file not found! copied " + MoreMobHeads.languageName + "_mobnames.yml to lang folder.");
-            //ConfigAPI.copy(getResource("lang.yml"), langFile); // copies the yaml from your jar to the folder /plugin/<pluginName>
+            mmh.log(Level.INFO, "lang_mobnames file not found! saved default " + MoreMobHeads.languageName + "_mobnames.yml to lang folder.");
         }
         mmh.consoleLog("Loading language based mobname file...");
         mmh.mobNames = new YamlConfiguration();
@@ -278,8 +265,8 @@ public class Config {
             e.printStackTrace();
         }
         /* Mob Names update check */
-        String checklangnameConfigversion = mmh.mobNames.getString("vex.angry", "outdated");
-        if (checklangnameConfigversion.equalsIgnoreCase("outdated")) {
+        String mobNamesVersionChecker = mmh.mobNames.getString("vex.angry", "outdated");
+        if (mobNamesVersionChecker.equalsIgnoreCase("outdated")) {
             mmh.log(Level.INFO, "lang_mobnames file outdated! Updating.");
             mmh.saveResource("lang/" + MoreMobHeads.languageName + "_mobnames.yml", true);
             mmh.log(Level.INFO, MoreMobHeads.languageName + "_mobnames.yml updated.");
@@ -291,22 +278,17 @@ public class Config {
             }
         }
         /* end Mob names translation */
+    }
 
-        mmh.world_whitelist = mmh.config.getString("world.whitelist", "");
-        mmh.world_blacklist = mmh.config.getString("world.blacklist", "");
-        mmh.mob_whitelist = mmh.config.getString("mob.whitelist", "");
-        mmh.mob_blacklist = mmh.config.getString("mob.blacklist", "");
-        mmh.colorful_console = mmh.getConfig().getBoolean("console.colorful_console", true);
-
+    private static void reloadOtherHeads() {
         /* Trader heads load */
-        mmh.playerFile = new File(mmh.getDataFolder() + "" + File.separatorChar + "player_heads.yml");//\
+        mmh.playerFile = new File(mmh.getDataFolder(), "player_heads.yml");
         if (MoreMobHeads.debug) {
             mmh.logDebug("player_heads=" + mmh.playerFile.getPath());
         }
-        if (!mmh.playerFile.exists()) {                                                                    // checks if the yaml does not exist
+        if (!mmh.playerFile.exists()) {
             mmh.saveResource("player_heads.yml", true);
-            mmh.log(Level.INFO, "player_heads.yml not found! copied player_heads.yml to " + mmh.getDataFolder() + "");
-            //ConfigAPI.copy(getResource("lang.yml"), langFile); // copies the yaml from your jar to the folder /plugin/<pluginName>
+            mmh.log(Level.INFO, "player_heads.yml not found! saved default player_heads.yml");
         }
 
         mmh.log(Level.INFO, "Loading player_heads file...");
@@ -320,20 +302,20 @@ public class Config {
         mmh.log(Level.INFO, "" + mmh.playerHeads.getInt("players.number") + " player_heads Loaded...");
         mmh.log("MC Version=" + MoreMobHeads.getMCVersion());
         if (!MoreMobHeads.getMCVersion().startsWith("1.16") && !MoreMobHeads.getMCVersion().startsWith("1.17") && !MoreMobHeads.getMCVersion().startsWith("1.18")) {
-            mmh.blockFile = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads.yml");//\
+            mmh.blockFile = new File(mmh.getDataFolder(), "block_heads.yml");
             if (MoreMobHeads.debug) {
                 mmh.logDebug("block_heads=" + mmh.blockFile.getPath());
             }
-            if (!mmh.blockFile.exists()) {                                                                    // checks if the yaml does not exist
+            if (!mmh.blockFile.exists()) {
                 mmh.saveResource("block_heads.yml", true);
-                mmh.log(Level.INFO, "block_heads.yml not found! copied block_heads.yml to " + mmh.getDataFolder() + "");
-                //ConfigAPI.copy(getResource("lang.yml"), langFile); // copies the yaml from your jar to the folder /plugin/<pluginName>
+                mmh.log(Level.INFO, "block_heads.yml not found! saved default block_heads.yml");
             }
         }
-        mmh.blockFile116 = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_16.yml");
-        mmh.blockFile1162 = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_16_2.yml");
-        mmh.blockFile117 = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_17_3.yml");
-        mmh.blockFile119 = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_19.yml");
+        /* Block heads load start */
+        mmh.blockFile116 = new File(mmh.getDataFolder(), "block_heads_1_16.yml");
+        mmh.blockFile1162 = new File(mmh.getDataFolder(), "block_heads_1_16_2.yml");
+        mmh.blockFile117 = new File(mmh.getDataFolder(), "block_heads_1_17_3.yml");
+        mmh.blockFile119 = new File(mmh.getDataFolder(), "block_heads_1_19.yml");
 
         if (MoreMobHeads.getMCVersion().startsWith("1.16")) {
             if (MoreMobHeads.debug) {
@@ -344,13 +326,13 @@ public class Config {
             }
             if (!mmh.blockFile116.exists()) {
                 mmh.saveResource("block_heads_1_16.yml", true);
-                mmh.log(Level.INFO, "block_heads_1_16.yml not found! copied block_heads_1_16.yml to " + mmh.getDataFolder() + "");
+                mmh.log(Level.INFO, "block_heads_1_16.yml not found! saved default block_heads_1_16.yml");
             }
             if (!mmh.blockFile1162.exists()) {
                 mmh.saveResource("block_heads_1_16_2.yml", true);
-                mmh.log(Level.INFO, "block_heads_1_16_2.yml not found! copied block_heads_1_16_2.yml to " + mmh.getDataFolder() + "");
+                mmh.log(Level.INFO, "block_heads_1_16_2.yml not found! saved default block_heads_1_16_2.yml");
             }
-            mmh.blockFile = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_16.yml");
+            mmh.blockFile = new File(mmh.getDataFolder(), "block_heads_1_16.yml");
             mmh.log(Level.INFO, "Loading block_heads_1_16 files...");
         } else if (MoreMobHeads.getMCVersion().startsWith("1.17") || MoreMobHeads.getMCVersion().startsWith("1.18") || MoreMobHeads.getMCVersion().startsWith("1.19")) {
             if (MoreMobHeads.debug) {
@@ -361,22 +343,22 @@ public class Config {
             }
             if (!mmh.blockFile116.exists()) {
                 mmh.saveResource("block_heads_1_17.yml", true);
-                mmh.log(Level.INFO, "block_heads_1_17.yml not found! copied block_heads_1_17.yml to " + mmh.getDataFolder() + "");
+                mmh.log(Level.INFO, "block_heads_1_17.yml not found! saved default block_heads_1_17.yml");
             }
             if (!mmh.blockFile1162.exists()) {
                 mmh.saveResource("block_heads_1_17_2.yml", true);
-                mmh.log(Level.INFO, "block_heads_1_17_2.yml not found! copied block_heads_1_17_2.yml to " + mmh.getDataFolder() + "");
+                mmh.log(Level.INFO, "block_heads_1_17_2.yml not found! saved default block_heads_1_17_2.yml");
             }
             if (!mmh.blockFile117.exists()) {
                 mmh.saveResource("block_heads_1_17_3.yml", true);
-                mmh.log(Level.INFO, "block_heads_1_17_3.yml not found! copied block_heads_1_17_3.yml to " + mmh.getDataFolder() + "");
+                mmh.log(Level.INFO, "block_heads_1_17_3.yml not found! saved default block_heads_1_17_3.yml");
             }
             if (!mmh.blockFile119.exists()) {
                 mmh.saveResource("block_heads_1_19.yml", true);
-                mmh.log(Level.INFO, "block_heads_1_19.yml not found! copied block_heads_1_19.yml to " + mmh.getDataFolder() + "");
+                mmh.log(Level.INFO, "block_heads_1_19.yml not found! saved default block_heads_1_19.yml");
             }
-            mmh.blockFile = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_17.yml");
-            mmh.blockFile1162 = new File(mmh.getDataFolder() + "" + File.separatorChar + "block_heads_1_17_2.yml");
+            mmh.blockFile = new File(mmh.getDataFolder(), "block_heads_1_17.yml");
+            mmh.blockFile1162 = new File(mmh.getDataFolder(), "block_heads_1_17_2.yml");
             mmh.log(Level.INFO, "Loading block_heads_1_17 files...");
         }
 
@@ -414,15 +396,18 @@ public class Config {
                 e1.printStackTrace();
             }
         }
+        /* Block heads load end */
+    }
 
+    private static void reloadCustomTrade() {
         /* Custom Trades load */
-        mmh.customFile = new File(mmh.getDataFolder() + "" + File.separatorChar + "custom_trades.yml");//\
+        mmh.customFile = new File(mmh.getDataFolder(), "custom_trades.yml");
         if (MoreMobHeads.debug) {
             mmh.logDebug("customFile=" + mmh.customFile.getPath());
         }
-        if (!mmh.customFile.exists()) {                                                                    // checks if the yaml does not exist
+        if (!mmh.customFile.exists()) {
             mmh.saveResource("custom_trades.yml", true);
-            mmh.log(Level.INFO, "custom_trades.yml not found! copied custom_trades.yml to " + mmh.getDataFolder() + "");
+            mmh.log(Level.INFO, "custom_trades.yml not found! saved default custom_trades.yml");
         }
         mmh.log(Level.INFO, "Loading custom_trades file...");
         mmh.traderCustom = new YamlConfiguration();
@@ -432,28 +417,14 @@ public class Config {
             mmh.stacktraceInfo();
             e.printStackTrace();
         }
-
-        mmh.log(Level.INFO, "Loading chance_config file...");
-        mmh.chanceFile = new File(mmh.getDataFolder() + "" + File.separatorChar + "chance_config.yml");
-        try {
-            mmh.chanceConfig.load(mmh.chanceFile);
-        } catch (IOException | InvalidConfigurationException e) {
-            mmh.stacktraceInfo();
-            e.printStackTrace();
-        }
-        Translator.load(MoreMobHeads.languageName, mmh.getDataFolder(), mmh::getResource);
-
-        if (mmh.handler != null) {
-            mmh.handler.onReload();
-        }
     }
 
-    public static void copyChance(MoreMobHeads mmh, String file, String file2) {
+    public static void copyChance(MoreMobHeads mmh, File file, File file2) {
         mmh.chanceConfig = new YmlConfiguration();
         mmh.oldChanceConfig = new YmlConfiguration();
         try {
-            mmh.chanceConfig.load(new File(file2));
-            mmh.oldChanceConfig.load(new File(file));
+            mmh.chanceConfig.load(file2);
+            mmh.oldChanceConfig.load(file);
         } catch (IOException | InvalidConfigurationException e) {
             mmh.stacktraceInfo();
             e.printStackTrace();
