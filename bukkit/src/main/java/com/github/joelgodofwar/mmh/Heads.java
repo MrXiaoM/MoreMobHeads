@@ -99,7 +99,7 @@ public class Heads {
             blockStack = mmh.blockHeads5.getItemStack("blocks.block_" + isBlock5 + ".itemstack", new ItemStack(Material.AIR));
         } else {
             player.sendMessage(get("mmh.command.give.blockhead.notfound")
-                    .replace("<plugin>", mmh.THIS_NAME).replace("<version>", mmh.THIS_VERSION)
+                    .replace("<plugin>", MoreMobHeads.THIS_NAME).replace("<version>", MoreMobHeads.THIS_VERSION)
                     .replace("<block>", blockName));
         }
         if ((blockStack != null) && (blockStack.getType() != Material.AIR)) {

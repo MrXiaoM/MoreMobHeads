@@ -2,11 +2,15 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '7.0.0' apply false
     id 'com.github.gmazzo.buildconfig' version '3.1.0' apply false
 }
+
+group = 'top.mrxiaom'
+version = '1.0.34'
+
 subprojects {
     apply plugin: 'java'
 
-    group = 'top.mrxiaom'
-    version = '1.0.33'
+    group = rootProject.group
+    version = rootProject.version
     
     repositories {
         mavenLocal()
