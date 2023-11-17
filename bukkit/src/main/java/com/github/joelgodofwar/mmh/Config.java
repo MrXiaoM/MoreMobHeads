@@ -144,8 +144,8 @@ public class Config {
     }
 
     private static void reloadMessages() {
-        File messageFile = new File(mmh.getDataFolder(), "message.yml");
-        File oldMessageFile = new File(mmh.getDataFolder(), "old_message.yml");
+        File messageFile = new File(mmh.getDataFolder(), "messages.yml");
+        File oldMessageFile = new File(mmh.getDataFolder(), "old_messages.yml");
         mmh.consoleLog("Loading messages file...");
         YamlConfiguration oldMessages = new YamlConfiguration();
         try {
@@ -157,8 +157,8 @@ public class Config {
         }
 
         String messageVersion = oldMessages.getString("version", "1.0.0");
-        mmh.log("messages.yml, Expected version:[" + BuildConstants.MESSAGE_VERSION + "], Read version:[" + messageVersion + "]\nThese should be the same.");
         if (!messageVersion.equalsIgnoreCase(BuildConstants.MESSAGE_VERSION)) {
+            mmh.log("messages.yml, Expected version:[" + BuildConstants.MESSAGE_VERSION + "], Read version:[" + messageVersion + "]\nThese should be the same.");
             try {
                 Utils.copyFile_Java7(messageFile, oldMessageFile);
             } catch (IOException e) {
