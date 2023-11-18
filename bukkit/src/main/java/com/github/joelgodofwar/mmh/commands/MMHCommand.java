@@ -102,7 +102,7 @@ public class MMHCommand implements CommandExecutor, TabCompleter {
                 sender.sendMessage(get("mmh.command.player.offline"));
                 return true;
             }
-            mmh.getGuiHandler().openGui(new GuiHeadsList(mmh, player, GuiHeadsList.Type.ALL, 1));
+            mmh.getGuiHandler().openGui(new GuiHeadsList(mmh, player, 1));
             return true;
         }
         if (args[0].equalsIgnoreCase("headNBT")) {
