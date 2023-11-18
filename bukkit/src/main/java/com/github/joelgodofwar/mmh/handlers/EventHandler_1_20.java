@@ -1,7 +1,5 @@
 package com.github.joelgodofwar.mmh.handlers;
 
-import com.github.joelgodofwar.mmh.Config;
-import com.github.joelgodofwar.mmh.Heads;
 import com.github.joelgodofwar.mmh.MoreMobHeads;
 import com.github.joelgodofwar.mmh.MoreMobHeadsLib;
 import com.github.joelgodofwar.mmh.commands.MMHCommand;
@@ -10,13 +8,7 @@ import com.github.joelgodofwar.mmh.util.ChatColorUtils;
 import com.github.joelgodofwar.mmh.util.ConfigHelper;
 import com.github.joelgodofwar.mmh.util.StrUtils;
 import com.github.joelgodofwar.mmh.util.Utils;
-import de.tr7zw.nbtapi.NBTItem;
 import org.bukkit.*;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -33,16 +25,16 @@ import org.bukkit.event.entity.StriderTemperatureChangeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import javax.annotation.Nonnull;
-import java.io.*;
-import java.nio.charset.StandardCharsets;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
+
 import static com.github.joelgodofwar.mmh.MoreMobHeads.debug;
 
 /**
@@ -725,12 +717,6 @@ public class EventHandler_1_20 implements Listener, Reloadable {
                                     Drops.add(MoreMobHeadsLib
                                             .addSound(mmh.makeSkull(MobHeads.valueOf(name).getTexture(), mmh.mobNames.getString(name.toLowerCase(),
                                                     MobHeads.valueOf(name).getName() + " Head"), entity.getKiller()), entity));
-                                    /*
-                                      entity.getWorld().dropItemNaturally(entity.getLocation(),
-                                      mmh.makeSkull(MobHeads.valueOf(name).getTexture().toString(),
-                                      mmh.langName.getString(name.toLowerCase(), MobHeads.valueOf(name).getName() +
-                                      " Head"), entity.getKiller()));
-                                     */
                                 }
                                 if (debug) {
                                     mmh.logDebug("EDE Zombie vanilla=" + mmh.getConfig().getBoolean("vanilla_heads.zombie", false));
@@ -2006,8 +1992,8 @@ public class EventHandler_1_20 implements Listener, Reloadable {
     public void announceBeheading(Entity entity, String entityName2, Player player, boolean display) {
         UUID damagingPlayerUUID = player != null ? player.getUniqueId() : null;
         ItemStack damagingWeapon = mmh.playerWeapons.get(damagingPlayerUUID);
-        String killerName = player.getDisplayName();
-        String entityName = entityName2;
+        String killerName;
+        String entityName;
         if (display) {
             killerName = player.getDisplayName();
             entityName = entityName2;
