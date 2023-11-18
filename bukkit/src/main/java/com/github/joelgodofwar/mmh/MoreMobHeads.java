@@ -76,6 +76,7 @@ public class MoreMobHeads extends JavaPlugin {
     Random random = new Random();
     String pluginName = THIS_NAME;
     EventHandlerCommon commonHandler;
+    GuiHandler guiHandler = null;
     public final HashMap<String, String> namedTropicalFish = new HashMap<>() {{
         put("STRIPEY-ORANGE-GRAY", "ANEMONE");
         put("FLOPPER-GRAY-GRAY", "BLACK_TANG");
@@ -100,7 +101,6 @@ public class MoreMobHeads extends JavaPlugin {
         put("DASHER-CYAN-YELLOW", "YELLOWTAIL_PARROTFISH");
         put("FLOPPER-YELLOW-YELLOW", "YELLOW_TANG");
     }};
-    public final Map<Player, Random> chanceRandoms = new HashMap<>();
     Reloadable handler = null;
     @Override // TODO: onEnable
     public void onEnable() {
@@ -186,6 +186,7 @@ public class MoreMobHeads extends JavaPlugin {
             logDebug("version=" + version);
         }
         commonHandler = new EventHandlerCommon(this);
+        guiHandler = new GuiHandler(this);
         Listener listener;
         if (version.contains("1_16_R") || version.contains("1_15_R") || version.contains("1_14_R")) {
             listener = (Listener) (handler = new EventHandler_1_16(this));
@@ -215,10 +216,15 @@ public class MoreMobHeads extends JavaPlugin {
     @Override
     public void onDisable() {
         consoleInfo("Disabled");
+        if (guiHandler != null) guiHandler.onDisable();
     }
 
     public EventHandlerCommon getCommonHandler() {
         return commonHandler;
+    }
+
+    public GuiHandler getGuiHandler() {
+        return guiHandler;
     }
 
     public void consoleInfo(String state) {
