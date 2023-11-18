@@ -30,9 +30,34 @@ public class GuiHeadsList implements IGui, InventoryHolder {
         public String translateString;
         public String texture;
         public ItemStack getItemStack(MoreMobHeads mmh) {
-            ItemStack item = mmh.makeSkulls(texture, mmh.mobNames.getString(translateString, name), 1);
-            double chance = ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + translateString, 0.013);
-            if (chance > 0) {
+            String display;
+            if (mmh.mobNames.isString(translateString)) display = mmh.mobNames.getString(translateString, name);
+            else {
+                if (mmh.mobNames.isString(translateString + "." + translateString))
+                    display = mmh.mobNames.getString(translateString + "." + translateString, name);
+                else if (mmh.mobNames.isString(translateString + ".normal"))
+                    display = mmh.mobNames.getString(translateString + ".normal", name);
+                else if (mmh.mobNames.isString(translateString + ".none"))
+                    display = mmh.mobNames.getString(translateString + ".none", name);
+                else if (mmh.mobNames.isString(translateString + ".white"))
+                    display = mmh.mobNames.getString(translateString + ".white", name);
+                else display = name;
+            }
+            ItemStack item = mmh.makeSkulls(texture, display, 1);
+            String t = translateString.replace(".none", "").replace(".normal", "");
+            if (t.startsWith("wither.")) t = "wither";
+            if (t.startsWith("vex.")) t = "vex";
+            if (t.startsWith("strider_")) t = "strider";
+            double chance = ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + t, -1d);
+            if (chance < 0) chance = ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + t + "." + name.toLowerCase(), -1d);
+            if (chance < 0) chance = ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + name.toLowerCase(), -1d);
+            if (chance < 0) chance = ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + t + "." + t, -1d);
+            if (chance < 0) chance = ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + t + ".normal", -1d);
+            if (chance < 0) chance = ConfigHelper.Double(mmh.chanceConfig, "chance_percent." + t + ".white", -1d);
+            if (t.equals("wither") && !translateString.contains("normal")) chance *= 0.5;
+            if (t.equals("vex") && !translateString.contains("angry")) chance *= 0.5;
+            if (t.equals("strider") && translateString.contains("shivering")) chance *= 0.25;
+            if (chance >= 0) {
                 ItemMeta meta = Utils.getItemMeta(item);
                 List<String> lore = meta.getLore() == null ? new ArrayList<>() : meta.getLore();
                 lore.add("");
@@ -154,7 +179,7 @@ public class GuiHeadsList implements IGui, InventoryHolder {
     }
 
     private boolean nextEnable() {
-        return page < items.size() / 45;
+        return page <= items.size() / 45;
     }
 
     @Override
@@ -162,12 +187,12 @@ public class GuiHeadsList implements IGui, InventoryHolder {
         event.setCancelled(true);
         // prev page
         if (slot == 45 && prevEnable()) {
-            page++;
+            page--;
             refresh();
         }
         // next page
         if (slot == 53 && nextEnable()) {
-            page--;
+            page++;
             refresh();
         }
     }

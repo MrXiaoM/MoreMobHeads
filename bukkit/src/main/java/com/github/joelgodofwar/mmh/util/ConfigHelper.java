@@ -13,9 +13,16 @@ public class ConfigHelper {
         }
         if (str.indexOf('\'') >= 0) {
             str = removeQuotes(str);
-            return Double.parseDouble(str);
         }
-        return Double.parseDouble(str);
+        return parseDouble(str, def);
+    }
+
+    public static Double parseDouble(String str, Double def) {
+        try {
+            return Double.parseDouble(str);
+        } catch (NumberFormatException ignored) {
+            return def;
+        }
     }
 
     public static String removeQuotes(String string) {

@@ -1,5 +1,7 @@
 package com.github.joelgodofwar.mmh.i18n;
 
+import com.github.joelgodofwar.mmh.util.Utils;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -18,7 +20,7 @@ public class Translator {
 
         Map<String, String> bundle = new TreeMap<>();
         try (InputStream input = getResource.apply("lang/lang_" + Translator.lang + ".properties")) {
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(input))) {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     if (!line.contains("=") || line.trim().startsWith("#")) continue;
@@ -64,17 +66,13 @@ public class Translator {
         for (String key : props.stringPropertyNames()) {
             sortedProps.put(key, props.getProperty(key));
         }
-        if (!file.exists()) {
-            file.createNewFile();
-        }
-        // Clear the properties file
-        try (FileOutputStream outputStream = new FileOutputStream(file)) {
-            outputStream.getChannel().truncate(0);
-        }
+        Utils.createFileIfNotExists(file);
         // Write sorted properties to file
-        try (FileWriter writer = new FileWriter(file)) {
-            for (Map.Entry<String, String> entry : sortedProps.entrySet()) {
-                writer.write(entry.getKey() + "=" + entry.getValue() + "\n");
+        try (FileWriter fw = new FileWriter(file, StandardCharsets.UTF_8, false)) {
+            try (BufferedWriter writer = new BufferedWriter(fw)) {
+                for (Map.Entry<String, String> entry : sortedProps.entrySet()) {
+                    writer.write(entry.getKey() + "=" + entry.getValue() + "\n");
+                }
             }
         }
     }
