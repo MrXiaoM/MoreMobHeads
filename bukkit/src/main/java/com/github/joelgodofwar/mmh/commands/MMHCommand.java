@@ -5,6 +5,7 @@ import com.github.joelgodofwar.mmh.Heads;
 import com.github.joelgodofwar.mmh.MoreMobHeads;
 import com.github.joelgodofwar.mmh.MoreMobHeadsLib;
 import com.github.joelgodofwar.mmh.enums.*;
+import com.github.joelgodofwar.mmh.gui.GuiHeadsList;
 import com.github.joelgodofwar.mmh.util.ChatColorUtils;
 import com.github.joelgodofwar.mmh.util.StrUtils;
 import com.github.joelgodofwar.mmh.util.Utils;
@@ -59,9 +60,6 @@ public class MMHCommand implements CommandExecutor, TabCompleter {
                     + ChatColor.GREEN + "]===============[]");
             sender.sendMessage(ChatColor.WHITE + " ");
             sender.sendMessage(
-                    ChatColor.WHITE + " " + get("mmh.version.donate") + ": https://ko-fi.com/joelgodofwar");// https://ko-fi.com/joelgodofwar
-            sender.sendMessage(ChatColor.WHITE + " ");
-            sender.sendMessage(
                     ChatColor.WHITE + " /mmh reload - " + get("mmh.command.reload", "Reloads this plugin."));// subject
 
             sender.sendMessage(ChatColor.WHITE + " /mmh toggledebug - "
@@ -77,11 +75,34 @@ public class MMHCommand implements CommandExecutor, TabCompleter {
             sender.sendMessage(ChatColor.WHITE + " /mmh givemh - " + get("mmh.command.give.mobhead"));
             sender.sendMessage(ChatColor.WHITE + " /mmh giveph - " + get("mmh.command.give.playerhead"));
             sender.sendMessage(ChatColor.WHITE + " /mmh givebh - " + get("mmh.command.give.blockhead"));
+            sender.sendMessage(ChatColor.WHITE + " /mmh list - " + get("mmh.command.list"));
             sender.sendMessage(
                     ChatColor.WHITE + " /mmh display perms/vars - " + get("mmh.command.display.help"));
             sender.sendMessage(ChatColor.WHITE + " ");
             sender.sendMessage(ChatColor.GREEN + "[]===============[" + ChatColor.YELLOW + mmh.getName()
                     + ChatColor.GREEN + "]===============[]");
+            return true;
+        }
+        if (args[0].equalsIgnoreCase("list")) {
+            Player player = null;
+
+            String perm = "moremobheads.list";
+            if (sender instanceof Player) {
+                player = (Player) sender;
+            } else if (args.length == 2) {
+                perm = "moremobheads.list.other";
+                player = sender.getServer().getPlayer(args[1]);
+            }
+            boolean hasPerm = sender.hasPermission(perm) || !(sender instanceof Player);
+            if (!hasPerm) {
+                sender.sendMessage(ChatColor.YELLOW + mmh.getName() + ChatColor.RED + get("mmh.message.noperm").replace("<perm>", perm));
+                return true;
+            }
+            if (player == null) {
+                sender.sendMessage(get("mmh.command.player.offline"));
+                return true;
+            }
+            mmh.getGuiHandler().openGui(new GuiHeadsList(mmh, player, GuiHeadsList.Type.ALL, 1));
             return true;
         }
         if (args[0].equalsIgnoreCase("headNBT")) {
@@ -114,7 +135,7 @@ public class MMHCommand implements CommandExecutor, TabCompleter {
                     player = sender.getServer().getPlayer(args[2]);
                 }
                 if (player == null) {
-                    // TODO: player not found message
+                    sender.sendMessage(get("mmh.command.player.offline"));
                     return true;
                 }
                 sender.sendMessage(
@@ -973,7 +994,7 @@ public class MMHCommand implements CommandExecutor, TabCompleter {
                 }
                 Player player = Bukkit.getPlayer(args[1]);
                 if (player == null) {
-                    // TODO: player not found message
+                    sender.sendMessage(get("mmh.command.player.offline"));
                     return true;
                 }
                 if (!args[2].isEmpty()) {

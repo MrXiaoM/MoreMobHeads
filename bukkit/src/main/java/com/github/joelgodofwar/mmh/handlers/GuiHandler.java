@@ -16,11 +16,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class GuiHandler implements Listener{
+public class GuiHandler implements Listener {
 	final Map<UUID, IGui> playersGui = new HashMap<>();
 	MoreMobHeads mmh;
 	public GuiHandler(MoreMobHeads mmh) {
 		this.mmh = mmh;
+		Bukkit.getPluginManager().registerEvents(this, mmh);
 	}
 	
 	public void openGui(IGui gui) {
