@@ -15,6 +15,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.nio.file.*;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -74,16 +75,16 @@ public class Utils {
         return r.nextInt((max - min) + 1) + min;
     }
 
-    private static Field fieldProfileItem;
+    private static Method methodProfileItem;
 
     public static void setGameProfile(SkullMeta meta, GameProfile profile) {
         try {
-            if (fieldProfileItem == null) {
-                fieldProfileItem = meta.getClass().getDeclaredField("profile");
+            if (methodProfileItem == null) {
+                methodProfileItem = meta.getClass().getDeclaredMethod("setProfile", GameProfile.class);
             }
-            fieldProfileItem.setAccessible(true);
-            fieldProfileItem.set(meta, profile);
-        } catch (NoSuchFieldException | IllegalAccessException | IllegalArgumentException | SecurityException e) {
+            methodProfileItem.setAccessible(true);
+            methodProfileItem.invoke(meta, profile);
+        } catch (ReflectiveOperationException e) {
             MoreMobHeads.stacktraceInfoStatic();
             e.printStackTrace();
         }
