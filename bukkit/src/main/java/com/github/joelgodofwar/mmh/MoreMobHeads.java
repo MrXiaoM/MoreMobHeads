@@ -126,10 +126,6 @@ public class MoreMobHeads extends JavaPlugin {
 
         /* DEV check **/
         File jarfile = this.getFile().getAbsoluteFile();
-        if (jarfile.toString().contains("-DEV")) {
-            debug = true;
-            logDebug("Jar file contains -DEV, debug set to true");
-        }
 
         /* Version Check */
         if (!(Double.parseDouble(getMCVersion().substring(0, 4)) >= 1.14)) {
@@ -349,7 +345,7 @@ public class MoreMobHeads extends JavaPlugin {
         logger.info(THIS_NAME + " v" + THIS_VERSION + " This server is running " + Bukkit.getName() + " version " + Bukkit.getVersion() + " (Implementing API version " + Bukkit.getBukkitVersion() + ")");
         logger.info(THIS_NAME + " v" + THIS_VERSION + " vardebug=" + debug + " debug=" + getConfig().get("debug", "error") + " in " + this.getDataFolder() + "/config.yml");
         logger.info(THIS_NAME + " v" + THIS_VERSION + " jarfile name=" + this.getFile().getAbsoluteFile());
-        debug = true;
+        //debug = true;
         logger.info(THIS_NAME + " v" + THIS_VERSION + " DEBUG has been set as true until plugin reload or /mmh td, or /mmh reload.");
     }
 
@@ -357,7 +353,7 @@ public class MoreMobHeads extends JavaPlugin {
         logger.info(THIS_NAME + " v" + THIS_VERSION + " Include this with the stacktrace when reporting issues.");
         logger.info(THIS_NAME + " v" + THIS_VERSION + " This server is running " + Bukkit.getName() + " version " + Bukkit.getVersion() + " (Implementing API version " + Bukkit.getBukkitVersion() + ")");
         logger.info(THIS_NAME + " v" + THIS_VERSION + " vardebug=" + debug);
-        debug = true;
+        //debug = true;
         logger.info(THIS_NAME + " v" + THIS_VERSION + " DEBUG has been set as true until plugin reload or /mmh td, or /mmh reload.");
     }
 
