@@ -15,7 +15,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public final class Wrapper_1_20_R1 implements VersionWrapper {
+public final class Wrapper_1_20_R3 implements VersionWrapper {
     public final static Logger logger = Logger.getLogger("Minecraft");
 
     public String getName(String name, Entity entity) {

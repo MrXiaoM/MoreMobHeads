@@ -5,8 +5,8 @@ plugins {
 
 dependencies {
     implementation project(':lib:api')
-    implementation project(':lib:1_19_R1')
-    implementation project(':lib:1_20_R1')
+    implementation project(':lib:1_19_R3')
+    implementation project(':lib:1_20_R3')
 }
 shadowJar {
     archiveBaseName.set(tasks.jar.archiveBaseName)

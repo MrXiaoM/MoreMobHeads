@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public final class Wrapper_1_19_R2 implements VersionWrapper {
+public final class Wrapper_1_19_R3 implements VersionWrapper {
     public final static Logger logger = Logger.getLogger("Minecraft");
 
     public String getName(String name, Entity entity) {
